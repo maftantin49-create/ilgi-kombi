@@ -83,7 +83,14 @@ function parseBool(v: unknown): boolean {
 
 function parseNum(v: unknown): number | null {
   if (v === null || v === undefined || v === "") return null
-  const n = parseFloat(String(v).replace(",", "."))
+  let s = String(v).trim()
+  // Turkish thousands+decimal: "1.299,90" → 1299.90
+  if (s.includes(",") && s.includes(".")) {
+    s = s.replace(/\./g, "").replace(",", ".")
+  } else {
+    s = s.replace(",", ".")
+  }
+  const n = parseFloat(s)
   return isNaN(n) ? null : n
 }
 
