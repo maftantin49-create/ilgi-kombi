@@ -1,0 +1,580 @@
+import { cache } from "react"
+import { notFound } from "next/navigation"
+import type { Metadata } from "next"
+import type { CSSProperties } from "react"
+import Link from "next/link"
+import {
+  ArrowLeft, Shield, Truck, RotateCcw, CheckCircle, Package,
+} from "lucide-react"
+import {
+  getStorefrontProductBySlug,
+  getRelatedStorefrontProducts,
+} from "@/lib/storefront/products"
+import {
+  getProductAvailability,
+  PRODUCT_IMAGE_PLACEHOLDER,
+  type StorefrontCompatibleDevice,
+  type StorefrontProductDetail,
+} from "@/lib/storefront/types"
+import StorefrontProductCard from "@/components/product/StorefrontProductCard"
+import ProductGallery from "@/components/product/ProductGallery"
+import ProductActions from "@/components/product/ProductActions"
+import { site } from "@/config/site"
+import { wa } from "@/lib/whatsapp"
+
+// ── Per-request cache — prevents double DB fetch (generateMetadata + page) ────
+const getCachedProduct = cache(getStorefrontProductBySlug)
+
+// ── generateMetadata ──────────────────────────────────────────────────────────
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const product = await getCachedProduct(slug)
+
+  if (!product) {
+    return { title: "Ürün Bulunamadı" }
+  }
+
+  const desc = product.description
+    ? product.description.slice(0, 155).replace(/\s+/g, " ").trim()
+    : [product.name, product.brand?.name, product.category?.name]
+        .filter(Boolean)
+        .join(" — ")
+
+  const ogImage = product.image_url ?? product.images[0]?.url ?? null
+
+  return {
+    title: product.name,
+    description: desc,
+    openGraph: ogImage
+      ? {
+          images: [{ url: ogImage }],
+          title: product.name,
+          description: desc,
+        }
+      : undefined,
+  }
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function buildGalleryImages(product: StorefrontProductDetail): string[] {
+  const urls: string[] = []
+  const seen = new Set<string>()
+
+  // product_images already sorted by sort_order in the query layer
+  for (const img of product.images) {
+    if (!seen.has(img.url)) {
+      seen.add(img.url)
+      urls.push(img.url)
+    }
+  }
+
+  // Prepend image_url if it's not already in the gallery (dedup by URL)
+  if (product.image_url && !seen.has(product.image_url)) {
+    urls.unshift(product.image_url)
+  }
+
+  return urls.length > 0 ? urls : [PRODUCT_IMAGE_PLACEHOLDER]
+}
+
+function yearRange(from: number | null, to: number | null): string {
+  if (!from && !to) return ""
+  if (from && to) return `${from} – ${to}`
+  if (from) return `${from}+`
+  return `– ${to}`
+}
+
+// ── Shared style objects ──────────────────────────────────────────────────────
+
+const badge: CSSProperties = {
+  background: "rgba(17,18,20,0.92)",
+  border: "1px solid rgba(255,255,255,0.10)",
+  borderRadius: "20px",
+  padding: "2px 10px",
+  fontSize: "11px",
+  color: "#A0A0A0",
+}
+
+const surface: CSSProperties = {
+  background: "#111214",
+  border: "1px solid rgba(255,255,255,0.07)",
+  borderRadius: "20px",
+}
+
+const sectionHeader: CSSProperties = {
+  borderBottom: "1px solid rgba(255,255,255,0.07)",
+}
+
+// ── JSON-LD builder ───────────────────────────────────────────────────────────
+
+function buildJsonLd(
+  product: StorefrontProductDetail,
+  primaryImage: string
+): object | null {
+  if (product.price <= 0) return null
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    sku: product.sku,
+    ...(primaryImage !== PRODUCT_IMAGE_PLACEHOLDER ? { image: [primaryImage] } : {}),
+    ...(product.brand
+      ? { brand: { "@type": "Brand", name: product.brand.name } }
+      : {}),
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "TRY",
+      price: product.price,
+      availability:
+        product.stock_quantity > 0
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+    },
+  }
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
+
+export default async function ProductDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const product = await getCachedProduct(slug)
+  if (!product) notFound()
+
+  const related = await getRelatedStorefrontProducts(
+    product.id,
+    product.category?.id ?? null,
+    4
+  )
+
+  const availability = getProductAvailability(product)
+  const galleryImages = buildGalleryImages(product)
+  const productUrl = `${site.url}/urunler/${product.slug}`
+
+  const discount =
+    product.compare_at_price && product.compare_at_price > product.price
+      ? Math.round((1 - product.price / product.compare_at_price) * 100)
+      : null
+
+  // Group compatible devices by brand for display
+  const devicesByBrand = product.compatible_devices.reduce<
+    Record<string, StorefrontCompatibleDevice[]>
+  >((acc, d) => {
+    const key = d.brand.name
+    if (!acc[key]) acc[key] = []
+    acc[key].push(d)
+    return acc
+  }, {})
+
+  // Unique brand names shown in right panel chips
+  const compatBrandNames = Object.keys(devicesByBrand)
+
+  const jsonLd = buildJsonLd(product, galleryImages[0])
+
+  return (
+    <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
+
+      {/* ── Breadcrumb ────────────────────────────────────────── */}
+      <nav
+        className="text-[12px] mb-6 flex items-center gap-1.5 flex-wrap"
+        style={{ color: "#5A5A5A" }}
+        aria-label="Breadcrumb"
+      >
+        <Link href="/" className="hover:text-[#D4A017] transition-colors">
+          Ana Sayfa
+        </Link>
+        <span aria-hidden="true">/</span>
+        <Link href="/urunler" className="hover:text-[#D4A017] transition-colors">
+          Ürünler
+        </Link>
+        {product.category && (
+          <>
+            <span aria-hidden="true">/</span>
+            <Link
+              href={`/urunler?kategori=${product.category.slug}`}
+              className="hover:text-[#D4A017] transition-colors"
+            >
+              {product.category.name}
+            </Link>
+          </>
+        )}
+        <span aria-hidden="true">/</span>
+        <span className="text-white truncate max-w-[200px]">{product.name}</span>
+      </nav>
+
+      {/* ── Main grid ─────────────────────────────────────────── */}
+      <div className="grid grid-cols-1 md:grid-cols-[52%_48%] gap-8 md:gap-10 mb-10">
+
+        {/* Left — Gallery (client component) */}
+        <ProductGallery
+          images={galleryImages}
+          productName={product.name}
+          isNew={product.is_new}
+          discount={discount}
+        />
+
+        {/* Right — Info panel */}
+        <div>
+          {/* SKU + Brand badges */}
+          <div className="flex items-center gap-2 mb-2.5 flex-wrap">
+            <span style={badge}>SKU: {product.sku}</span>
+            {product.brand && <span style={badge}>{product.brand.name}</span>}
+          </div>
+
+          <h1 className="text-[24px] font-bold text-white mb-4 leading-snug">
+            {product.name}
+          </h1>
+
+          {/* Stock + Shipping status */}
+          <div className="space-y-2 mb-5">
+            {availability === "available" && (
+              <div
+                className="flex items-center gap-1.5 text-[13px] font-medium"
+                style={{ color: "#22c55e" }}
+              >
+                <CheckCircle size={14} aria-hidden="true" />
+                Stokta var — {product.stock_quantity} adet
+              </div>
+            )}
+            {availability === "out_of_stock" && (
+              <div
+                className="text-[13px] font-medium"
+                style={{ color: "#ef4444" }}
+              >
+                Stok tükendi
+              </div>
+            )}
+            {product.same_day_shipping && (
+              <div
+                className="flex items-center gap-1.5 text-[13px] font-medium"
+                style={{ color: "#A0A0A0" }}
+              >
+                <Truck size={14} style={{ color: "#D4A017" }} aria-hidden="true" />
+                Saat {site.shippingCutoff}&apos;ya kadar sipariş verin, bugün kargoya
+                çıkar
+              </div>
+            )}
+            <div
+              className="flex items-center gap-1.5 text-[13px]"
+              style={{ color: "#5A5A5A" }}
+            >
+              <Package size={14} aria-hidden="true" />
+              {site.freeShippingThreshold} {site.currency} üzeri ücretsiz kargo
+            </div>
+          </div>
+
+          {/* Compatible brands — compact chip list */}
+          {compatBrandNames.length > 0 && (
+            <div
+              className="rounded-[14px] p-4 mb-5"
+              style={{
+                background: "rgba(212,160,23,0.06)",
+                border: "1px solid rgba(212,160,23,0.15)",
+              }}
+            >
+              <h3
+                className="text-[12px] font-semibold mb-2.5"
+                style={{ color: "#A0A0A0" }}
+              >
+                Bu parça hangi cihazlara uyar?
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {compatBrandNames.map((name) => (
+                  <span
+                    key={name}
+                    className="text-[12px] font-medium px-3 py-1 rounded-[8px]"
+                    style={{
+                      background: "#111214",
+                      border: "1px solid rgba(212,160,23,0.22)",
+                      color: "#E0E0DC",
+                    }}
+                  >
+                    {name}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Price + Qty + Buttons (client component) */}
+          <ProductActions
+            product={product}
+            availability={availability}
+            productUrl={productUrl}
+            compare_at_price={product.compare_at_price}
+          />
+
+          {/* Trust badges */}
+          <div className="grid grid-cols-2 gap-2 mt-5">
+            {[
+              { icon: <Shield size={13} />, text: "Orijinal parça garantisi" },
+              { icon: <Truck size={13} />, text: `Ücretsiz kargo (${site.freeShippingThreshold.toLocaleString("tr-TR")}₺ üzeri)` },
+              { icon: <RotateCcw size={13} />, text: "14 gün iade hakkı" },
+              { icon: <CheckCircle size={13} />, text: "Güvenli ödeme" },
+            ].map((b, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-2 text-[11px] rounded-[10px] p-2.5"
+                style={{
+                  background: "#111214",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  color: "#A0A0A0",
+                }}
+              >
+                <span style={{ color: "#D4A017" }} aria-hidden="true">
+                  {b.icon}
+                </span>
+                {b.text}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Description ───────────────────────────────────────── */}
+      {product.description && (
+        <div className="mb-8 rounded-[22px] overflow-hidden" style={surface}>
+          <div className="px-6 py-4" style={sectionHeader}>
+            <h2 className="font-bold text-[17px] text-white">Ürün Açıklaması</h2>
+          </div>
+          <div className="p-6">
+            <p
+              className="text-[14px] leading-relaxed whitespace-pre-wrap"
+              style={{ color: "#A0A0A0" }}
+            >
+              {product.description}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* ── Specifications ────────────────────────────────────── */}
+      {product.specifications.length > 0 && (
+        <div className="mb-8 rounded-[22px] overflow-hidden" style={surface}>
+          <div className="px-6 py-4" style={sectionHeader}>
+            <h2 className="font-bold text-[17px] text-white">Teknik Özellikler</h2>
+          </div>
+          <div className="p-6">
+            <table
+              className="w-full text-[13px]"
+              aria-label="Teknik özellikler tablosu"
+            >
+              <tbody>
+                {product.specifications.map((spec) => (
+                  <tr
+                    key={spec.id}
+                    style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+                  >
+                    <td
+                      className="py-2.5 pr-4 w-2/5 font-medium"
+                      style={{ color: "#5A5A5A" }}
+                    >
+                      {spec.spec_key}
+                    </td>
+                    <td className="py-2.5" style={{ color: "#E0E0DC" }}>
+                      {spec.spec_value}
+                      {spec.unit && (
+                        <span className="ml-1" style={{ color: "#5A5A5A" }}>
+                          {spec.unit}
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* Persistent installation warning */}
+            <div
+              className="mt-5 p-4 rounded-[12px] text-[13px]"
+              style={{
+                background: "rgba(212,160,23,0.06)",
+                border: "1px solid rgba(212,160,23,0.18)",
+                color: "#A0A0A0",
+              }}
+            >
+              <strong style={{ color: "#D4A017" }}>Montaj Uyarısı:</strong>{" "}
+              Yedek parça değişimi yetkili servis veya deneyimli teknisyen
+              tarafından yapılmalıdır. Hatalı montaj garanti kapsamını iptal eder.
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── OEM Codes ─────────────────────────────────────────── */}
+      {product.oem_codes.length > 0 && (
+        <div className="mb-8 rounded-[22px] overflow-hidden" style={surface}>
+          <div className="px-6 py-4" style={sectionHeader}>
+            <h2 className="font-bold text-[17px] text-white">
+              OEM / Orijinal Parça Kodları
+            </h2>
+          </div>
+          <div className="p-6">
+            <div className="flex flex-wrap gap-2">
+              {product.oem_codes.map((oem) => (
+                <div
+                  key={oem.id}
+                  className="rounded-[10px] px-3 py-2"
+                  style={{
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                  }}
+                >
+                  <code
+                    className="text-[13px] font-mono font-semibold block"
+                    style={{ color: "#E0E0DC" }}
+                  >
+                    {oem.code}
+                  </code>
+                  {oem.manufacturer && (
+                    <span
+                      className="text-[11px] block mt-0.5"
+                      style={{ color: "#5A5A5A" }}
+                    >
+                      {oem.manufacturer}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Compatible Devices ────────────────────────────────── */}
+      {product.compatible_devices.length > 0 && (
+        <div className="mb-8 rounded-[22px] overflow-hidden" style={surface}>
+          <div className="px-6 py-4" style={sectionHeader}>
+            <h2 className="font-bold text-[17px] text-white">Uyumlu Cihazlar</h2>
+          </div>
+          <div className="p-6 space-y-6">
+            {Object.entries(devicesByBrand).map(([brandName, devices]) => (
+              <div key={brandName}>
+                <h3
+                  className="text-[13px] font-bold mb-3 uppercase tracking-wide"
+                  style={{ color: "#D4A017" }}
+                >
+                  {brandName}
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                  {devices.map((d) => {
+                    const yr = yearRange(d.year_from, d.year_to)
+                    const subtitle = [d.family, d.series].filter(Boolean).join(" / ")
+                    return (
+                      <div
+                        key={d.id}
+                        className="rounded-[10px] px-3 py-2.5"
+                        style={{
+                          background: "rgba(255,255,255,0.03)",
+                          border: "1px solid rgba(255,255,255,0.07)",
+                        }}
+                      >
+                        <div
+                          className="text-[13px] font-medium"
+                          style={{ color: "#E0E0DC" }}
+                        >
+                          {d.model}
+                        </div>
+                        {subtitle && (
+                          <div
+                            className="text-[11px] mt-0.5"
+                            style={{ color: "#5A5A5A" }}
+                          >
+                            {subtitle}
+                          </div>
+                        )}
+                        {yr && (
+                          <div
+                            className="text-[11px] mt-0.5"
+                            style={{ color: "#5A5A5A" }}
+                          >
+                            {yr}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── Related products ──────────────────────────────────── */}
+      {related.length > 0 && (
+        <section aria-label="Benzer ürünler" className="mb-10">
+          <h2 className="text-[19px] font-bold text-white mb-4">Benzer Ürünler</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {related.map((p) => (
+              <StorefrontProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ── WhatsApp compatibility CTA ────────────────────────── */}
+      <div
+        className="p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-[18px] mb-6"
+        style={{
+          background: "rgba(34,197,94,0.06)",
+          border: "1px solid rgba(34,197,94,0.18)",
+        }}
+      >
+        <div>
+          <p className="font-semibold text-white">
+            &quot;Bu parça cihazıma uyar mı?&quot;
+          </p>
+          <p className="text-[13px] mt-0.5" style={{ color: "#A0A0A0" }}>
+            Cihaz modelinizi yazın, uzmanımız onaylasın.
+          </p>
+        </div>
+        <a
+          href={wa.productCompat(product.name)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-[10px] font-medium text-[13px] transition-all duration-150 hover:-translate-y-0.5"
+          style={{
+            background: "rgba(34,197,94,0.10)",
+            border: "1px solid rgba(34,197,94,0.30)",
+            color: "#22c55e",
+          }}
+        >
+          <svg
+            className="w-[18px] h-[18px] shrink-0"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+          </svg>
+          WhatsApp&apos;tan Sor
+        </a>
+      </div>
+
+      {/* ── Back link ─────────────────────────────────────────── */}
+      <Link
+        href="/urunler"
+        className="inline-flex items-center gap-1.5 text-[13px] transition-colors"
+        style={{ color: "#5A5A5A" }}
+      >
+        <ArrowLeft size={13} aria-hidden="true" />
+        Tüm ürünlere dön
+      </Link>
+    </div>
+  )
+}
