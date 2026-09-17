@@ -41,7 +41,7 @@ async function fetchCategoriesWithCounts(): Promise<StorefrontCategoryWithCount[
   const [catsResult, countsResult] = await Promise.all([
     db
       .from("categories")
-      .select("id, name, slug, parent_id, sort_order")
+      .select("id, name, slug, parent_id, sort_order, is_featured, image_url, description")
       .eq("is_active", true)
       .order("sort_order"),
     db
@@ -66,24 +66,34 @@ async function fetchCategoriesWithCounts(): Promise<StorefrontCategoryWithCount[
     }
   }
 
-  type CatRow = { id: string; name: string; slug: string; parent_id: string | null; sort_order: number }
+  type CatRow = {
+    id: string
+    name: string
+    slug: string
+    parent_id: string | null
+    sort_order: number
+    is_featured: boolean
+    image_url: string | null
+    description: string | null
+  }
   return (catsResult.data ?? []).map((c) => {
     const row = c as CatRow
     return {
-      id: row.id,
-      name: row.name,
-      slug: row.slug,
-      parent_id: row.parent_id,
-      sort_order: row.sort_order,
+      id:          row.id,
+      name:        row.name,
+      slug:        row.slug,
+      parent_id:   row.parent_id,
+      sort_order:  row.sort_order,
+      is_featured: row.is_featured,
+      image_url:   row.image_url,
+      description: row.description,
       productCount: countMap.get(row.id) ?? 0,
     }
   })
 }
 
-// ── Descendant helper (R1 — Wave 1C) ──────────────────────────────────────────
+// ── Descendant helper ──────────────────────────────────────────────────────────
 // Returns the target category's own ID + all descendant IDs (BFS, cycle-safe).
-// Used by the listing page to pass categoryIds to getStorefrontProducts so that
-// selecting a parent category also returns child-category products.
 export function getCategoryDescendantIds(
   slug: string,
   allCategories: Array<{ id: string; slug: string; parent_id: string | null }>
@@ -92,7 +102,7 @@ export function getCategoryDescendantIds(
   if (!target) return []
 
   const result: string[] = [target.id]
-  const visited = new Set<string>([target.id]) // cycle guard for corrupt data
+  const visited = new Set<string>([target.id])
   const queue: string[] = [target.id]
 
   while (queue.length > 0) {
@@ -127,7 +137,7 @@ export async function getStorefrontCategoryBySlug(
 
   const { data, error } = await db
     .from("categories")
-    .select("id, name, slug, parent_id, sort_order")
+    .select("id, name, slug, parent_id, sort_order, is_featured, image_url, description")
     .eq("slug", slug)
     .eq("is_active", true)
     .single()
@@ -140,6 +150,9 @@ export async function getStorefrontCategoryBySlug(
     slug: string
     parent_id: string | null
     sort_order: number
+    is_featured: boolean
+    image_url: string | null
+    description: string | null
   }
 
   const { count } = await db
@@ -149,11 +162,14 @@ export async function getStorefrontCategoryBySlug(
     .eq("is_active", true)
 
   return {
-    id: c.id,
-    name: c.name,
-    slug: c.slug,
-    parent_id: c.parent_id,
-    sort_order: c.sort_order,
+    id:          c.id,
+    name:        c.name,
+    slug:        c.slug,
+    parent_id:   c.parent_id,
+    sort_order:  c.sort_order,
+    is_featured: c.is_featured,
+    image_url:   c.image_url,
+    description: c.description,
     productCount: count ?? 0,
   }
 }

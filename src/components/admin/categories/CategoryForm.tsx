@@ -205,19 +205,67 @@ export function CategoryForm({
         </p>
       </div>
 
-      {/* Durum */}
-      <div className="flex items-center gap-3">
-        <input
-          type="checkbox"
-          id="is_active"
-          name="is_active"
-          defaultChecked={initialData?.is_active ?? true}
-          className="w-4 h-4 rounded"
-          style={{ accentColor: "#D4A017" }}
-        />
-        <label htmlFor="is_active" className="text-sm" style={{ color: "#F4F4F2" }}>
-          Aktif — ürün seçiminde listelensin
+      {/* Görsel URL */}
+      <div className="space-y-1.5">
+        <label className="block text-sm font-medium" style={{ color: "#F4F4F2" }}>
+          Görsel URL
         </label>
+        <input
+          type="url"
+          name="image_url"
+          defaultValue={(initialData as Record<string, unknown>)?.image_url as string ?? ""}
+          className="w-full px-3 py-2 rounded-lg text-sm outline-none"
+          style={{ background: "#111214", border: "1px solid rgba(255,255,255,0.09)", color: "#F4F4F2" }}
+          placeholder="https://..."
+        />
+        <p className="text-xs" style={{ color: "#A5A5A5" }}>
+          Opsiyonel. Kategori listesinde gösterilir.
+        </p>
+      </div>
+
+      {/* Açıklama */}
+      <div className="space-y-1.5">
+        <label className="block text-sm font-medium" style={{ color: "#F4F4F2" }}>
+          Açıklama
+        </label>
+        <textarea
+          name="description"
+          defaultValue={(initialData as Record<string, unknown>)?.description as string ?? ""}
+          rows={2}
+          className="w-full px-3 py-2 rounded-lg text-sm outline-none resize-none"
+          style={{ background: "#111214", border: "1px solid rgba(255,255,255,0.09)", color: "#F4F4F2" }}
+          placeholder="Kısa kategori açıklaması"
+        />
+      </div>
+
+      {/* Durum ve Featured */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            id="is_active"
+            name="is_active"
+            defaultChecked={initialData?.is_active ?? true}
+            className="w-4 h-4 rounded"
+            style={{ accentColor: "#D4A017" }}
+          />
+          <label htmlFor="is_active" className="text-sm" style={{ color: "#F4F4F2" }}>
+            Aktif — ürün seçiminde listelensin
+          </label>
+        </div>
+        <div className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            id="is_featured"
+            name="is_featured"
+            defaultChecked={(initialData as Record<string, unknown>)?.is_featured as boolean ?? false}
+            className="w-4 h-4 rounded"
+            style={{ accentColor: "#D4A017" }}
+          />
+          <label htmlFor="is_featured" className="text-sm" style={{ color: "#F4F4F2" }}>
+            Öne Çıkar — anasayfada göster
+          </label>
+        </div>
       </div>
 
       {/* Footer */}

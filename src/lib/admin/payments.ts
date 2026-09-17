@@ -168,11 +168,11 @@ export async function getPayments(filters: PaymentFilters) {
   }
 
   if (filters.status === "__failed") {
-    query = query.in("status", ["failed", "cancelled"])
+    query = query.in("status", ["failed", "cancelled"] as import("@/types/database.types").PaymentStatus[])
   } else if (filters.status === "__success") {
-    query = query.eq("status", "success")
+    query = query.eq("status", "success" as import("@/types/database.types").PaymentStatus)
   } else if (filters.status) {
-    query = query.eq("status", filters.status)
+    query = query.eq("status", filters.status as import("@/types/database.types").PaymentStatus)
   }
 
   if (filters.provider) {

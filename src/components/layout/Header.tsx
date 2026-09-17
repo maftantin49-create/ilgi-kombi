@@ -15,7 +15,7 @@ import { site } from "@/config/site"
 import { wa } from "@/lib/whatsapp"
 import { useRouter } from "next/navigation"
 import CategoryMegaMenu, { MEGA_MENU_GROUPS, CAT_ICONS } from "@/components/layout/CategoryMegaMenu"
-import { kombiCategories } from "@/data/categories"
+import type { StorefrontCategoryWithCount } from "@/lib/storefront/categories"
 
 const navLinks = [
   { href: "/",            label: "Ana Sayfa" },
@@ -37,7 +37,11 @@ const WaIconSm = () => (
   </svg>
 )
 
-export default function Header() {
+interface HeaderProps {
+  categories: StorefrontCategoryWithCount[]
+}
+
+export default function Header({ categories }: HeaderProps) {
   const totalItems     = useCart(s => s.totalItems)()
   const totalFavorites = useFavorites(s => s.totalFavorites)()
   const [mobileOpen,    setMobileOpen]    = useState(false)
@@ -75,7 +79,7 @@ export default function Header() {
     }
   }
 
-  const catMap = new Map(kombiCategories.map(c => [c.id, c]))
+  const catMap = new Map(categories.map(c => [c.slug, c]))
 
   return (
     <header
@@ -312,8 +316,9 @@ export default function Header() {
                       >
                         {MEGA_MENU_GROUPS.map(group => {
                           const cats = group.categoryIds
-                            .map(id => catMap.get(id))
-                            .filter(Boolean) as typeof kombiCategories
+                            .map(slug => catMap.get(slug))
+                            .filter(Boolean) as StorefrontCategoryWithCount[]
+                          if (cats.length === 0) return null
                           return (
                             <div key={group.title}>
                               <div className="text-[10px] font-bold text-[#85857F] uppercase tracking-wider mb-1.5 px-2">
@@ -321,11 +326,11 @@ export default function Header() {
                               </div>
                               <ul className="space-y-0.5">
                                 {cats.map(cat => {
-                                  const CatIcon = CAT_ICONS[cat.id] ?? Flame
+                                  const CatIcon = CAT_ICONS[cat.slug] ?? Flame
                                   return (
                                     <li key={cat.id}>
                                       <Link
-                                        href={cat.href}
+                                        href={`/urunler?kategori=${cat.slug}`}
                                         onClick={() => { setMobileOpen(false); setMobileCatOpen(false) }}
                                         className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm text-[#B9B9B4] hover:bg-[#1B1C20] hover:text-[#D89B00] transition-colors"
                                       >
@@ -454,7 +459,7 @@ export default function Header() {
         </div>
 
         {megaOpen && (
-          <CategoryMegaMenu onClose={() => setMegaOpen(false)} />
+          <CategoryMegaMenu onClose={() => setMegaOpen(false)} categories={categories} />
         )}
       </div>
 

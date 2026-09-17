@@ -8,6 +8,9 @@ export interface StorefrontBrand {
   id: string
   name: string
   slug: string
+  is_featured: boolean
+  logo_url: string | null
+  sort_order: number
 }
 
 export interface StorefrontCategory {
@@ -16,6 +19,9 @@ export interface StorefrontCategory {
   slug: string
   parent_id: string | null
   sort_order: number
+  is_featured: boolean
+  image_url: string | null
+  description: string | null
 }
 
 export interface StorefrontProductImage {

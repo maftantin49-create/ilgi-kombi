@@ -9,7 +9,7 @@ import {
   ChevronRight, Award,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
-import { kombiCategories } from "@/data/categories"
+import type { StorefrontCategoryWithCount } from "@/lib/storefront/categories"
 import { wa } from "@/lib/whatsapp"
 
 export const CAT_ICONS: Record<string, LucideIcon> = {
@@ -69,9 +69,10 @@ const WaIcon = () => (
 
 interface Props {
   onClose: () => void
+  categories: StorefrontCategoryWithCount[]
 }
 
-export default function CategoryMegaMenu({ onClose }: Props) {
+export default function CategoryMegaMenu({ onClose, categories }: Props) {
   return (
     <div
       id="mega-menu"
@@ -98,12 +99,16 @@ export default function CategoryMegaMenu({ onClose }: Props) {
 
       {/* Category list */}
       <ul className="max-h-[calc(100vh-220px)] overflow-y-auto overscroll-contain">
-        {kombiCategories.map(cat => {
-          const CatIcon = CAT_ICONS[cat.id] ?? Flame
+        {categories.length === 0 ? (
+          <li className="px-5 py-4 text-[13px]" style={{ color: "#555550" }}>
+            Henüz kategori eklenmedi.
+          </li>
+        ) : categories.map(cat => {
+          const CatIcon = CAT_ICONS[cat.slug] ?? Flame
           return (
             <li key={cat.id} style={{ borderLeft: "2px solid transparent" }} className="group/item hover:[border-left-color:#D89B00]">
               <Link
-                href={cat.href}
+                href={`/urunler?kategori=${cat.slug}`}
                 onClick={onClose}
                 role="menuitem"
                 className="flex items-center gap-3.5 w-full px-5 py-3 text-[14px] text-[#B9B9B4] hover:bg-[#1B1C20] hover:text-[#D89B00] transition-all duration-100 group focus-visible:outline-none focus-visible:bg-[#1B1C20] focus-visible:text-[#D89B00]"

@@ -15,9 +15,12 @@ type BrandUpdate = Database["public"]["Tables"]["brands"]["Update"]
 
 function parseFormFields(formData: FormData) {
   return {
-    name: formData.get("name"),
-    slug: formData.get("slug"),
-    is_active: formData.get("is_active"),
+    name:        formData.get("name"),
+    slug:        formData.get("slug"),
+    is_active:   formData.get("is_active"),
+    is_featured: formData.get("is_featured"),
+    logo_url:    formData.get("logo_url"),
+    sort_order:  formData.get("sort_order"),
   }
 }
 
@@ -38,9 +41,12 @@ export async function createBrandAction(
   }
 
   const insertData: BrandInsert = {
-    name: parsed.data.name,
-    slug: parsed.data.slug,
-    is_active: parsed.data.is_active,
+    name:        parsed.data.name,
+    slug:        parsed.data.slug,
+    is_active:   parsed.data.is_active,
+    is_featured: parsed.data.is_featured,
+    logo_url:    parsed.data.logo_url ?? null,
+    sort_order:  parsed.data.sort_order,
   }
 
   const db = createServiceClient()
@@ -99,9 +105,12 @@ export async function updateBrandAction(
   }
 
   const updateData: BrandUpdate = {
-    name: parsed.data.name,
-    slug: parsed.data.slug,
-    is_active: parsed.data.is_active,
+    name:        parsed.data.name,
+    slug:        parsed.data.slug,
+    is_active:   parsed.data.is_active,
+    is_featured: parsed.data.is_featured,
+    logo_url:    parsed.data.logo_url ?? null,
+    sort_order:  parsed.data.sort_order,
   }
 
   const db = createServiceClient()

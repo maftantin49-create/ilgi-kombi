@@ -4,6 +4,7 @@ import {
   getStorefrontProducts,
 } from "@/lib/storefront/products"
 import { getStorefrontBrands } from "@/lib/storefront/brands"
+import { getStorefrontCategories } from "@/lib/storefront/categories"
 import Link from "next/link"
 import HeroSlider from "@/components/home/HeroSlider"
 import CategoryRail from "@/components/home/CategoryRail"
@@ -54,6 +55,7 @@ export default async function HomePage() {
     esanResult,
     elektronikResult,
     brands,
+    categories,
   ] = await Promise.all([
     getSameDayStorefrontProducts(8),
     getDiscountedStorefrontProducts(8),
@@ -61,6 +63,7 @@ export default async function HomePage() {
     getStorefrontProducts({ categorySlug: "su-akis-turbini",  sort: "featured", pageSize: 8 }),
     getStorefrontProducts({ categorySlug: "tamir-takimi",     sort: "featured", pageSize: 8 }),
     getStorefrontBrands(),
+    getStorefrontCategories(),
   ])
 
   const catRailData = [
@@ -76,7 +79,7 @@ export default async function HomePage() {
       <PointerTracker />
 
       {/* ─── 1. Kategori Rail — header/search'ün hemen altı ─── */}
-      <CategoryRail />
+      <CategoryRail categories={categories} />
 
       {/* ─── 2. Hero ─── */}
       <HeroSlider />

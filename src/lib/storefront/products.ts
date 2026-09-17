@@ -313,7 +313,7 @@ export async function getStorefrontProductBySlug(
         category: dm.category,
         year_from: dm.year_from,
         year_to: dm.year_to,
-        brand: dm.brands ?? { id: "", name: "", slug: "" },
+        brand: dm.brands ?? { id: "", name: "", slug: "", is_featured: false, logo_url: null, sort_order: 0 },
       })
     )
     .sort((a, b) => a.model.localeCompare(b.model, "tr"))

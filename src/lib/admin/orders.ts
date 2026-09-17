@@ -113,11 +113,11 @@ export async function getOrders(filters: OrderFilters) {
   }
 
   if (filters.status) {
-    query = query.eq("status", filters.status)
+    query = query.eq("status", filters.status as import("@/types/database.types").OrderStatus)
   }
 
   if (filters.paymentStatus) {
-    query = query.eq("payment_status", filters.paymentStatus)
+    query = query.eq("payment_status", filters.paymentStatus as import("@/types/database.types").PaymentStatus)
   }
 
   if (filters.dateFrom) {

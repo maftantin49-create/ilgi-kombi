@@ -18,11 +18,14 @@ type CategoryUpdate = Database["public"]["Tables"]["categories"]["Update"]
 
 function parseFormFields(formData: FormData) {
   return {
-    name: formData.get("name"),
-    slug: formData.get("slug"),
-    parent_id: formData.get("parent_id"),
-    sort_order: formData.get("sort_order"),
-    is_active: formData.get("is_active"),
+    name:        formData.get("name"),
+    slug:        formData.get("slug"),
+    parent_id:   formData.get("parent_id"),
+    sort_order:  formData.get("sort_order"),
+    is_active:   formData.get("is_active"),
+    is_featured: formData.get("is_featured"),
+    image_url:   formData.get("image_url"),
+    description: formData.get("description"),
   }
 }
 
@@ -43,11 +46,14 @@ export async function createCategoryAction(
   }
 
   const insertData: CategoryInsert = {
-    name: parsed.data.name,
-    slug: parsed.data.slug,
-    parent_id: parsed.data.parent_id ?? null,
-    sort_order: parsed.data.sort_order,
-    is_active: parsed.data.is_active,
+    name:        parsed.data.name,
+    slug:        parsed.data.slug,
+    parent_id:   parsed.data.parent_id ?? null,
+    sort_order:  parsed.data.sort_order,
+    is_active:   parsed.data.is_active,
+    is_featured: parsed.data.is_featured,
+    image_url:   parsed.data.image_url ?? null,
+    description: parsed.data.description ?? null,
   }
 
   const db = createServiceClient()
@@ -115,11 +121,14 @@ export async function updateCategoryAction(
   }
 
   const updateData: CategoryUpdate = {
-    name: parsed.data.name,
-    slug: parsed.data.slug,
-    parent_id: parsed.data.parent_id ?? null,
-    sort_order: parsed.data.sort_order,
-    is_active: parsed.data.is_active,
+    name:        parsed.data.name,
+    slug:        parsed.data.slug,
+    parent_id:   parsed.data.parent_id ?? null,
+    sort_order:  parsed.data.sort_order,
+    is_active:   parsed.data.is_active,
+    is_featured: parsed.data.is_featured,
+    image_url:   parsed.data.image_url ?? null,
+    description: parsed.data.description ?? null,
   }
 
   const db = createServiceClient()

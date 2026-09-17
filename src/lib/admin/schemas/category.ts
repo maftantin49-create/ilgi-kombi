@@ -13,6 +13,11 @@ const nullableUUID = z.preprocess(
   z.string().uuid("Geçerli bir üst kategori seçin").nullable().optional()
 )
 
+const nullableText = z.preprocess(
+  (v) => (v === "" || v === null || v === undefined ? null : String(v).trim()),
+  z.string().nullable().optional()
+)
+
 export const categorySchema = z.object({
   name: z.string().min(1, "Kategori adı zorunludur").max(100, "Kategori adı çok uzun"),
   slug: z
@@ -20,8 +25,8 @@ export const categorySchema = z.object({
     .min(1, "Slug zorunludur")
     .max(100, "Slug çok uzun")
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug: küçük harf, rakam ve tire kullanın"),
-  parent_id: nullableUUID,
-  sort_order: z.preprocess(
+  parent_id:   nullableUUID,
+  sort_order:  z.preprocess(
     (v) => {
       if (v === "" || v === undefined || v === null) return 0
       const n = parseInt(String(v), 10)
@@ -29,7 +34,10 @@ export const categorySchema = z.object({
     },
     z.number().int("Sıralama tam sayı olmalı").min(0, "Sıralama 0'dan küçük olamaz")
   ),
-  is_active: checkboxBool,
+  is_active:   checkboxBool,
+  is_featured: checkboxBool,
+  image_url:   nullableText,
+  description: nullableText,
 })
 
 export type CategoryFormData = z.infer<typeof categorySchema>

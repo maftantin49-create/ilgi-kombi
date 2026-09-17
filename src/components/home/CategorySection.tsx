@@ -1,25 +1,12 @@
 import Link from "next/link"
 import Image from "next/image"
 import {
-  Droplets,
-  Thermometer,
-  Cpu,
-  Gauge,
-  Flame,
-  Wind,
-  GitBranch,
-  Package,
-  Settings,
-  ShieldCheck,
-  Pipette,
-  ToggleLeft,
-  ArrowRight,
-  Search,
-  Tag,
-  Award,
+  Droplets, Thermometer, Cpu, Gauge, Flame, Wind,
+  GitBranch, Package, Settings, ShieldCheck,
+  Pipette, ToggleLeft, ArrowRight, Search, Tag, Award,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
-import { kombiCategories } from "@/data/categories"
+import { getStorefrontCategories } from "@/lib/storefront/categories"
 
 const ICONS: Record<string, LucideIcon> = {
   pompalar:              Droplets,
@@ -45,14 +32,20 @@ interface CategorySectionProps {
   showViewAll?: boolean
 }
 
-export default function CategorySection({
+export default async function CategorySection({
   maxItems,
   title = "Popüler Kategoriler",
   showViewAll = true,
 }: CategorySectionProps) {
+  const allCats = await getStorefrontCategories()
+
   const displayCats = maxItems
-    ? kombiCategories.filter((c) => c.featured).slice(0, maxItems)
-    : kombiCategories
+    ? allCats.filter((c) => c.is_featured).slice(0, maxItems)
+    : allCats
+
+  if (displayCats.length === 0) {
+    return null
+  }
 
   const gridCols = maxItems
     ? "grid grid-cols-1 sm:grid-cols-3 gap-4"
@@ -75,11 +68,11 @@ export default function CategorySection({
 
       <div className={gridCols}>
         {displayCats.map((cat) => {
-          const Icon = ICONS[cat.id] ?? Flame
+          const Icon = ICONS[cat.slug] ?? Flame
           return (
             <Link
               key={cat.id}
-              href={cat.href}
+              href={`/urunler?kategori=${cat.slug}`}
               className="group flex flex-col rounded-xl p-5 transition-all hover:-translate-y-0.5 border border-[rgba(255,196,0,0.10)] hover:border-[rgba(255,196,0,0.35)] hover:shadow-[0_4px_20px_rgba(212,160,23,0.10)]"
               style={{ background: "#151618" }}
             >
@@ -87,9 +80,9 @@ export default function CategorySection({
                 className="w-14 h-14 sm:w-16 sm:h-16 lg:w-[72px] lg:h-[72px] rounded-lg flex items-center justify-center mb-3 shrink-0 overflow-hidden"
                 style={{ background: "rgba(212,160,23,0.08)", border: "1px solid rgba(255,196,0,0.14)" }}
               >
-                {(cat.thumbImage ?? cat.image) ? (
+                {cat.image_url ? (
                   <Image
-                    src={cat.thumbImage ?? cat.image!}
+                    src={cat.image_url}
                     alt={`${cat.name} ürün görseli`}
                     width={72}
                     height={72}

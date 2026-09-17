@@ -142,19 +142,70 @@ export function BrandForm({ action, mode, initialData }: Props) {
         </p>
       </div>
 
-      {/* Durum */}
-      <div className="flex items-center gap-3">
-        <input
-          type="checkbox"
-          id="is_active"
-          name="is_active"
-          defaultChecked={initialData?.is_active ?? true}
-          className="w-4 h-4 rounded"
-          style={{ accentColor: "#D4A017" }}
-        />
-        <label htmlFor="is_active" className="text-sm" style={{ color: "#F4F4F2" }}>
-          Aktif — ürün seçiminde listelensin
+      {/* Logo URL */}
+      <div className="space-y-1.5">
+        <label className="block text-sm font-medium" style={{ color: "#F4F4F2" }}>
+          Logo URL
         </label>
+        <input
+          type="url"
+          name="logo_url"
+          defaultValue={(initialData as Record<string, unknown>)?.logo_url as string ?? ""}
+          className={inputClass}
+          style={inputStyle}
+          placeholder="https://..."
+        />
+        <p className="text-xs" style={{ color: "#A5A5A5" }}>
+          Opsiyonel. Harici veya Storage URL.
+        </p>
+      </div>
+
+      {/* Sıralama */}
+      <div className="space-y-1.5">
+        <label className="block text-sm font-medium" style={{ color: "#F4F4F2" }}>
+          Sıralama
+        </label>
+        <input
+          type="number"
+          name="sort_order"
+          defaultValue={(initialData as Record<string, unknown>)?.sort_order as number ?? 0}
+          min={0}
+          className={inputClass}
+          style={{ ...inputStyle, width: "120px" }}
+        />
+        <p className="text-xs" style={{ color: "#A5A5A5" }}>
+          Küçük sayı önce görünür.
+        </p>
+      </div>
+
+      {/* Durum ve Featured */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            id="is_active"
+            name="is_active"
+            defaultChecked={initialData?.is_active ?? true}
+            className="w-4 h-4 rounded"
+            style={{ accentColor: "#D4A017" }}
+          />
+          <label htmlFor="is_active" className="text-sm" style={{ color: "#F4F4F2" }}>
+            Aktif — ürün seçiminde listelensin
+          </label>
+        </div>
+        <div className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            id="is_featured"
+            name="is_featured"
+            defaultChecked={(initialData as Record<string, unknown>)?.is_featured as boolean ?? false}
+            className="w-4 h-4 rounded"
+            style={{ accentColor: "#D4A017" }}
+          />
+          <label htmlFor="is_featured" className="text-sm" style={{ color: "#F4F4F2" }}>
+            Öne Çıkar — anasayfada göster
+          </label>
+        </div>
       </div>
 
       {/* Footer */}
