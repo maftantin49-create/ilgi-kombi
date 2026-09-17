@@ -24,7 +24,7 @@ export default function SeoTab({ settings, action }: Props) {
             Sayfa Başlığı Şablonu <span style={{ color: "#f87171" }}>*</span>
           </label>
           <p style={hintStyle}>
-            %s yerine sayfa başlığı gelir. Örn: %s | İstanbul Kombi Klima
+            %s yerine sayfa başlığı gelir. Örn: %s | Mağaza Adı
           </p>
           <input
             id="title_template"

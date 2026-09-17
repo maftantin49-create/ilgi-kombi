@@ -35,7 +35,7 @@ export default function AdvantageSection() {
     <section
       className="border-t border-b"
       style={{ background: "#0E0F12", borderColor: "#1E1E22" }}
-      aria-label="Neden İstanbul Kombi Yedek Parça"
+      aria-label="Neden Biz"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-5">
         {advantages.map(({ icon: Icon, title, desc }) => (

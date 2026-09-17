@@ -39,7 +39,7 @@ export default function AdminSidebar() {
         className="px-5 py-4 border-b"
         style={{ borderColor: "rgba(255,255,255,0.07)" }}
       >
-        <p className="text-xs font-medium" style={{ color: "#A5A5A5" }}>İstanbul Kombi Klima</p>
+        <p className="text-xs font-medium" style={{ color: "#A5A5A5" }}>Admin Panel</p>
         <p className="text-xs mt-0.5 font-semibold tracking-wide" style={{ color: "#D4A017" }}>
           Admin Panel
         </p>

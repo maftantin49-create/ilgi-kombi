@@ -50,7 +50,7 @@ function getCatImage(slug: string): string | undefined {
 }
 
 export const metadata = {
-  title: "Kategoriler — İstanbul Kombi Yedek Parça",
+  title: "Kategoriler",
   description: "Kombi yedek parça kategorileri. Cihazınıza uygun parçayı kolayca bulun.",
 }
 

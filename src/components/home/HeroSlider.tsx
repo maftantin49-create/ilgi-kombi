@@ -7,7 +7,7 @@ export default function HeroSlider() {
       <Link href="/urunler" className="block">
         <Image
           src="/hero/hero-premium-v2.png"
-          alt="Kombi ve ısıtma sistemleri için güvenilir çözüm ortağınız — İstanbul Kombi Yedek Parça"
+          alt="Kombi ve ısıtma sistemleri için güvenilir çözüm ortağınız"
           width={1717}
           height={916}
           priority

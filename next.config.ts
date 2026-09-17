@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "placehold.co" },
-      { protocol: "https", hostname: "vbwzqvxtvsklutmomthc.supabase.co" },
+      { protocol: "https", hostname: "lqfgoffuymxnidzanuxi.supabase.co" },
     ],
   },
   experimental: {

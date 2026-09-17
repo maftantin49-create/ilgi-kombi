@@ -8,7 +8,7 @@ import LegalPageShell, { H2, H3, Para, InfoCard } from "@/components/legal/Legal
 export const metadata: Metadata = {
   title: `Garanti ve İade | ${site.siteName}`,
   description:
-    "İstanbul Kombi Yedek Parça ürünleri için garanti kapsamı, iade koşulları ve süreç hakkında detaylı bilgi.",
+    "Garanti kapsamı, iade koşulları ve süreç hakkında detaylı bilgi.",
   robots: "index, follow",
   alternates: { canonical: `${site.url}/garanti-ve-iade` },
 }

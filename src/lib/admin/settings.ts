@@ -79,8 +79,8 @@ export type SettingsData = {
 }
 
 const DEFAULT_GENERAL: GeneralSettings = {
-  site_name: "İstanbul Kombi Klima",
-  site_tagline: "Kombi ve Klima Yedek Parça Uzmanı",
+  site_name: "",
+  site_tagline: "",
   maintenance_message: "Sitemiz bakım modundadır. En kısa sürede geri döneceğiz.",
 }
 
@@ -91,8 +91,8 @@ const DEFAULT_COMPANY: CompanySettings = {
 }
 
 const DEFAULT_SEO: SeoSettings = {
-  title_template: "%s | İstanbul Kombi Klima",
-  default_title: "İstanbul Kombi Klima — Yedek Parça",
+  title_template: "%s",
+  default_title: "",
   description: "",
   keywords: [],
 }
@@ -102,7 +102,7 @@ const DEFAULT_SOCIAL: SocialSettings = {
 }
 
 const DEFAULT_MAIL: MailSettings = {
-  from_name: "İstanbul Kombi Klima",
+  from_name: "",
   from_email: "",
   reply_to: "",
 }

@@ -2,7 +2,7 @@ import { getStorefrontBrands } from "@/lib/storefront/brands"
 import BrandGrid from "./BrandGrid"
 
 export const metadata = {
-  title: "Markalar — İstanbul Kombi Yedek Parça",
+  title: "Markalar",
   description: "Baymak, Vaillant, Ferroli, Ariston ve daha fazlası. Cihaz markanıza uygun orijinal yedek parçaları inceleyin.",
 }
 

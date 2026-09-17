@@ -5,8 +5,8 @@ import { wa } from "@/lib/whatsapp"
 import ContactForm from "@/components/ContactForm"
 
 export const metadata = {
-  title: "İletişim — İstanbul Kombi Yedek Parça",
-  description: "İstanbul Kombi Yedek Parça ile iletişime geçin. Telefon, WhatsApp ve form ile ulaşabilirsiniz.",
+  title: "İletişim",
+  description: "İletişim bilgilerimize ulaşın.",
 }
 
 const WaIcon = () => (

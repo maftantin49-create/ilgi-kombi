@@ -7,8 +7,8 @@ import { site } from "@/config/site"
 import { wa } from "@/lib/whatsapp"
 
 export const metadata = {
-  title: "Hakkımızda — İstanbul Kombi Yedek Parça",
-  description: "İstanbul Kombi Yedek Parça olarak 10 yılı aşkın tecrübemizle kombi yedek parça sektöründe güvenilir hizmet sunuyoruz.",
+  title: "Hakkımızda",
+  description: "Yedek parça ve teknik servis hizmetleri.",
 }
 
 const WaIcon = () => (

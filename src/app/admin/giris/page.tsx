@@ -24,7 +24,7 @@ export default async function AdminGirisPage({ searchParams }: Props) {
             className="text-xs font-medium tracking-widest uppercase mb-2"
             style={{ color: "#D4A017" }}
           >
-            İstanbul Kombi Klima
+            Admin Panel
           </p>
           <h1 className="text-2xl font-semibold" style={{ color: "#F4F4F2" }}>
             Admin Girişi
