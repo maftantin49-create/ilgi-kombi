@@ -14,63 +14,44 @@ import WhatsAppCTA from "@/components/home/WhatsAppCTA"
 import BottomInfoCards from "@/components/home/BottomInfoCards"
 import PointerTracker from "@/components/experience/PointerTracker"
 import AnimatedSection from "@/components/experience/AnimatedSection"
-import { site } from "@/config/site"
+import { getStoreSettings, validWhatsApp, validPhone } from "@/lib/storefront/settings"
+import { buildWa } from "@/lib/whatsapp"
 
 export const revalidate = 300 // ISR: 5 dakikada bir yenile
 
-// 3 kategori bazlı ürün rail — DB'deki en hacimli kategoriler (slug DB'den)
-// doldurma-muslugu:14  su-akis-turbini:9  tamir-takimi:9
-const CAT_RAILS = [
-  {
-    id: "doldurma-muslugu",
-    slug: "doldurma-muslugu",
-    eyebrow: "Doldurma Musluğu",
-    title: "Doldurma Muslukları",
-    description: "Kombi sistem dolum muslukları ve şarj vanaları — tüm markalar",
-    href: "/urunler?kategori=doldurma-muslugu",
-  },
-  {
-    id: "su-akis-turbini",
-    slug: "su-akis-turbini",
-    eyebrow: "Akış Türbini",
-    title: "Su Akış Türbinleri",
-    description: "Kombi debi ölçüm türbinleri — hassas ölçüm, uzun ömür",
-    href: "/urunler?kategori=su-akis-turbini",
-  },
-  {
-    id: "tamir-takimi",
-    slug: "tamir-takimi",
-    eyebrow: "Tamir Takımı",
-    title: "Tamir Takımları",
-    description: "O-ring, conta ve bakım setleri — önleyici bakım için",
-    href: "/urunler?kategori=tamir-takimi",
-  },
-]
-
 export default async function HomePage() {
-  const [
-    sameDayProducts,
-    discountedProducts,
-    pompaResult,
-    esanResult,
-    elektronikResult,
-    brands,
-    categories,
-  ] = await Promise.all([
+  // Stage 1: categories + non-catalog data in parallel
+  const [categories, sameDayProducts, discountedProducts, brands, settings] = await Promise.all([
+    getStorefrontCategories(),
     getSameDayStorefrontProducts(8),
     getDiscountedStorefrontProducts(8),
-    getStorefrontProducts({ categorySlug: "doldurma-muslugu", sort: "featured", pageSize: 8 }),
-    getStorefrontProducts({ categorySlug: "su-akis-turbini",  sort: "featured", pageSize: 8 }),
-    getStorefrontProducts({ categorySlug: "tamir-takimi",     sort: "featured", pageSize: 8 }),
     getStorefrontBrands(),
-    getStorefrontCategories(),
+    getStoreSettings(),
   ])
 
-  const catRailData = [
-    { ...CAT_RAILS[0], products: pompaResult.items },
-    { ...CAT_RAILS[1], products: esanResult.items },
-    { ...CAT_RAILS[2], products: elektronikResult.items },
-  ]
+  // Featured categories drive the product rails — admin controls which show via is_featured + sort_order
+  const featuredCats = categories.filter(c => c.is_featured).slice(0, 3)
+
+  // Stage 2: product queries for each featured category
+  const catProductResults = featuredCats.length > 0
+    ? await Promise.all(featuredCats.map(cat =>
+        getStorefrontProducts({ categorySlug: cat.slug, sort: "featured", pageSize: 8 })
+      ))
+    : []
+
+  const validWa = validWhatsApp(settings.whatsapp)
+  const wa = buildWa(validWa)
+  const validPh = validPhone(settings.phone)
+
+  const catRailData = featuredCats.map((cat, i) => ({
+    id:          cat.slug,
+    slug:        cat.slug,
+    eyebrow:     cat.name,
+    title:       cat.name,
+    description: cat.description ?? "",
+    href:        `/urunler?kategori=${cat.slug}`,
+    products:    catProductResults[i].items,
+  }))
 
   const brandNames = brands.map((b) => b.name)
 
@@ -176,7 +157,7 @@ export default async function HomePage() {
         <ProductSection
           eyebrow="Hızlı Teslimat"
           title="Aynı Gün Kargo"
-          description={`Saat ${site.shippingCutoff}'ya kadar sipariş verin, bugün kargoda olsun`}
+          description={settings.shippingCutoff ? `Saat ${settings.shippingCutoff}'ya kadar sipariş verin, bugün kargoda olsun` : "Hafta içi iş saatlerinde sipariş verin, bugün kargoda olsun"}
           products={sameDayProducts}
           viewAllHref="/urunler"
           viewAllLabel="Tümünü Gör"
@@ -187,7 +168,11 @@ export default async function HomePage() {
       <BottomInfoCards />
 
       {/* ─── 14. WhatsApp CTA ─── */}
-      <WhatsAppCTA />
+      <WhatsAppCTA
+        waLink={wa.home}
+        phone={validPh}
+        phoneDisplay={validPh ? settings.phone : null}
+      />
     </>
   )
 }

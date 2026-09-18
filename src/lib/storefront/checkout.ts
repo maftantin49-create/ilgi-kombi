@@ -1,5 +1,5 @@
 import { createPublicServerClient } from "@/lib/supabase/server"
-import { site } from "@/config/site"
+import { getStoreSettings } from "@/lib/storefront/settings"
 
 // ── Input / output types ───────────────────────────────────────────────────────
 
@@ -57,7 +57,10 @@ export async function validateCheckoutCart(
     return { ok: false, items: [], subtotal: 0, shippingFee: 0, grandTotal: 0 }
   }
 
-  const db = createPublicServerClient()
+  const [db, storeSettings] = await Promise.all([
+    Promise.resolve(createPublicServerClient()),
+    getStoreSettings(),
+  ])
   const { data: rows } = await db
     .from("products")
     .select("id, slug, sku, name, image_url, price, stock_quantity, brands!brand_id ( name )")
@@ -135,7 +138,7 @@ export async function validateCheckoutCart(
 
   const validItems = items.filter((i) => i.error === null)
   const subtotal = validItems.reduce((s, i) => s + i.lineTotal, 0)
-  const shippingFee = subtotal >= site.freeShippingThreshold ? 0 : site.shippingCost
+  const shippingFee = subtotal >= storeSettings.freeShippingThreshold ? 0 : storeSettings.shippingCost
   const grandTotal = subtotal + shippingFee
 
   return { ok: !hasHardError, items, subtotal, shippingFee, grandTotal }

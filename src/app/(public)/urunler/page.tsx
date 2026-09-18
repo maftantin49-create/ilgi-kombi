@@ -152,7 +152,7 @@ export default async function UrunlerPage({ searchParams }: Props) {
                 Aradığınız parça için WhatsApp&apos;tan bize ulaşın.
               </p>
               <a
-                href={wa.notFound}
+                href={wa.notFound ?? undefined}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-colors hover:bg-green-600"
@@ -183,7 +183,7 @@ export default async function UrunlerPage({ searchParams }: Props) {
                   Tüm Ürünlere Dön
                 </Link>
                 <a
-                  href={wa.notFound}
+                  href={wa.notFound ?? undefined}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-colors hover:bg-green-600"
@@ -215,7 +215,7 @@ export default async function UrunlerPage({ searchParams }: Props) {
                   Filtreleri Temizle
                 </Link>
                 <a
-                  href={wa.notFound}
+                  href={wa.notFound ?? undefined}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-colors hover:bg-green-600"

@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { site } from "@/config/site"
-import { wa } from "@/lib/whatsapp"
+import { buildWa } from "@/lib/whatsapp"
+import { validWhatsApp } from "@/lib/storefront/guards"
 
 const WaIcon = () => (
   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -10,7 +10,12 @@ const WaIcon = () => (
   </svg>
 )
 
-export default function WhatsAppFloat() {
+interface Props {
+  waNumber: string
+  siteName: string
+}
+
+export default function WhatsAppFloat({ waNumber, siteName }: Props) {
   const [visible, setVisible] = useState(false)
   const [showLabel, setShowLabel] = useState(false)
 
@@ -18,6 +23,11 @@ export default function WhatsAppFloat() {
     const t = setTimeout(() => setVisible(true), 1200)
     return () => clearTimeout(t)
   }, [])
+
+  const validWa = validWhatsApp(waNumber)
+  if (!validWa) return null
+
+  const wa = buildWa(validWa)
 
   return (
     <div
@@ -39,10 +49,10 @@ export default function WhatsAppFloat() {
       )}
 
       <a
-        href={wa.home}
+        href={wa.home!}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`${site.siteName} — WhatsApp destek hattı`}
+        aria-label={`${siteName} — WhatsApp destek hattı`}
         onMouseEnter={() => setShowLabel(true)}
         onMouseLeave={() => setShowLabel(false)}
         className="relative flex items-center justify-center w-14 h-14 rounded-full text-white shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 active:scale-95"

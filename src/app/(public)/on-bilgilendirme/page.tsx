@@ -1,19 +1,27 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { site } from "@/config/site"
+import { getStoreSettings, validEmail, validPhone, validWhatsApp } from "@/lib/storefront/settings"
+import { buildWa } from "@/lib/whatsapp"
+import { siteConfig } from "@/config/site"
 import { legal } from "@/config/legal"
-import { wa } from "@/lib/whatsapp"
 import LegalPageShell, { H2, H3, Para, InfoCard, InfoRow } from "@/components/legal/LegalPageShell"
 
-export const metadata: Metadata = {
-  title: `Ön Bilgilendirme Formu | ${site.siteName}`,
-  description:
-    "Mesafeli Sözleşmeler Yönetmeliği kapsamında sipariş öncesi tüketici bilgilendirmesi: satıcı, teslimat, ödeme, cayma hakkı ve garanti.",
-  robots: "index, follow",
-  alternates: { canonical: `${site.url}/on-bilgilendirme` },
+export async function generateMetadata(): Promise<Metadata> {
+  const s = await getStoreSettings()
+  return {
+    title: `Ön Bilgilendirme Formu | ${s.siteName}`,
+    description:
+      "Mesafeli Sözleşmeler Yönetmeliği kapsamında sipariş öncesi tüketici bilgilendirmesi: satıcı, teslimat, ödeme, cayma hakkı ve garanti.",
+    robots: "index, follow",
+    alternates: { canonical: `${siteConfig.url}/on-bilgilendirme` },
+  }
 }
 
-export default function OnBilgilendirmePage() {
+export default async function OnBilgilendirmePage() {
+  const s = await getStoreSettings()
+  const validMail = validEmail(s.email)
+  const validPh = validPhone(s.phone)
+  const waContact = buildWa(validWhatsApp(s.whatsapp)).contact
   const returnAddr = legal.returnAddress || legal.fullAddress
 
   return (
@@ -36,7 +44,6 @@ export default function OnBilgilendirmePage() {
         </Para>
       </InfoCard>
 
-      {/* ── 1. SATICI BİLGİLERİ ────────────────────────────────────────────── */}
       <H2>1. Satıcı Bilgileri</H2>
 
       <InfoCard>
@@ -45,13 +52,12 @@ export default function OnBilgilendirmePage() {
           <InfoRow label="Vergi Dairesi"            value={legal.taxOffice} />
           <InfoRow label="Vergi Numarası"           value={legal.taxNumber} />
           <InfoRow label="Adres"                    value={legal.fullAddress} />
-          <InfoRow label="Telefon"                  value={site.phoneDisplay} />
-          <InfoRow label="E-posta"                  value={site.email} />
-          <InfoRow label="Web Sitesi"               value={site.url} />
+          {validPh && <InfoRow label="Telefon"  value={validPh} />}
+          {validMail && <InfoRow label="E-posta" value={validMail} />}
+          <InfoRow label="Web Sitesi"               value={siteConfig.url} />
         </div>
       </InfoCard>
 
-      {/* ── 2. ÜRÜN VE SİPARİŞ BİLGİLERİ ──────────────────────────────────── */}
       <H2>2. Ürün ve Sipariş Bilgileri</H2>
 
       <Para>
@@ -65,7 +71,6 @@ export default function OnBilgilendirmePage() {
         incelenebilir ve sipariş onay e-postasında da yer alır.
       </Para>
 
-      {/* ── 3. ÜRÜN FİYATI VE VERGİLER ─────────────────────────────────────── */}
       <H2>3. Ürün Fiyatı ve Vergiler</H2>
 
       <Para>
@@ -75,7 +80,6 @@ export default function OnBilgilendirmePage() {
         Sipariş onayı sonrası fiyat değişikliği onaylanmış siparişi etkilemez.
       </Para>
 
-      {/* ── 4. KARGO VE TESLİMAT MASRAFLARI ────────────────────────────────── */}
       <H2>4. Kargo ve Teslimat Masrafları</H2>
 
       <Para>
@@ -92,8 +96,10 @@ export default function OnBilgilendirmePage() {
           Ücretsiz Kargo Koşulu
         </div>
         <Para style={{ marginBottom: 0 }}>
-          Belirli bir sipariş tutarını aşan siparişlerde kargo ücretsiz olabilir.
-          Geçerli eşik değeri checkout ekranında gösterilir.
+          {s.freeShippingThreshold > 0
+            ? <><strong style={{ color: "#F4F4F2" }}>{s.freeShippingThreshold} TL</strong> ve üzeri siparişlerde kargo ücreti alınmaz.</>
+            : "Belirli bir sipariş tutarını aşan siparişlerde kargo ücretsiz olabilir. Geçerli eşik değeri checkout ekranında gösterilir."
+          }
         </Para>
       </div>
 
@@ -102,7 +108,6 @@ export default function OnBilgilendirmePage() {
         teslim) ise iade kargo ücreti satıcıya aittir.
       </Para>
 
-      {/* ── 5. ÖDEME YÖNTEMLERİ ─────────────────────────────────────────────── */}
       <H2>5. Kabul Edilen Ödeme Yöntemleri</H2>
 
       <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2.1, paddingLeft: 20, marginBottom: 12 }}>
@@ -111,33 +116,37 @@ export default function OnBilgilendirmePage() {
           — Sipariş onayından sonra banka hesap bilgisi iletilir.
           Ödeme yapıldıktan sonra sipariş işleme alınır.
         </li>
-        <li>
-          <strong style={{ color: "#F4F4F2" }}>Havale / EFT</strong>{" "}
-          — Desteklenmektedir. Banka bilgileri sipariş sonrası WhatsApp veya
-          e-posta aracılığıyla iletilir.
-        </li>
       </ul>
 
       <Para>
         Kapıda ödeme seçeneği <strong style={{ color: "#F4F4F2" }}>sunulmamaktadır.</strong>
       </Para>
 
-      {/* ── 6. TESLİMAT BİLGİLERİ ───────────────────────────────────────────── */}
       <H2>6. Teslimat Bilgileri</H2>
 
-      <H3>Kargo Firması</H3>
-      <Para>
-        Siparişler <strong style={{ color: "#F4F4F2" }}>{legal.shippingCompany}</strong> ile gönderilir.
-        Kargoya teslim edildiğinde takip numarası SMS ve e-posta ile bildirilir.
-      </Para>
+      {legal.shippingCompany && (
+        <>
+          <H3>Kargo Firması</H3>
+          <Para>
+            Siparişler <strong style={{ color: "#F4F4F2" }}>{legal.shippingCompany}</strong> ile gönderilir.
+            Kargoya teslim edildiğinde takip numarası SMS ve e-posta ile bildirilir.
+          </Para>
+        </>
+      )}
 
       <H3>Aynı Gün Kargo</H3>
-      <Para>
-        Stokta bulunan ürünlerde, hafta içi saat{" "}
-        <strong style={{ color: "#F4F4F2" }}>{site.shippingCutoff}</strong>&apos;e kadar
-        ödeme onaylanan siparişler aynı iş günü kargoya teslim edilir.
-        Bu saatten sonra verilen siparişler bir sonraki iş günü kargoya verilir.
-      </Para>
+      {s.shippingCutoff ? (
+        <Para>
+          Stokta bulunan ürünlerde, hafta içi saat{" "}
+          <strong style={{ color: "#F4F4F2" }}>{s.shippingCutoff}</strong>&apos;e kadar
+          ödeme onaylanan siparişler aynı iş günü kargoya teslim edilir.
+          Bu saatten sonra verilen siparişler bir sonraki iş günü kargoya verilir.
+        </Para>
+      ) : (
+        <Para>
+          Hafta içi iş günleri ödeme onaylanan, stokta bulunan siparişler aynı gün kargoya verilebilir.
+        </Para>
+      )}
 
       <H3>Tahmini Teslimat Süresi</H3>
       <Para>
@@ -152,9 +161,10 @@ export default function OnBilgilendirmePage() {
       <Para>
         Uygun koşullarda ürün işyerimizden elden teslim alınabilir. Elden teslim
         için sipariş öncesinde WhatsApp veya telefon ile iletişime geçilmesi gerekir.
-        İşyeri adresi:{" "}
-        <strong style={{ color: "#F4F4F2" }}>{legal.fullAddress}</strong>.
-        Çalışma saatleri: Her gün {site.workingHours.weekdays}.
+        {legal.fullAddress && <> İşyeri adresi:{" "}
+          <strong style={{ color: "#F4F4F2" }}>{legal.fullAddress}</strong>.</>
+        }
+        {s.workingHours.weekdays && ` Çalışma saatleri: Her gün ${s.workingHours.weekdays}.`}
       </Para>
 
       <H3>Teslimat Adresi Sorumluluğu</H3>
@@ -165,7 +175,6 @@ export default function OnBilgilendirmePage() {
         bildirilmesi zorunludur.
       </Para>
 
-      {/* ── 7. CAYMA HAKKI ──────────────────────────────────────────────────── */}
       <H2>7. Cayma Hakkı</H2>
 
       <Para>
@@ -190,24 +199,32 @@ export default function OnBilgilendirmePage() {
         istisnalarından bağımsız olarak ayrı bir süreçle ele alınır.
       </Para>
 
-      {/* ── 8. CAYMA HAKKININ KULLANIMI ─────────────────────────────────────── */}
       <H2>8. Cayma Hakkının Kullanımı</H2>
 
       <Para>
         Cayma hakkını kullanmak için 14 günlük süre içinde yazılı bildirim yapılmalıdır:
       </Para>
       <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
-        <li>
-          <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
-          <a href={`mailto:${site.email}`} style={{ color: "#D4A534" }}>{site.email}</a>
-          {" "}— konu: &quot;Cayma Bildirimi — Sipariş No: XXXXX&quot;
-        </li>
-        <li>
-          <strong style={{ color: "#F4F4F2" }}>WhatsApp:</strong>{" "}
-          <a href={wa.contact} target="_blank" rel="noopener noreferrer" style={{ color: "#22c55e" }}>
-            WhatsApp ile Bildir
-          </a>
-        </li>
+        {validMail && (
+          <li>
+            <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
+            <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            {" "}— konu: &quot;Cayma Bildirimi — Sipariş No: XXXXX&quot;
+          </li>
+        )}
+        {waContact && (
+          <li>
+            <strong style={{ color: "#F4F4F2" }}>WhatsApp:</strong>{" "}
+            <a href={waContact} target="_blank" rel="noopener noreferrer" style={{ color: "#22c55e" }}>
+              WhatsApp ile Bildir
+            </a>
+          </li>
+        )}
+        {!validMail && !waContact && (
+          <li>
+            İletişim sayfamızdaki kanallardan cayma bildirimini iletebilirsiniz.
+          </li>
+        )}
       </ul>
       <Para>
         Cayma bildirimi alındıktan sonra 1 iş günü içinde iade onayı ve kargo
@@ -223,7 +240,6 @@ export default function OnBilgilendirmePage() {
         <strong style={{ color: "#F4F4F2" }}>14 gün</strong> içinde ödeme iade edilir.
       </Para>
 
-      {/* ── 9. İADE SÜRECİ ──────────────────────────────────────────────────── */}
       <H2>9. İade Süreci</H2>
 
       <Para>
@@ -235,7 +251,6 @@ export default function OnBilgilendirmePage() {
         <Link href="/teslimat-iade" style={{ color: "#D4A017", fontSize: 13 }}>→ Teslimat ve İade</Link>
       </div>
 
-      {/* ── 10. GARANTİ VE AYIPLI MAL HAKLARI ──────────────────────────────── */}
       <H2>10. Garanti ve Ayıplı Mal Hakları</H2>
 
       <Para>
@@ -257,26 +272,31 @@ export default function OnBilgilendirmePage() {
         <Link href="/garanti-ve-iade" style={{ color: "#D4A017" }}>Garanti ve İade sayfası</Link>.
       </Para>
 
-      {/* ── 11. İLETİŞİM ────────────────────────────────────────────────────── */}
       <H2>11. İletişim ve Uyuşmazlık Çözümü</H2>
 
       <InfoCard>
         <H3>Müşteri Hizmetleri</H3>
-        <Para>
-          <strong style={{ color: "#F4F4F2" }}>Telefon:</strong>{" "}
-          <a href={`tel:${site.phone}`} style={{ color: "#D4A534" }}>{site.phoneDisplay}</a>
-          {" "}— Her gün {site.workingHours.weekdays}
-        </Para>
-        <Para>
-          <strong style={{ color: "#F4F4F2" }}>WhatsApp:</strong>{" "}
-          <a href={wa.contact} target="_blank" rel="noopener noreferrer" style={{ color: "#22c55e" }}>
-            Hızlı Destek — WhatsApp
-          </a>
-        </Para>
-        <Para style={{ marginBottom: 0 }}>
-          <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
-          <a href={`mailto:${site.email}`} style={{ color: "#D4A534" }}>{site.email}</a>
-        </Para>
+        {validPh && (
+          <Para>
+            <strong style={{ color: "#F4F4F2" }}>Telefon:</strong>{" "}
+            <a href={`tel:${validPh}`} style={{ color: "#D4A534" }}>{validPh}</a>
+            {s.workingHours.weekdays && ` — Her gün ${s.workingHours.weekdays}`}
+          </Para>
+        )}
+        {waContact && (
+          <Para>
+            <strong style={{ color: "#F4F4F2" }}>WhatsApp:</strong>{" "}
+            <a href={waContact} target="_blank" rel="noopener noreferrer" style={{ color: "#22c55e" }}>
+              Hızlı Destek — WhatsApp
+            </a>
+          </Para>
+        )}
+        {validMail && (
+          <Para style={{ marginBottom: 0 }}>
+            <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
+            <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+          </Para>
+        )}
       </InfoCard>
 
       <Para>
@@ -285,7 +305,6 @@ export default function OnBilgilendirmePage() {
         Bilgi Sistemi&apos;ne (tbs.gtb.gov.tr) başvurabilir.
       </Para>
 
-      {/* ── 12. İLGİLİ BELGELER ─────────────────────────────────────────────── */}
       <H2>12. İlgili Belgeler</H2>
 
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>

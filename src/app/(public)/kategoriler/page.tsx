@@ -109,7 +109,7 @@ export default async function KategorilerPage() {
           </div>
         </div>
         <a
-          href={wa.home}
+          href={wa.home ?? undefined}
           target="_blank"
           rel="noopener noreferrer"
           className="font-bold px-6 py-3 rounded-xl transition-colors shrink-0 text-sm hover:opacity-90"

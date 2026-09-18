@@ -1,18 +1,23 @@
 import type { Metadata } from "next"
-import { site } from "@/config/site"
+import { getStoreSettings, validEmail } from "@/lib/storefront/settings"
+import { siteConfig } from "@/config/site"
 import { legal } from "@/config/legal"
 import LegalPageShell, { H2, H3, Para, InfoCard, InfoRow } from "@/components/legal/LegalPageShell"
 
-export const metadata: Metadata = {
-  title: `KVKK Aydınlatma Metni | ${site.siteName}`,
-  description: "6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında hazırlanan aydınlatma metnimiz.",
-  robots: "index, follow",
+export async function generateMetadata(): Promise<Metadata> {
+  const s = await getStoreSettings()
+  return {
+    title: `KVKK Aydınlatma Metni | ${s.siteName}`,
+    description: "6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında hazırlanan aydınlatma metnimiz.",
+    robots: "index, follow",
+  }
 }
 
-export default function KvkkPage() {
+export default async function KvkkPage() {
+  const s = await getStoreSettings()
+  const validMail = validEmail(s.email)
   // LEGAL_DEBT: tradeName, taxOffice, taxNumber, mersisNumber, fullAddress required
   // for complete veri sorumlusu declaration under KVKK Art.10.
-  // Fill legal.ts fields to populate the identity card below.
 
   return (
     <LegalPageShell
@@ -35,9 +40,9 @@ export default function KvkkPage() {
           <InfoRow label="Vergi Numarası"  value={legal.taxNumber} />
           <InfoRow label="MERSİS No"       value={legal.mersisNumber} />
           <InfoRow label="Adres"           value={legal.fullAddress} />
-          <InfoRow label="Telefon"         value={site.phoneDisplay} />
-          <InfoRow label="E-posta"         value={site.email} />
-          <InfoRow label="Web Sitesi"      value={site.url} />
+          {s.phone && <InfoRow label="Telefon"  value={s.phone} />}
+          {validMail && <InfoRow label="E-posta" value={validMail} />}
+          <InfoRow label="Web Sitesi"      value={siteConfig.url} />
         </div>
       </InfoCard>
 
@@ -124,7 +129,10 @@ export default function KvkkPage() {
         </Para>
         <Para>
           <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
-          <a href={`mailto:${site.email}`} style={{ color: "#D4A534" }}>{site.email}</a>
+          {validMail
+            ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            : "iletişim sayfamızdaki e-posta adresimiz"
+          }
           {" "}(konu: KVKK Başvurusu)
         </Para>
         {legal.fullAddress && (

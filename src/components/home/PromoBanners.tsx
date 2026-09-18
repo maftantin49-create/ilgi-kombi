@@ -4,8 +4,6 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { Truck, Search, MessageCircle } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
-import { wa } from "@/lib/whatsapp"
-import { site } from "@/config/site"
 
 interface Banner {
   icon: LucideIcon
@@ -17,35 +15,39 @@ interface Banner {
   accentLine: string
 }
 
-const banners: Banner[] = [
-  {
-    icon: Truck,
-    title: "Bugün Sipariş Ver, Bugün Yola Çıksın",
-    description: `Saat ${site.shippingCutoff}'ya kadar verilen siparişler aynı gün kargoda.`,
-    cta: "Ürünleri İncele",
-    href: "/urunler?kargo=ayni-gun",
-    external: false,
-    accentLine: "Aynı Gün Kargo",
-  },
-  {
-    icon: Search,
-    title: "Kombinize Uygun Parçayı Kolayca Bulun",
-    description: "Kombi markaları için uyumlu yedek parçaları kategorilere göre inceleyin.",
-    cta: "Kategorileri Gör",
-    href: "/kategoriler",
-    external: false,
-    accentLine: "Geniş Kategori",
-  },
-  {
-    icon: MessageCircle,
-    title: "Doğru Parçayı Birlikte Bulalım",
-    description: "Kombi modelini ve cihaz bilgilerini gönder, uzman ekibimiz yardımcı olsun.",
-    cta: "WhatsApp'tan Sor",
-    href: wa.parcaBul(),
-    external: true,
-    accentLine: "7/24 Destek",
-  },
-]
+function makeBanners(shippingCutoff: string, waLink: string | null): Banner[] {
+  return [
+    {
+      icon: Truck,
+      title: "Bugün Sipariş Ver, Bugün Yola Çıksın",
+      description: shippingCutoff
+        ? `Saat ${shippingCutoff}'ya kadar verilen siparişler aynı gün kargoda.`
+        : "Hafta içi iş saatlerinde sipariş verin, aynı gün kargoda.",
+      cta: "Ürünleri İncele",
+      href: "/urunler?kargo=ayni-gun",
+      external: false,
+      accentLine: "Aynı Gün Kargo",
+    },
+    {
+      icon: Search,
+      title: "Kombinize Uygun Parçayı Kolayca Bulun",
+      description: "Kombi markaları için uyumlu yedek parçaları kategorilere göre inceleyin.",
+      cta: "Kategorileri Gör",
+      href: "/kategoriler",
+      external: false,
+      accentLine: "Geniş Kategori",
+    },
+    {
+      icon: MessageCircle,
+      title: "Doğru Parçayı Birlikte Bulalım",
+      description: "Kombi modelini ve cihaz bilgilerini gönder, uzman ekibimiz yardımcı olsun.",
+      cta: waLink ? "WhatsApp'tan Sor" : "İletişime Geç",
+      href: waLink ?? "/iletisim",
+      external: !!waLink,
+      accentLine: "7/24 Destek",
+    },
+  ]
+}
 
 function PromoCard({ banner, index }: { banner: Banner; index: number }) {
   const Icon = banner.icon
@@ -131,7 +133,14 @@ function PromoCard({ banner, index }: { banner: Banner; index: number }) {
   )
 }
 
-export default function PromoBanners() {
+interface Props {
+  shippingCutoff?: string
+  waLink?: string | null
+}
+
+export default function PromoBanners({ shippingCutoff = "", waLink = null }: Props) {
+  const banners = makeBanners(shippingCutoff, waLink)
+
   return (
     <section className="max-w-7xl mx-auto px-6 lg:px-8 py-8" aria-label="Öne çıkan hizmetler">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

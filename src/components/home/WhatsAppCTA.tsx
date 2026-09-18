@@ -1,8 +1,6 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { site } from "@/config/site"
-import { wa } from "@/lib/whatsapp"
 
 function WaIcon({ size = 22 }: { size?: number }) {
   return (
@@ -19,7 +17,13 @@ function WaIcon({ size = 22 }: { size?: number }) {
   )
 }
 
-export default function WhatsAppCTA() {
+interface Props {
+  waLink?: string | null
+  phone?: string | null
+  phoneDisplay?: string | null
+}
+
+export default function WhatsAppCTA({ waLink, phone, phoneDisplay }: Props) {
   return (
     <section
       aria-label="WhatsApp teknik destek"
@@ -74,28 +78,45 @@ export default function WhatsAppCTA() {
           transition={{ duration: 0.48, ease: "easeOut", delay: 0.1 }}
           className="shrink-0 flex flex-col items-center gap-3"
         >
-          <a
-            href={wa.home}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2.5 font-bold px-8 py-4 rounded-xl transition-colors duration-150 hover:bg-[#F2C94C]"
-            style={{
-              background: "#D4A017",
-              color: "#090A0C",
-              boxShadow: "0 4px 20px rgba(212,160,23,0.25)",
-              fontSize: "14px",
-            }}
-          >
-            <WaIcon size={18} />
-            WhatsApp ile Yaz
-          </a>
-          <a
-            href={`tel:${site.phone}`}
-            className="text-[12px] transition-colors duration-150 hover:text-white"
-            style={{ color: "#4A4A48" }}
-          >
-            veya arayın: {site.phoneDisplay}
-          </a>
+          {waLink ? (
+            <a
+              href={waLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2.5 font-bold px-8 py-4 rounded-xl transition-colors duration-150 hover:bg-[#F2C94C]"
+              style={{
+                background: "#D4A017",
+                color: "#090A0C",
+                boxShadow: "0 4px 20px rgba(212,160,23,0.25)",
+                fontSize: "14px",
+              }}
+            >
+              <WaIcon size={18} />
+              WhatsApp ile Yaz
+            </a>
+          ) : (
+            <a
+              href="/iletisim"
+              className="flex items-center gap-2.5 font-bold px-8 py-4 rounded-xl transition-colors duration-150 hover:bg-[#F2C94C]"
+              style={{
+                background: "#D4A017",
+                color: "#090A0C",
+                boxShadow: "0 4px 20px rgba(212,160,23,0.25)",
+                fontSize: "14px",
+              }}
+            >
+              Bize Ulaşın
+            </a>
+          )}
+          {phone && phoneDisplay && (
+            <a
+              href={`tel:${phone}`}
+              className="text-[12px] transition-colors duration-150 hover:text-white"
+              style={{ color: "#4A4A48" }}
+            >
+              veya arayın: {phoneDisplay}
+            </a>
+          )}
         </motion.div>
       </div>
     </section>

@@ -70,7 +70,7 @@ export default async function KategoriPage({ params }: { params: Promise<{ slug:
         <div className="text-center py-16">
           <p className="mb-4" style={{ color: "#666660" }}>Bu kategoride henüz ürün bulunmuyor.</p>
           <a
-            href={wa.notFound}
+            href={wa.notFound ?? undefined}
             target="_blank"
             rel="noopener noreferrer"
             className="font-medium hover:underline"

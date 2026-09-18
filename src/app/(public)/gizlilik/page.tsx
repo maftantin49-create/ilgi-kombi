@@ -1,15 +1,21 @@
 import type { Metadata } from "next"
-import { site } from "@/config/site"
+import { getStoreSettings, validEmail } from "@/lib/storefront/settings"
+import { siteConfig } from "@/config/site"
 import { legal } from "@/config/legal"
 import LegalPageShell, { H2, H3, Para, InfoCard } from "@/components/legal/LegalPageShell"
 
-export const metadata: Metadata = {
-  title: `Gizlilik Politikası | ${site.siteName}`,
-  description: "Kişisel verilerinizin nasıl toplandığı, işlendiği ve korunduğuna ilişkin gizlilik politikamız.",
-  robots: "index, follow",
+export async function generateMetadata(): Promise<Metadata> {
+  const s = await getStoreSettings()
+  return {
+    title: `Gizlilik Politikası | ${s.siteName}`,
+    description: "Kişisel verilerinizin nasıl toplandığı, işlendiği ve korunduğuna ilişkin gizlilik politikamız.",
+    robots: "index, follow",
+  }
 }
 
-export default function GizlilikPage() {
+export default async function GizlilikPage() {
+  const s = await getStoreSettings()
+  const validMail = validEmail(s.email)
   // LEGAL_DEBT: legal.tradeName required for veri sorumlusu declaration (KVKK Art.10)
   const returnAddr = legal.returnAddress || legal.fullAddress
 
@@ -21,8 +27,8 @@ export default function GizlilikPage() {
     >
       <InfoCard>
         <Para>
-          Bu Gizlilik Politikası, <strong style={{ color: "#F4F4F2" }}>{site.siteName}</strong> olarak{" "}
-          <strong style={{ color: "#F4F4F2" }}>{site.url}</strong> adresinde sunduğumuz hizmetler kapsamında
+          Bu Gizlilik Politikası, <strong style={{ color: "#F4F4F2" }}>{s.siteName}</strong> olarak{" "}
+          <strong style={{ color: "#F4F4F2" }}>{siteConfig.url}</strong> adresinde sunduğumuz hizmetler kapsamında
           kişisel verilerinizi nasıl topladığımızı, kullandığımızı ve koruduğumuzu açıklar.
         </Para>
         {legal.tradeName && (
@@ -95,7 +101,10 @@ export default function GizlilikPage() {
       <Para>
         Kişisel verileriniz HTTPS şifrelemesi, erişim kısıtlamaları ve güvenli veri tabanı altyapısı ile
         korunmaktadır. Bir güvenlik ihlali tespit etmeniz halinde lütfen derhal{" "}
-        <a href={`mailto:${site.email}`} style={{ color: "#D4A534" }}>{site.email}</a> adresine bildirin.
+        {validMail
+          ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+          : "e-posta yoluyla"
+        }{" "}adresine bildirin.
       </Para>
 
       <H2>6. Saklama Süreleri</H2>
@@ -109,7 +118,10 @@ export default function GizlilikPage() {
       <Para>
         6698 sayılı KVKK kapsamında verilerinize erişim, düzeltme, silme, işlemenin kısıtlanması,
         itiraz ve taşınabilirlik haklarına sahipsiniz. Taleplerinizi{" "}
-        <a href={`mailto:${site.email}`} style={{ color: "#D4A534" }}>{site.email}</a> adresine yazılı
+        {validMail
+          ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+          : "e-posta yoluyla"
+        }{" "}adresine yazılı
         olarak iletebilirsiniz; 30 gün içinde yanıt veririz.
         {" "}Detaylı bilgi için <a href="/kvkk" style={{ color: "#D4A534" }}>KVKK Aydınlatma Metni</a>&apos;ni inceleyin.
       </Para>
@@ -120,8 +132,11 @@ export default function GizlilikPage() {
       ) : (
         <Para>
           İade ve fiziksel iletişim adresi için{" "}
-          <a href={`mailto:${site.email}`} style={{ color: "#D4A534" }}>{site.email}</a> adresine
-          veya {site.phoneDisplay} numarasına başvurun.
+          {validMail
+            ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            : "e-posta yoluyla"
+          }{" "}adresine
+          veya {s.phone || "telefon ile"} başvurun.
         </Para>
       )}
 
@@ -135,8 +150,11 @@ export default function GizlilikPage() {
         <H3>İletişim</H3>
         <Para style={{ marginBottom: 0 }}>
           Gizlilik politikamıza ilişkin sorularınız için:{" "}
-          <a href={`mailto:${site.email}`} style={{ color: "#D4A534" }}>{site.email}</a>
-          {" "}— {site.phoneDisplay}
+          {validMail
+            ? <><a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+                {s.phone ? ` — ${s.phone}` : ""}</>
+            : "iletişim sayfamızı ziyaret edin."
+          }
         </Para>
       </InfoCard>
     </LegalPageShell>

@@ -6,149 +6,149 @@ import {
   Shield, AlertTriangle, HeadphonesIcon, Lock, BookOpen,
   HelpCircle, FileText,
 } from "lucide-react"
-import { site } from "@/config/site"
+import { getStoreSettings, validEmail, validPhone, validWhatsApp } from "@/lib/storefront/settings"
+import { buildWa } from "@/lib/whatsapp"
+import { siteConfig } from "@/config/site"
 import { legal } from "@/config/legal"
-import { wa } from "@/lib/whatsapp"
 
-export const metadata: Metadata = {
-  title: `Müşteri Hizmetleri | ${site.siteName}`,
-  description:
-    "Sipariş, ürün uyumluluğu, kargo, iade ve teknik destek konularında yardım almak için müşteri hizmetleri merkezimizi ziyaret edin.",
-  robots: "index, follow",
-  alternates: { canonical: `${site.url}/musteri-hizmetleri` },
+export async function generateMetadata(): Promise<Metadata> {
+  const s = await getStoreSettings()
+  return {
+    title: `Müşteri Hizmetleri | ${s.siteName}`,
+    description:
+      "Sipariş, ürün uyumluluğu, kargo, iade ve teknik destek konularında yardım almak için müşteri hizmetleri merkezimizi ziyaret edin.",
+    robots: "index, follow",
+    alternates: { canonical: `${siteConfig.url}/musteri-hizmetleri` },
+  }
 }
 
-const serviceTopics = [
-  {
-    icon: ShoppingCart,
-    title: "Sipariş ve Ödeme",
-    desc: "Sipariş verme, ödeme yöntemleri, fatura ve sipariş iptali",
-    href: "/sss#siparis",
-    links: [{ label: "Sıkça Sorulan Sorular", href: "/sss" }],
-  },
-  {
-    icon: Package,
-    title: "Sipariş Takibi",
-    desc: "Kargoya verilen siparişinizin anlık durumunu öğrenin",
-    href: null,
-    links: [
-      { label: "WhatsApp ile Takip Et", href: wa.contact, external: true },
-      { label: "İletişim", href: "/iletisim" },
-    ],
-  },
-  {
-    icon: Wrench,
-    title: "Ürün Seçimi ve Uyumluluk",
-    desc: "Kombinize uygun parçayı bulmak için yardım alın",
-    href: "/parca-bul",
-    links: [
-      { label: "Parça Bul Aracı", href: "/parca-bul" },
-      { label: "SSS — Ürün Seçimi", href: "/sss" },
-    ],
-  },
-  {
-    icon: Truck,
-    title: "Kargo ve Teslimat",
-    desc: "Aynı gün kargo, teslimat süresi, kargo takibi ve adres bilgileri",
-    href: "/teslimat-bilgileri",
-    links: [
-      { label: "Teslimat Bilgileri", href: "/teslimat-bilgileri" },
-      { label: "Kargo ve Taşıma", href: "/kargo-ve-tasima" },
-    ],
-  },
-  {
-    icon: RefreshCw,
-    title: "İade ve Değişim",
-    desc: "14 günlük cayma hakkı, iade prosedürü ve geri ödeme süreci",
-    href: "/garanti-ve-iade",
-    links: [
-      { label: "Garanti ve İade", href: "/garanti-ve-iade" },
-      { label: "İptal ve İade Koşulları", href: "/iptal-iade" },
-    ],
-  },
-  {
-    icon: Shield,
-    title: "Garanti",
-    desc: "Ürün garantisi, üretim kusurları ve garanti başvurusu",
-    href: "/garanti-ve-iade",
-    links: [{ label: "Garanti Bilgileri", href: "/garanti-ve-iade" }],
-  },
-  {
-    icon: AlertTriangle,
-    title: "Hasarlı / Hatalı Ürün",
-    desc: "Yanlış, eksik veya hasarlı ürün teslimi durumunda yapılacaklar",
-    href: "/garanti-ve-iade",
-    links: [
-      { label: "Garanti ve İade", href: "/garanti-ve-iade" },
-      { label: "WhatsApp Destek", href: wa.contact, external: true },
-    ],
-  },
-  {
-    icon: HeadphonesIcon,
-    title: "Teknik Destek",
-    desc: "Parça seçimi, montaj öncesi kontrol ve teknik sorular",
-    href: null,
-    links: [
-      { label: "WhatsApp ile Sor", href: wa.contact, external: true },
-      { label: "Teknik Rehberler", href: "/rehberler" },
-    ],
-  },
-  {
-    icon: Lock,
-    title: "Güvenli Alışveriş",
-    desc: "Ödeme güvenliği, kart bilgileri ve site güvenlik altyapısı",
-    href: "/gizlilik",
-    links: [{ label: "Gizlilik Politikası", href: "/gizlilik" }],
-  },
-  {
-    icon: FileText,
-    title: "KVKK ve Gizlilik",
-    desc: "Kişisel verilerinizin nasıl işlendiği ve haklarınız",
-    href: "/kvkk",
-    links: [
-      { label: "KVKK Aydınlatma", href: "/kvkk" },
-      { label: "Gizlilik Politikası", href: "/gizlilik" },
-    ],
-  },
-  {
-    icon: BookOpen,
-    title: "Blog ve Rehberler",
-    desc: "Kombi parçaları hakkında teknik rehberler",
-    href: "/rehberler",
-    links: [{ label: "Teknik Rehberler", href: "/rehberler" }],
-  },
-  {
-    icon: HelpCircle,
-    title: "Diğer Sorular",
-    desc: "SSS'te yanıt bulamadığınız tüm konular için",
-    href: "/iletisim",
-    links: [
-      { label: "İletişim Formu", href: "/iletisim" },
-      { label: "Sıkça Sorulan Sorular", href: "/sss" },
-    ],
-  },
-]
-
 const allPages = [
-  { label: "Sıkça Sorulan Sorular", href: "/sss" },
-  { label: "Garanti ve İade", href: "/garanti-ve-iade" },
-  { label: "Teslimat Bilgileri", href: "/teslimat-bilgileri" },
+  { label: "Sıkça Sorulan Sorular",      href: "/sss" },
+  { label: "Garanti ve İade",            href: "/garanti-ve-iade" },
+  { label: "Teslimat Bilgileri",         href: "/teslimat-bilgileri" },
   { label: "Kargo ve Taşıma Bilgileri", href: "/kargo-ve-tasima" },
-  { label: "KVKK", href: "/kvkk" },
-  { label: "Gizlilik Politikası", href: "/gizlilik" },
-  { label: "Kullanım Koşulları", href: "/kullanim-kosullari" },
+  { label: "KVKK",                       href: "/kvkk" },
+  { label: "Gizlilik Politikası",        href: "/gizlilik" },
+  { label: "Kullanım Koşulları",         href: "/kullanim-kosullari" },
   { label: "Mesafeli Satış Sözleşmesi", href: "/mesafeli-satis-sozlesmesi" },
-  { label: "İptal ve İade", href: "/iptal-iade" },
-  { label: "Teslimat ve İade", href: "/teslimat-iade" },
-  { label: "Teknik Rehberler / Blog", href: "/rehberler" },
-  { label: "İletişim", href: "/iletisim" },
+  { label: "İptal ve İade",             href: "/iptal-iade" },
+  { label: "Teslimat ve İade",          href: "/teslimat-iade" },
+  { label: "Teknik Rehberler / Blog",   href: "/rehberler" },
+  { label: "İletişim",                  href: "/iletisim" },
 ]
 
-export default function MusteriHizmetleriPage() {
+export default async function MusteriHizmetleriPage() {
+  const s = await getStoreSettings()
+  const validPh = validPhone(s.phone)
+  const validMail = validEmail(s.email)
+  const waContact = buildWa(validWhatsApp(s.whatsapp)).contact
+
+  type TopicLink = { label: string; href: string; external?: true }
+  const waLink = (label: string): TopicLink =>
+    waContact
+      ? { label, href: waContact, external: true }
+      : { label: "İletişim Formu", href: "/iletisim" }
+
+  const serviceTopics = [
+    {
+      icon: ShoppingCart,
+      title: "Sipariş ve Ödeme",
+      desc: "Sipariş verme, ödeme yöntemleri, fatura ve sipariş iptali",
+      links: [{ label: "Sıkça Sorulan Sorular", href: "/sss" }] as TopicLink[],
+    },
+    {
+      icon: Package,
+      title: "Sipariş Takibi",
+      desc: "Kargoya verilen siparişinizin anlık durumunu öğrenin",
+      links: [waLink("WhatsApp ile Takip Et"), { label: "İletişim", href: "/iletisim" }] as TopicLink[],
+    },
+    {
+      icon: Wrench,
+      title: "Ürün Seçimi ve Uyumluluk",
+      desc: "Kombinize uygun parçayı bulmak için yardım alın",
+      links: [
+        { label: "Parça Bul Aracı", href: "/parca-bul" },
+        { label: "SSS — Ürün Seçimi", href: "/sss" },
+      ] as TopicLink[],
+    },
+    {
+      icon: Truck,
+      title: "Kargo ve Teslimat",
+      desc: "Aynı gün kargo, teslimat süresi, kargo takibi ve adres bilgileri",
+      links: [
+        { label: "Teslimat Bilgileri", href: "/teslimat-bilgileri" },
+        { label: "Kargo ve Taşıma", href: "/kargo-ve-tasima" },
+      ] as TopicLink[],
+    },
+    {
+      icon: RefreshCw,
+      title: "İade ve Değişim",
+      desc: "14 günlük cayma hakkı, iade prosedürü ve geri ödeme süreci",
+      links: [
+        { label: "Garanti ve İade", href: "/garanti-ve-iade" },
+        { label: "İptal ve İade Koşulları", href: "/iptal-iade" },
+      ] as TopicLink[],
+    },
+    {
+      icon: Shield,
+      title: "Garanti",
+      desc: "Ürün garantisi, üretim kusurları ve garanti başvurusu",
+      links: [{ label: "Garanti Bilgileri", href: "/garanti-ve-iade" }] as TopicLink[],
+    },
+    {
+      icon: AlertTriangle,
+      title: "Hasarlı / Hatalı Ürün",
+      desc: "Yanlış, eksik veya hasarlı ürün teslimi durumunda yapılacaklar",
+      links: [
+        { label: "Garanti ve İade", href: "/garanti-ve-iade" },
+        waLink("WhatsApp Destek"),
+      ] as TopicLink[],
+    },
+    {
+      icon: HeadphonesIcon,
+      title: "Teknik Destek",
+      desc: "Parça seçimi, montaj öncesi kontrol ve teknik sorular",
+      links: [
+        waLink("WhatsApp ile Sor"),
+        { label: "Teknik Rehberler", href: "/rehberler" },
+      ] as TopicLink[],
+    },
+    {
+      icon: Lock,
+      title: "Güvenli Alışveriş",
+      desc: "Ödeme güvenliği, kart bilgileri ve site güvenlik altyapısı",
+      links: [{ label: "Gizlilik Politikası", href: "/gizlilik" }] as TopicLink[],
+    },
+    {
+      icon: FileText,
+      title: "KVKK ve Gizlilik",
+      desc: "Kişisel verilerinizin nasıl işlendiği ve haklarınız",
+      links: [
+        { label: "KVKK Aydınlatma", href: "/kvkk" },
+        { label: "Gizlilik Politikası", href: "/gizlilik" },
+      ] as TopicLink[],
+    },
+    {
+      icon: BookOpen,
+      title: "Blog ve Rehberler",
+      desc: "Kombi parçaları hakkında teknik rehberler",
+      links: [{ label: "Teknik Rehberler", href: "/rehberler" }] as TopicLink[],
+    },
+    {
+      icon: HelpCircle,
+      title: "Diğer Sorular",
+      desc: "SSS'te yanıt bulamadığınız tüm konular için",
+      links: [
+        { label: "İletişim Formu", href: "/iletisim" },
+        { label: "Sıkça Sorulan Sorular", href: "/sss" },
+      ] as TopicLink[],
+    },
+  ]
+
   return (
     <div style={{ background: "#090A0C", minHeight: "100vh" }}>
 
-      {/* ── Hero ── */}
+      {/* Hero */}
       <div style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
         <div className="max-w-[960px] mx-auto px-6 py-12">
           <p style={{ color: "#D4A017", fontSize: 11, fontWeight: 700, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>
@@ -166,7 +166,7 @@ export default function MusteriHizmetleriPage() {
 
       <div className="max-w-[960px] mx-auto px-6 py-10">
 
-        {/* ── Hızlı İletişim ── */}
+        {/* Hızlı İletişim */}
         <h2 style={{ color: "#F4F4F2", fontSize: 15, fontWeight: 800, marginBottom: 14 }}>
           Hızlı Destek Kanalları
         </h2>
@@ -174,91 +174,120 @@ export default function MusteriHizmetleriPage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-12">
 
           {/* WhatsApp */}
-          <a
-            href={wa.contact}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex flex-col gap-3 p-5 rounded-xl transition-all hover:-translate-y-0.5"
-            style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.22)" }}
-          >
-            <div
-              className="w-10 h-10 rounded-lg flex items-center justify-center"
-              style={{ background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.25)" }}
+          {waContact ? (
+            <a
+              href={waContact}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col gap-3 p-5 rounded-xl transition-all hover:-translate-y-0.5"
+              style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.22)" }}
             >
-              <MessageCircle size={18} style={{ color: "#22c55e" }} />
-            </div>
-            <div>
-              <div className="font-bold text-sm" style={{ color: "#F4F4F2" }}>WhatsApp</div>
-              <div className="text-xs mt-0.5" style={{ color: "#22c55e" }}>En hızlı yanıt</div>
-              <div className="text-xs mt-1" style={{ color: "#555550" }}>Uzman 5 dk&apos;da dönüş yapar</div>
-            </div>
-          </a>
+              <div
+                className="w-10 h-10 rounded-lg flex items-center justify-center"
+                style={{ background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.25)" }}
+              >
+                <MessageCircle size={18} style={{ color: "#22c55e" }} />
+              </div>
+              <div>
+                <div className="font-bold text-sm" style={{ color: "#F4F4F2" }}>WhatsApp</div>
+                <div className="text-xs mt-0.5" style={{ color: "#22c55e" }}>En hızlı yanıt</div>
+                <div className="text-xs mt-1" style={{ color: "#555550" }}>Uzman 5 dk&apos;da dönüş yapar</div>
+              </div>
+            </a>
+          ) : (
+            <Link
+              href="/iletisim"
+              className="flex flex-col gap-3 p-5 rounded-xl transition-all hover:-translate-y-0.5"
+              style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.22)" }}
+            >
+              <div
+                className="w-10 h-10 rounded-lg flex items-center justify-center"
+                style={{ background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.25)" }}
+              >
+                <MessageCircle size={18} style={{ color: "#22c55e" }} />
+              </div>
+              <div>
+                <div className="font-bold text-sm" style={{ color: "#F4F4F2" }}>Canlı Destek</div>
+                <div className="text-xs mt-0.5" style={{ color: "#22c55e" }}>İletişim formunu kullanın</div>
+              </div>
+            </Link>
+          )}
 
           {/* Telefon */}
-          <a
-            href={`tel:${site.phone}`}
-            className="flex flex-col gap-3 p-5 rounded-xl transition-all hover:-translate-y-0.5"
-            style={{ background: "#111214", border: "1px solid rgba(255,196,0,0.14)" }}
-          >
-            <div
-              className="w-10 h-10 rounded-lg flex items-center justify-center"
-              style={{ background: "rgba(212,160,23,0.08)", border: "1px solid rgba(255,196,0,0.20)" }}
+          {validPh ? (
+            <a
+              href={`tel:${validPh}`}
+              className="flex flex-col gap-3 p-5 rounded-xl transition-all hover:-translate-y-0.5"
+              style={{ background: "#111214", border: "1px solid rgba(255,196,0,0.14)" }}
             >
-              <Phone size={18} style={{ color: "#D4A017" }} />
-            </div>
-            <div>
-              <div className="font-bold text-sm" style={{ color: "#F4F4F2" }}>Telefon</div>
-              <div className="text-xs mt-0.5" style={{ color: "#D4A017" }}>{site.phoneDisplay}</div>
-              <div className="text-xs mt-1" style={{ color: "#555550" }}>Her gün {site.workingHours.weekdays}</div>
-            </div>
-          </a>
+              <div
+                className="w-10 h-10 rounded-lg flex items-center justify-center"
+                style={{ background: "rgba(212,160,23,0.08)", border: "1px solid rgba(255,196,0,0.20)" }}
+              >
+                <Phone size={18} style={{ color: "#D4A017" }} />
+              </div>
+              <div>
+                <div className="font-bold text-sm" style={{ color: "#F4F4F2" }}>Telefon</div>
+                <div className="text-xs mt-0.5" style={{ color: "#D4A017" }}>{validPh}</div>
+                {s.workingHours.weekdays && (
+                  <div className="text-xs mt-1" style={{ color: "#555550" }}>Her gün {s.workingHours.weekdays}</div>
+                )}
+              </div>
+            </a>
+          ) : null}
 
           {/* E-posta */}
-          <a
-            href={`mailto:${site.email}`}
-            className="flex flex-col gap-3 p-5 rounded-xl transition-all hover:-translate-y-0.5"
-            style={{ background: "#111214", border: "1px solid rgba(255,255,255,0.08)" }}
-          >
-            <div
-              className="w-10 h-10 rounded-lg flex items-center justify-center"
-              style={{ background: "rgba(212,160,23,0.06)", border: "1px solid rgba(255,196,0,0.12)" }}
+          {validMail ? (
+            <a
+              href={`mailto:${validMail}`}
+              className="flex flex-col gap-3 p-5 rounded-xl transition-all hover:-translate-y-0.5"
+              style={{ background: "#111214", border: "1px solid rgba(255,255,255,0.08)" }}
             >
-              <Mail size={18} style={{ color: "#D4A017" }} />
-            </div>
-            <div>
-              <div className="font-bold text-sm" style={{ color: "#F4F4F2" }}>E-posta</div>
-              <div className="text-xs mt-0.5 break-all" style={{ color: "#888882" }}>{site.email}</div>
-              <div className="text-xs mt-1" style={{ color: "#555550" }}>1 iş gününde yanıt</div>
-            </div>
-          </a>
-        </div>
-
-        {/* ── Çalışma Saatleri ── */}
-        <div
-          className="rounded-xl p-5 mb-12"
-          style={{ background: "#111214", border: "1px solid rgba(255,255,255,0.07)" }}
-        >
-          <p style={{ color: "#888882", fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 10 }}>
-            Çalışma Saatleri
-          </p>
-          <div className="grid grid-cols-3 gap-4">
-            {[
-              { label: "Hafta içi", value: site.workingHours.weekdays },
-              { label: "Cumartesi", value: site.workingHours.saturday },
-              { label: "Pazar", value: site.workingHours.sunday },
-            ].map(({ label, value }) => (
-              <div key={label}>
-                <div style={{ color: "#555550", fontSize: 12 }}>{label}</div>
-                <div style={{ color: "#E0E0DC", fontSize: 14, fontWeight: 700, marginTop: 2 }}>{value}</div>
+              <div
+                className="w-10 h-10 rounded-lg flex items-center justify-center"
+                style={{ background: "rgba(212,160,23,0.06)", border: "1px solid rgba(255,196,0,0.12)" }}
+              >
+                <Mail size={18} style={{ color: "#D4A017" }} />
               </div>
-            ))}
-          </div>
-          <div style={{ color: "#444440", fontSize: 11, marginTop: 10, paddingTop: 10, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-            Hafta içi saat {site.shippingCutoff}&apos;e kadar verilen siparişler aynı gün kargoya verilir.
-          </div>
+              <div>
+                <div className="font-bold text-sm" style={{ color: "#F4F4F2" }}>E-posta</div>
+                <div className="text-xs mt-0.5 break-all" style={{ color: "#888882" }}>{validMail}</div>
+                <div className="text-xs mt-1" style={{ color: "#555550" }}>1 iş gününde yanıt</div>
+              </div>
+            </a>
+          ) : null}
         </div>
 
-        {/* ── Konu Bazlı Destek ── */}
+        {/* Çalışma Saatleri */}
+        {(s.workingHours.weekdays || s.workingHours.saturday || s.workingHours.sunday) && (
+          <div
+            className="rounded-xl p-5 mb-12"
+            style={{ background: "#111214", border: "1px solid rgba(255,255,255,0.07)" }}
+          >
+            <p style={{ color: "#888882", fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 10 }}>
+              Çalışma Saatleri
+            </p>
+            <div className="grid grid-cols-3 gap-4">
+              {[
+                { label: "Hafta içi", value: s.workingHours.weekdays },
+                { label: "Cumartesi", value: s.workingHours.saturday },
+                { label: "Pazar",     value: s.workingHours.sunday },
+              ].filter(h => h.value).map(({ label, value }) => (
+                <div key={label}>
+                  <div style={{ color: "#555550", fontSize: 12 }}>{label}</div>
+                  <div style={{ color: "#E0E0DC", fontSize: 14, fontWeight: 700, marginTop: 2 }}>{value}</div>
+                </div>
+              ))}
+            </div>
+            {s.shippingCutoff && (
+              <div style={{ color: "#444440", fontSize: 11, marginTop: 10, paddingTop: 10, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+                Hafta içi saat {s.shippingCutoff}&apos;e kadar verilen siparişler aynı gün kargoya verilir.
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Konu Bazlı Destek */}
         <h2 style={{ color: "#F4F4F2", fontSize: 15, fontWeight: 800, marginBottom: 14 }}>
           Sipariş Öncesi ve Sipariş Sonrası Destek
         </h2>
@@ -284,7 +313,7 @@ export default function MusteriHizmetleriPage() {
                 {links.map(link => (
                   "external" in link && link.external ? (
                     <a
-                      key={link.href}
+                      key={link.href + link.label}
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -295,7 +324,7 @@ export default function MusteriHizmetleriPage() {
                     </a>
                   ) : (
                     <Link
-                      key={link.href}
+                      key={link.href + link.label}
                       href={link.href}
                       className="text-xs px-2.5 py-1 rounded-md font-medium transition-colors hover:text-[#D4A017]"
                       style={{ background: "rgba(255,255,255,0.04)", color: "#888882" }}
@@ -309,7 +338,7 @@ export default function MusteriHizmetleriPage() {
           ))}
         </div>
 
-        {/* ── Firma Bilgileri ── */}
+        {/* Firma Bilgileri */}
         <div
           className="rounded-xl p-5 mb-12"
           style={{ background: "#111214", border: "1px solid rgba(255,255,255,0.07)" }}
@@ -323,8 +352,8 @@ export default function MusteriHizmetleriPage() {
               { label: "Vergi Dairesi", value: legal.taxOffice },
               { label: "Vergi No", value: legal.taxNumber },
               { label: "Adres", value: legal.fullAddress },
-              { label: "Telefon", value: site.phoneDisplay },
-              { label: "E-posta", value: site.email },
+              { label: "Telefon", value: validPh },
+              { label: "E-posta", value: validMail },
             ].filter(r => r.value).map(({ label, value }) => (
               <div key={label}>
                 <div style={{ color: "#444440", fontSize: 11, marginBottom: 2 }}>{label}</div>
@@ -334,7 +363,7 @@ export default function MusteriHizmetleriPage() {
           </div>
         </div>
 
-        {/* ── Tüm Bilgi Sayfaları ── */}
+        {/* Tüm Bilgi Sayfaları */}
         <h2 style={{ color: "#F4F4F2", fontSize: 15, fontWeight: 800, marginBottom: 14 }}>
           Tüm Bilgi Sayfaları
         </h2>

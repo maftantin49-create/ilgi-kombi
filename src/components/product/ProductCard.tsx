@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 import ProductImage from "@/components/product/ProductImage"
 import { ShoppingCart, Truck, MessageCircle, Heart, CheckCircle } from "lucide-react"
 import { wa } from "@/lib/whatsapp"
-import { site } from "@/config/site"
+import { siteConfig } from "@/config/site"
 import { Product } from "@/types"
 import { useCart, type CartItem } from "@/lib/cart"
 import { useFavorites } from "@/lib/favorites"
@@ -42,7 +42,7 @@ export default function ProductCard({ product }: Props) {
   const discount   = product.originalPrice
     ? Math.round((1 - product.price / product.originalPrice) * 100)
     : null
-  const productUrl = `${site.url}/urunler/${product.slug}`
+  const productUrl = `${siteConfig.url}/urunler/${product.slug}`
 
   const handleAdd = () => {
     addItem(mockProductToCartItem(product))
@@ -194,7 +194,7 @@ export default function ProductCard({ product }: Props) {
             )}
           </div>
           <a
-            href={wa.product(product.name, product.sku, productUrl)}
+            href={wa.product(product.name, product.sku, productUrl) ?? undefined}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`${product.name} hakkında WhatsApp'tan sor`}

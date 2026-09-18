@@ -1,15 +1,22 @@
 import type { Metadata } from "next"
-import { site } from "@/config/site"
+import { getStoreSettings, validEmail } from "@/lib/storefront/settings"
 import { legal } from "@/config/legal"
+import { siteConfig } from "@/config/site"
 import LegalPageShell, { H2, H3, Para, InfoCard } from "@/components/legal/LegalPageShell"
 
-export const metadata: Metadata = {
-  title: `Kullanım Koşulları | ${site.siteName}`,
-  description: "Web sitemizi kullanırken geçerli olan hüküm ve koşullar.",
-  robots: "index, follow",
+export async function generateMetadata(): Promise<Metadata> {
+  const s = await getStoreSettings()
+  return {
+    title: `Kullanım Koşulları | ${s.siteName}`,
+    description: "Web sitemizi kullanırken geçerli olan hüküm ve koşullar.",
+    robots: "index, follow",
+  }
 }
 
-export default function KullanimKosullariPage() {
+export default async function KullanimKosullariPage() {
+  const s = await getStoreSettings()
+  const validMail = validEmail(s.email)
+
   return (
     <LegalPageShell
       category="Yasal Bilgilendirme"
@@ -18,7 +25,7 @@ export default function KullanimKosullariPage() {
     >
       <InfoCard>
         <Para>
-          Bu Kullanım Koşulları, <strong style={{ color: "#F4F4F2" }}>{site.url}</strong> adresinde
+          Bu Kullanım Koşulları, <strong style={{ color: "#F4F4F2" }}>{siteConfig.url}</strong> adresinde
           sunulan hizmetlere erişim ve kullanımına ilişkin kuralları belirler.
           Siteyi kullanarak bu koşulları kabul etmiş sayılırsınız.
         </Para>
@@ -26,15 +33,15 @@ export default function KullanimKosullariPage() {
           İşletmeci:{" "}
           {legal.tradeName
             ? <strong style={{ color: "#F4F4F2" }}>{legal.tradeName}</strong>
-            : <strong style={{ color: "#F4F4F2" }}>{site.siteName}</strong>
+            : <strong style={{ color: "#F4F4F2" }}>{s.siteName}</strong>
           }
-          {" "}— {site.email} — {site.phoneDisplay}
+          {validMail ? ` — ${validMail}` : ""}{s.phone ? ` — ${s.phone}` : ""}
         </Para>
       </InfoCard>
 
       <H2>1. Hizmetin Kapsamı</H2>
       <Para>
-        {site.siteName} olarak kombi ve ısıtma sistemleri yedek parçalarının online satışını
+        {s.siteName} olarak kombi ve ısıtma sistemleri yedek parçalarının online satışını
         gerçekleştiriyoruz. Site yalnızca Türkiye&apos;deki bireysel tüketicilere ve işletmelere hizmet
         vermektedir. Bazı ürünlerin teknik bilgi gerektirdiğini; doğru parça seçimi için müşteri
         hizmetlerimize danışmanızı tavsiye ederiz.
@@ -45,7 +52,10 @@ export default function KullanimKosullariPage() {
         Sipariş oluşturmak için üyelik zorunlu değildir; misafir olarak ödeme yapılabilir.
         Hesap oluşturursanız, giriş bilgilerinizin gizliliğini korumak sizin sorumluluğunuzdadır.
         Hesabınızda yetkisiz bir işlem tespit ederseniz derhal{" "}
-        <a href={`mailto:${site.email}`} style={{ color: "#D4A534" }}>{site.email}</a> adresine bildirin.
+        {validMail
+          ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+          : "iletişim kanallarımız aracılığıyla"
+        }{" "}bildirin.
       </Para>
 
       <H2>3. Ürün Bilgileri ve Fiyatlar</H2>
@@ -79,7 +89,7 @@ export default function KullanimKosullariPage() {
 
       <H2>5. Fikri Mülkiyet</H2>
       <Para>
-        Sitedeki tüm içerik (metinler, görseller, logo, tasarım, kod) {site.siteName}&apos;e aittir
+        Sitedeki tüm içerik (metinler, görseller, logo, tasarım, kod) {s.siteName}&apos;e aittir
         veya lisanslıdır. İzin almaksızın kopyalanamaz, dağıtılamaz veya ticari amaçla kullanılamaz.
       </Para>
 
@@ -116,9 +126,12 @@ export default function KullanimKosullariPage() {
       <InfoCard>
         <H3>Sorularınız İçin</H3>
         <Para style={{ marginBottom: 0 }}>
-          <a href={`mailto:${site.email}`} style={{ color: "#D4A534" }}>{site.email}</a>
-          {" "}— {site.phoneDisplay}
-          {" "}(Hafta içi {site.workingHours.weekdays})
+          {validMail
+            ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            : "İletişim sayfamızı ziyaret edin."
+          }
+          {s.phone ? ` — ${s.phone}` : ""}
+          {s.workingHours.weekdays ? ` (Hafta içi ${s.workingHours.weekdays})` : ""}
         </Para>
       </InfoCard>
     </LegalPageShell>

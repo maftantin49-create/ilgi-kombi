@@ -1,10 +1,10 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
+import SiteLogo from "@/components/layout/SiteLogo"
 import { Phone, Mail, MapPin, Clock } from "lucide-react"
-import { site } from "@/config/site"
-import { wa } from "@/lib/whatsapp"
+import { buildWa } from "@/lib/whatsapp"
+import { validPhone, validEmail, validWhatsApp, validSocial } from "@/lib/storefront/guards"
 
 function WaIcon() {
   return (
@@ -38,7 +38,28 @@ const navLinks = {
   ] as { href: string; label: string }[],
 }
 
-export default function Footer() {
+interface FooterProps {
+  siteName: string
+  phone: string
+  whatsapp: string
+  email: string
+  address: string
+  workingHours: { weekdays: string; saturday: string; sunday: string }
+  social: { instagram: string; facebook: string; youtube: string }
+}
+
+export default function Footer({
+  siteName, phone, whatsapp, email, address, workingHours, social,
+}: FooterProps) {
+  const validPh   = validPhone(phone)
+  const validWa   = validWhatsApp(whatsapp)
+  const validMail = validEmail(email)
+  const validFb   = validSocial(social.facebook)
+  const validIg   = validSocial(social.instagram)
+  const wa        = buildWa(validWa)
+
+  const hasWorkingHours = workingHours.weekdays || workingHours.saturday || workingHours.sunday
+
   return (
     <footer style={{ background: "#090A0C", color: "#A5A5A5" }}>
 
@@ -47,66 +68,60 @@ export default function Footer() {
 
         {/* Brand */}
         <div>
-          <Link href="/" className="flex items-center gap-3 mb-5" aria-label={`${site.siteName} Ana Sayfa`}>
-            <Image
-              src="/brand/logo.png"
-              alt={`${site.siteName} logo`}
+          <Link href="/" className="flex items-center gap-3 mb-5" aria-label={`${siteName} Ana Sayfa`}>
+            <SiteLogo
+              siteName={siteName}
               width={38}
               height={38}
               className="object-contain"
             />
             <div className="leading-[1.25]">
-              <div className="font-black text-white text-[15px]">{site.siteName}</div>
-              <div className="text-[11px] font-semibold" style={{ color: "#D4A017" }}>
-                {site.tagline}
-              </div>
+              <div className="font-black text-white text-[15px]">{siteName}</div>
             </div>
           </Link>
 
-          <p className="text-[13px] leading-[1.7] mb-5" style={{ color: "#4A4A48" }}>
-            {site.description}
-          </p>
-
           {/* Social */}
           <div className="flex gap-2">
-            {[
-              { href: site.social.facebook,  label: "Facebook",  text: "f" },
-              { href: site.social.instagram, label: "Instagram", text: "ig" },
-            ].map(s => (
+            {validFb && (
               <a
-                key={s.label}
-                href={s.href}
+                href={validFb}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={s.label}
+                aria-label="Facebook"
                 className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-150 hover:-translate-y-0.5"
                 style={{ background: "#151618", border: "1px solid rgba(255,255,255,0.08)", color: "#5A5A58" }}
-                onMouseEnter={e => {
-                  ;(e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,196,0,0.45)"
-                  ;(e.currentTarget as HTMLAnchorElement).style.color = "#D4A017"
-                }}
-                onMouseLeave={e => {
-                  ;(e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.08)"
-                  ;(e.currentTarget as HTMLAnchorElement).style.color = "#5A5A58"
+              >
+                f
+              </a>
+            )}
+            {validIg && (
+              <a
+                href={validIg}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-150 hover:-translate-y-0.5"
+                style={{ background: "#151618", border: "1px solid rgba(255,255,255,0.08)", color: "#5A5A58" }}
+              >
+                ig
+              </a>
+            )}
+            {wa.home && (
+              <a
+                href={wa.home}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+                className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-150 hover:-translate-y-0.5"
+                style={{
+                  background: "rgba(34,197,94,0.08)",
+                  border: "1px solid rgba(34,197,94,0.22)",
+                  color: "#22c55e",
                 }}
               >
-                {s.text}
+                <WaIcon />
               </a>
-            ))}
-            <a
-              href={wa.home}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="WhatsApp"
-              className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-150 hover:-translate-y-0.5"
-              style={{
-                background: "rgba(34,197,94,0.08)",
-                border: "1px solid rgba(34,197,94,0.22)",
-                color: "#22c55e",
-              }}
-            >
-              <WaIcon />
-            </a>
+            )}
           </div>
         </div>
 
@@ -157,66 +172,79 @@ export default function Footer() {
           </h4>
 
           <ul className="space-y-3 text-[13px] mb-5">
-            <li>
-              <a
-                href={`tel:${site.phone}`}
-                className="flex items-start gap-2.5 transition-colors duration-150 hover:text-[#D4A017]"
-                style={{ color: "#4A4A48" }}
-              >
-                <Phone size={13} className="mt-0.5 shrink-0" style={{ color: "#D4A017" }} aria-hidden="true" />
-                {site.phoneDisplay}
-              </a>
-            </li>
-            <li>
-              <a
-                href={`mailto:${site.email}`}
-                className="flex items-start gap-2.5 transition-colors duration-150 hover:text-[#D4A017]"
-                style={{ color: "#4A4A48" }}
-              >
-                <Mail size={13} className="mt-0.5 shrink-0" style={{ color: "#D4A017" }} aria-hidden="true" />
-                {site.email}
-              </a>
-            </li>
-            <li className="flex items-start gap-2.5" style={{ color: "#4A4A48" }}>
-              <MapPin size={13} className="mt-0.5 shrink-0" style={{ color: "#D4A017" }} aria-hidden="true" />
-              {site.address}
-            </li>
+            {validPh && (
+              <li>
+                <a
+                  href={`tel:${validPh}`}
+                  className="flex items-start gap-2.5 transition-colors duration-150 hover:text-[#D4A017]"
+                  style={{ color: "#4A4A48" }}
+                >
+                  <Phone size={13} className="mt-0.5 shrink-0" style={{ color: "#D4A017" }} aria-hidden="true" />
+                  {validPh}
+                </a>
+              </li>
+            )}
+            {validMail && (
+              <li>
+                <a
+                  href={`mailto:${validMail}`}
+                  className="flex items-start gap-2.5 transition-colors duration-150 hover:text-[#D4A017]"
+                  style={{ color: "#4A4A48" }}
+                >
+                  <Mail size={13} className="mt-0.5 shrink-0" style={{ color: "#D4A017" }} aria-hidden="true" />
+                  {validMail}
+                </a>
+              </li>
+            )}
+            {address && (
+              <li className="flex items-start gap-2.5" style={{ color: "#4A4A48" }}>
+                <MapPin size={13} className="mt-0.5 shrink-0" style={{ color: "#D4A017" }} aria-hidden="true" />
+                {address}
+              </li>
+            )}
           </ul>
 
-          {/* Çalışma Saatleri */}
-          <div
-            className="rounded-[14px] p-4 text-[12px]"
-            style={{
-              background: "#111214",
-              border: "1px solid rgba(255,255,255,0.06)",
-            }}
-          >
-            <div className="flex items-center gap-1.5 font-semibold mb-3" style={{ color: "#A5A5A5" }}>
-              <Clock size={12} style={{ color: "#D4A017" }} aria-hidden="true" />
-              Çalışma Saatleri
+          {/* Çalışma Saatleri — only if configured */}
+          {hasWorkingHours && (
+            <div
+              className="rounded-[14px] p-4 text-[12px]"
+              style={{
+                background: "#111214",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+            >
+              <div className="flex items-center gap-1.5 font-semibold mb-3" style={{ color: "#A5A5A5" }}>
+                <Clock size={12} style={{ color: "#D4A017" }} aria-hidden="true" />
+                Çalışma Saatleri
+              </div>
+              <div className="space-y-1.5">
+                {workingHours.weekdays && (
+                  <div className="flex justify-between">
+                    <span style={{ color: "#4A4A48" }}>Hafta içi</span>
+                    <span style={{ color: "#E0E0DC" }}>{workingHours.weekdays}</span>
+                  </div>
+                )}
+                {workingHours.saturday && (
+                  <div className="flex justify-between">
+                    <span style={{ color: "#4A4A48" }}>Cumartesi</span>
+                    <span style={{ color: "#E0E0DC" }}>{workingHours.saturday}</span>
+                  </div>
+                )}
+                {workingHours.sunday && (
+                  <div className="flex justify-between">
+                    <span style={{ color: "#4A4A48" }}>Pazar</span>
+                    <span style={{ color: "#E0E0DC" }}>{workingHours.sunday}</span>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="space-y-1.5">
-              <div className="flex justify-between">
-                <span style={{ color: "#4A4A48" }}>Hafta içi</span>
-                <span style={{ color: "#E0E0DC" }}>{site.workingHours.weekdays}</span>
-              </div>
-              <div className="flex justify-between">
-                <span style={{ color: "#4A4A48" }}>Cumartesi</span>
-                <span style={{ color: "#E0E0DC" }}>{site.workingHours.saturday}</span>
-              </div>
-              <div className="flex justify-between">
-                <span style={{ color: "#4A4A48" }}>Pazar</span>
-                <span style={{ color: "#E0E0DC" }}>{site.workingHours.sunday}</span>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </div>
 
       {/* ── Bottom Bar ─────────────────────────────────────────────── */}
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex flex-col gap-3">
-          {/* Legal links */}
           <div className="flex flex-wrap gap-x-5 gap-y-1.5">
             {navLinks.legal.map(l => (
               <Link
@@ -229,14 +257,13 @@ export default function Footer() {
               </Link>
             ))}
           </div>
-          {/* Copyright */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center text-[11px] gap-1">
             <span style={{ color: "#3A3A38" }}>
-              © {new Date().getFullYear()} {site.siteName}. Tüm hakları saklıdır.
+              © {new Date().getFullYear()} {siteName}. Tüm hakları saklıdır.
             </span>
-            <span style={{ color: "#3A3A38" }}>
-              {site.email}
-            </span>
+            {validMail && (
+              <span style={{ color: "#3A3A38" }}>{validMail}</span>
+            )}
           </div>
         </div>
       </div>

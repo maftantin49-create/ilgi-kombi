@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { ShoppingCart, CheckCircle, Plus, Minus } from "lucide-react"
 import { wa } from "@/lib/whatsapp"
-import { site } from "@/config/site"
 import type { ProductAvailability } from "@/lib/storefront/types"
 import { useCart, toCartItem, type CartableProduct } from "@/lib/cart"
 
@@ -55,6 +54,7 @@ export default function ProductActions({
 
   const waOrderUrl = wa.productOrder(name, sku, qty)
   const waPriceUrl = wa.product(name, sku, productUrl)
+  // wa shim returns null when whatsapp number is not yet configured in settings
 
   const handleAdd = () => {
     if (availability !== "available") return
@@ -73,12 +73,12 @@ export default function ProductActions({
       ) : (
         <div className="flex items-end gap-3">
           <div className="text-[32px] font-black leading-none" style={{ color: "#D4A017" }}>
-            {(price * qty).toLocaleString("tr-TR")} {site.currency}
+            {(price * qty).toLocaleString("tr-TR")} ₺
           </div>
           {compare_at_price && compare_at_price > price && (
             <>
               <div className="text-[18px] line-through pb-0.5" style={{ color: "#404040" }}>
-                {(compare_at_price * qty).toLocaleString("tr-TR")} {site.currency}
+                {(compare_at_price * qty).toLocaleString("tr-TR")} ₺
               </div>
               {discount !== null && <span style={discountBadge}>%{discount} indirim</span>}
             </>
@@ -148,20 +148,29 @@ export default function ProductActions({
             Stok Tükendi
           </div>
         ) : availability === "price_on_request" ? (
-          <a
-            href={waPriceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 h-12 text-[14px] font-bold flex items-center justify-center gap-2 rounded-[12px] transition-all duration-150 hover:-translate-y-0.5"
-            style={{
-              background: "rgba(34,197,94,0.08)",
-              border: "1px solid rgba(34,197,94,0.25)",
-              color: "#22c55e",
-            }}
-          >
-            <WaIcon />
-            WhatsApp&apos;tan Fiyat Sorunuz
-          </a>
+          waPriceUrl ? (
+            <a
+              href={waPriceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 h-12 text-[14px] font-bold flex items-center justify-center gap-2 rounded-[12px] transition-all duration-150 hover:-translate-y-0.5"
+              style={{
+                background: "rgba(34,197,94,0.08)",
+                border: "1px solid rgba(34,197,94,0.25)",
+                color: "#22c55e",
+              }}
+            >
+              <WaIcon />
+              WhatsApp&apos;tan Fiyat Sorunuz
+            </a>
+          ) : (
+            <div
+              className="flex-1 h-12 text-[14px] font-bold flex items-center justify-center rounded-[12px]"
+              style={{ background: "rgba(30,30,30,0.5)", border: "1px solid rgba(255,255,255,0.06)", color: "#5A5A5A" }}
+            >
+              Fiyat Sorunuz
+            </div>
+          )
         ) : (
           <button
             onClick={handleAdd}
@@ -193,8 +202,7 @@ export default function ProductActions({
           </button>
         )}
 
-        {/* WhatsApp — always functional for non-price_on_request */}
-        {availability !== "price_on_request" && (
+        {availability !== "price_on_request" && waOrderUrl && (
           <a
             href={waOrderUrl}
             target="_blank"

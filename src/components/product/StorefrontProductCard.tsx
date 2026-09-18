@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 import ProductImage from "@/components/product/ProductImage"
 import { Truck, MessageCircle, ShoppingCart, CheckCircle } from "lucide-react"
 import { wa } from "@/lib/whatsapp"
-import { site } from "@/config/site"
+import { siteConfig } from "@/config/site"
 import {
   type StorefrontProductCard,
   canAddToCart,
@@ -32,7 +32,8 @@ export default function StorefrontProductCardComponent({ product }: Props) {
       ? Math.round((1 - product.price / product.compare_at_price) * 100)
       : null
 
-  const productUrl = `${site.url}/urunler/${product.slug}`
+  const productUrl = `${siteConfig.url}/urunler/${product.slug}`
+  const waLink = wa.product(product.name, product.sku, productUrl)
   const imageUrl = getProductImageUrl(product.image_url)
   const hoverImageUrl = product.hover_image_url ?? null
 
@@ -186,15 +187,17 @@ export default function StorefrontProductCardComponent({ product }: Props) {
               </>
             )}
           </div>
-          <a
-            href={wa.product(product.name, product.sku, productUrl)}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${product.name} hakkında WhatsApp'tan sor`}
-            className="transition-colors duration-150 text-[#3A3A3A] hover:text-[#22c55e]"
-          >
-            <MessageCircle size={17} aria-hidden="true" />
-          </a>
+          {waLink && (
+            <a
+              href={waLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${product.name} hakkında WhatsApp'tan sor`}
+              className="transition-colors duration-150 text-[#3A3A3A] hover:text-[#22c55e]"
+            >
+              <MessageCircle size={17} aria-hidden="true" />
+            </a>
+          )}
         </div>
 
         {/* CTA */}
@@ -212,15 +215,24 @@ export default function StorefrontProductCardComponent({ product }: Props) {
             Stokta Yok
           </div>
         ) : availability === "price_on_request" ? (
-          <a
-            href={wa.product(product.name, product.sku, productUrl)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5 transition-all duration-150 hover:bg-[#22c55e] hover:text-[#090A0C] hover:border-[#22c55e] text-[#22c55e]"
-            style={{ background: "transparent", border: "1px solid rgba(34,197,94,0.35)" }}
-          >
-            WhatsApp&apos;tan Fiyat Al
-          </a>
+          waLink ? (
+            <a
+              href={waLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5 transition-all duration-150 hover:bg-[#22c55e] hover:text-[#090A0C] hover:border-[#22c55e] text-[#22c55e]"
+              style={{ background: "transparent", border: "1px solid rgba(34,197,94,0.35)" }}
+            >
+              WhatsApp&apos;tan Fiyat Al
+            </a>
+          ) : (
+            <div
+              className="w-full h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5"
+              style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.10)", color: "#5A5A5A" }}
+            >
+              Fiyat Sorunuz
+            </div>
+          )
         ) : (
           <motion.button
             onClick={handleAdd}

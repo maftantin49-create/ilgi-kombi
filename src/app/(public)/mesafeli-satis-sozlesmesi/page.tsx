@@ -1,18 +1,23 @@
 import type { Metadata } from "next"
-import { site } from "@/config/site"
+import { getStoreSettings, validEmail } from "@/lib/storefront/settings"
+import { siteConfig } from "@/config/site"
 import { legal } from "@/config/legal"
 import LegalPageShell, { H2, H3, Para, InfoCard, InfoRow } from "@/components/legal/LegalPageShell"
 
-export const metadata: Metadata = {
-  title: `Mesafeli Satış Sözleşmesi | ${site.siteName}`,
-  description: "6502 sayılı Tüketici Kanunu ve Mesafeli Sözleşmeler Yönetmeliği kapsamında hazırlanan satış sözleşmemiz.",
-  robots: "index, follow",
+export async function generateMetadata(): Promise<Metadata> {
+  const s = await getStoreSettings()
+  return {
+    title: `Mesafeli Satış Sözleşmesi | ${s.siteName}`,
+    description: "6502 sayılı Tüketici Kanunu ve Mesafeli Sözleşmeler Yönetmeliği kapsamında hazırlanan satış sözleşmemiz.",
+    robots: "index, follow",
+  }
 }
 
-export default function MesafeliSatisSozlesmesiPage() {
+export default async function MesafeliSatisSozlesmesiPage() {
+  const s = await getStoreSettings()
+  const validMail = validEmail(s.email)
   // LEGAL_DEBT: tradeName, taxOffice, taxNumber, mersisNumber, fullAddress, returnAddress
   // are required by Mesafeli Sözleşmeler Yönetmeliği Art.4 (mandatory satıcı bilgileri).
-  // These fields are required by Mesafeli Sözleşmeler Yönetmeliği Art.4. Fill legal.ts.
   const returnAddr = legal.returnAddress || legal.fullAddress
 
   return (
@@ -39,9 +44,9 @@ export default function MesafeliSatisSozlesmesiPage() {
             value={[legal.taxOffice, legal.taxNumber].filter(Boolean).join(" / ")} />
           <InfoRow label="MERSİS Numarası"      value={legal.mersisNumber} />
           <InfoRow label="Adres"                value={legal.fullAddress} />
-          <InfoRow label="Telefon"              value={site.phoneDisplay} />
-          <InfoRow label="E-posta"              value={site.email} />
-          <InfoRow label="Web Sitesi"           value={site.url} />
+          {s.phone && <InfoRow label="Telefon"  value={s.phone} />}
+          {validMail && <InfoRow label="E-posta" value={validMail} />}
+          <InfoRow label="Web Sitesi"           value={siteConfig.url} />
         </div>
       </InfoCard>
 
@@ -53,7 +58,7 @@ export default function MesafeliSatisSozlesmesiPage() {
 
       <H2>Madde 2 — Sözleşmenin Konusu</H2>
       <Para>
-        Bu sözleşme, ALICI&apos;nın {site.url} adresindeki elektronik ortamda sipariş verdiği
+        Bu sözleşme, ALICI&apos;nın {siteConfig.url} adresindeki elektronik ortamda sipariş verdiği
         ürün/ürünlerin satışı ve teslimatına ilişkin tarafların hak ve yükümlülüklerini düzenler.
       </Para>
 
@@ -74,14 +79,20 @@ export default function MesafeliSatisSozlesmesiPage() {
 
       <H3>4.2 Aynı Gün Kargo Kesme Saati</H3>
       <Para>
-        Saat {site.shippingCutoff}&apos;den önce verilen ve ödeme onaylanan siparişler aynı iş günü kargoya
-        teslim edilir. {site.shippingCutoff} sonrası siparişler bir sonraki iş günü işleme alınır.
+        {s.shippingCutoff ? (
+          <>
+            Saat {s.shippingCutoff}&apos;den önce verilen ve ödeme onaylanan siparişler aynı iş günü kargoya
+            teslim edilir. {s.shippingCutoff} sonrası siparişler bir sonraki iş günü işleme alınır.
+          </>
+        ) : (
+          "Hafta içi iş günleri ödeme onaylanan siparişler aynı gün kargoya verilebilir. Detaylar sipariş sırasında bildirilir."
+        )}
       </Para>
 
       <H3>4.3 Kargo</H3>
       <Para>
-        {site.freeShippingThreshold} TL ve üzerindeki siparişlerde kargo ücretsizdir.
-        Bu tutarın altında {site.shippingCost} TL kargo ücreti uygulanır.
+        {s.freeShippingThreshold > 0 ? `${s.freeShippingThreshold} TL` : "Belirli bir tutar"} ve üzerindeki siparişlerde kargo ücretsizdir.
+        {s.shippingCost > 0 ? ` Bu tutarın altında ${s.shippingCost} TL kargo ücreti uygulanır.` : ""}
         {legal.shippingCompany && <> Kargo firması: <strong style={{ color: "#F4F4F2" }}>{legal.shippingCompany}</strong>.</>}
       </Para>
 
@@ -108,9 +119,11 @@ export default function MesafeliSatisSozlesmesiPage() {
       <H3>6.2 Cayma Bildirimi</H3>
       <Para>
         Cayma hakkını kullanmak için{" "}
-        <a href={`mailto:${site.email}`} style={{ color: "#D4A534" }}>{site.email}</a> adresine yazılı
-        bildirim yapılmalı veya <a href="/iptal-iade" style={{ color: "#D4A534" }}>İptal ve İade</a> sayfası
-        kullanılmalıdır.
+        {validMail
+          ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+          : "iletişim kanallarımız aracılığıyla"
+        }{" "}yazılı bildirim yapılmalı veya{" "}
+        <a href="/iptal-iade" style={{ color: "#D4A534" }}>İptal ve İade</a> sayfası kullanılmalıdır.
       </Para>
 
       <H3>6.3 İstisnalar</H3>
@@ -132,8 +145,10 @@ export default function MesafeliSatisSozlesmesiPage() {
       ) : (
         <Para>
           Cayma hakkını kullanmak için{" "}
-          <a href={`mailto:${site.email}`} style={{ color: "#D4A534" }}>{site.email}</a> adresine
-          bildirim yapın; iade adresi ve prosedürü tarafınıza iletilir.
+          {validMail
+            ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            : "iletişim kanallarımız aracılığıyla"
+          }{" "}bildirim yapın; iade adresi ve prosedürü tarafınıza iletilir.
           Ürün tarafımıza ulaştıktan sonra 14 gün içinde ödeme iade edilir.
         </Para>
       )}

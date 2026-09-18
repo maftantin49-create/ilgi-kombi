@@ -32,34 +32,6 @@ export const CAT_ICONS: Record<string, LucideIcon> = {
   manometreler:          Gauge,
 }
 
-export interface MegaMenuGroup {
-  title: string
-  icon: LucideIcon
-  categoryIds: string[]
-}
-
-export const MEGA_MENU_GROUPS: MegaMenuGroup[] = [
-  {
-    title: "Isıtma ve Dolaşım",
-    icon: Droplets,
-    categoryIds: ["pompalar", "uc-yollu-vanalar", "genlesme-tanklari"],
-  },
-  {
-    title: "Isı Transferi",
-    icon: Thermometer,
-    categoryIds: ["esanjorler"],
-  },
-  {
-    title: "Elektronik ve Kontrol",
-    icon: Cpu,
-    categoryIds: ["elektronik-kartlar", "sensorler", "prosestatlar", "gaz-valfleri"],
-  },
-  {
-    title: "Fan ve Mekanik",
-    icon: Wind,
-    categoryIds: ["fanlar", "tamir-takimlari"],
-  },
-]
 
 const WaIcon = () => (
   <svg className="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -148,7 +120,7 @@ export default function CategoryMegaMenu({ onClose, categories }: Props) {
         style={{ borderTop: "1px solid #303136", background: "#0E0E10" }}
       >
         <a
-          href={wa.home}
+          href={wa.home ?? undefined}
           target="_blank"
           rel="noopener noreferrer"
           onClick={onClose}

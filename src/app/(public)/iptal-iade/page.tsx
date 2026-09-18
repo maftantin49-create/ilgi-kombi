@@ -1,15 +1,21 @@
 import type { Metadata } from "next"
-import { site } from "@/config/site"
+import { getStoreSettings, validEmail, validPhone } from "@/lib/storefront/settings"
 import { legal } from "@/config/legal"
 import LegalPageShell, { H2, H3, Para, InfoCard } from "@/components/legal/LegalPageShell"
 
-export const metadata: Metadata = {
-  title: `İptal ve İade Koşulları | ${site.siteName}`,
-  description: "Sipariş iptali, ürün iadesi ve geri ödeme koşulları.",
-  robots: "index, follow",
+export async function generateMetadata(): Promise<Metadata> {
+  const s = await getStoreSettings()
+  return {
+    title: `İptal ve İade Koşulları | ${s.siteName}`,
+    description: "Sipariş iptali, ürün iadesi ve geri ödeme koşulları.",
+    robots: "index, follow",
+  }
 }
 
-export default function IptalIadePage() {
+export default async function IptalIadePage() {
+  const s = await getStoreSettings()
+  const validMail = validEmail(s.email)
+  const validPh = validPhone(s.phone)
   const returnAddr = legal.returnAddress || legal.fullAddress
 
   return (
@@ -26,15 +32,17 @@ export default function IptalIadePage() {
         </Para>
       </InfoCard>
 
-      {/* ── İPTAL ──────────────────────────────────────────────────────── */}
       <H2>Sipariş İptali</H2>
 
       <H3>Kargoya Verilmeden Önce İptal</H3>
       <Para>
         Siparişiniz henüz kargoya verilmemişse iptal talebinizi{" "}
-        <a href={`mailto:${site.email}`} style={{ color: "#D4A534" }}>{site.email}</a> adresine
-        iletebilirsiniz. Her gün {site.workingHours.weekdays} saatleri arasında talep
-        alındığında aynı gün işleme alınır. Ödemeniz 5-7 iş günü içinde iade edilir.
+        {validMail
+          ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+          : "e-posta ile"
+        }{" "}adresine iletebilirsiniz.
+        {s.workingHours.weekdays ? ` Her gün ${s.workingHours.weekdays} saatleri arasında talep alındığında aynı gün işleme alınır.` : ""}
+        {" "}Ödemeniz 5-7 iş günü içinde iade edilir.
       </Para>
 
       <H3>Kargoya Verildikten Sonra İptal</H3>
@@ -43,7 +51,6 @@ export default function IptalIadePage() {
         14 gün cayma hakkı kapsamında iade başlatabilirsiniz (aşağıya bakınız).
       </Para>
 
-      {/* ── İADE ──────────────────────────────────────────────────────── */}
       <H2>Cayma Hakkı ve İade</H2>
 
       <H3>Cayma Süresi</H3>
@@ -59,7 +66,9 @@ export default function IptalIadePage() {
           {
             no: "01",
             title: "Bildirim Yapın",
-            desc: `${site.email} adresine "İade Talebi — Sipariş No: XXXXX" konusuyla e-posta gönderin. Ad soyad, sipariş numarası ve iade nedeninizi belirtin.`,
+            desc: validMail
+              ? `${validMail} adresine "İade Talebi — Sipariş No: XXXXX" konusuyla e-posta gönderin. Ad soyad, sipariş numarası ve iade nedeninizi belirtin.`
+              : `"İade Talebi — Sipariş No: XXXXX" konusuyla e-posta gönderin. Ad soyad, sipariş numarası ve iade nedeninizi belirtin.`,
           },
           {
             no: "02",
@@ -168,9 +177,9 @@ export default function IptalIadePage() {
           </thead>
           <tbody>
             {[
-              ["Kredi Kartı",       "14 gün (ekstrenize 1-3 gün sonra yansır)"],
-              ["Banka Kartı",       "5-10 iş günü"],
-              ["Havale / EFT",      "5-7 iş günü — sipariş sırasında belirtilen IBAN'a aktarılır"],
+              ["Kredi Kartı",   "14 gün (ekstrenize 1-3 gün sonra yansır)"],
+              ["Banka Kartı",   "5-10 iş günü"],
+              ["Havale / EFT",  "5-7 iş günü — sipariş sırasında belirtilen IBAN'a aktarılır"],
             ].map(([method, time], i) => (
               <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
                 <td style={{ color: "#F4F4F2", padding: "10px 12px", fontWeight: 600 }}>{method}</td>
@@ -183,14 +192,19 @@ export default function IptalIadePage() {
 
       <InfoCard>
         <H3>İptal / İade Talebi İçin</H3>
-        <Para>
-          <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
-          <a href={`mailto:${site.email}`} style={{ color: "#D4A534" }}>{site.email}</a>
-        </Para>
+        {validMail && (
+          <Para>
+            <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
+            <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+          </Para>
+        )}
         <Para style={{ marginBottom: 0 }}>
           <strong style={{ color: "#F4F4F2" }}>Telefon / WhatsApp:</strong>{" "}
-          <a href={`tel:${site.phone}`} style={{ color: "#D4A534" }}>{site.phoneDisplay}</a>
-          {" "}— Her gün {site.workingHours.weekdays}
+          {validPh
+            ? <a href={`tel:${validPh}`} style={{ color: "#D4A534" }}>{validPh}</a>
+            : "iletişim sayfamızdaki numaramız"
+          }
+          {s.workingHours.weekdays ? ` — Her gün ${s.workingHours.weekdays}` : ""}
         </Para>
       </InfoCard>
     </LegalPageShell>

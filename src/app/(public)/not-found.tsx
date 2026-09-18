@@ -81,7 +81,7 @@ export default function NotFound() {
           </Link>
 
           <a
-            href={wa.notFound}
+            href={wa.notFound ?? undefined}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 font-bold text-[13px] tracking-[0.08em] uppercase px-6 py-[13px] transition-all duration-150 hover:-translate-y-0.5"

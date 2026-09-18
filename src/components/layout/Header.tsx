@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
+import SiteLogo from "@/components/layout/SiteLogo"
 import {
   ShoppingCart, Search, Phone, Menu, X, Flame,
   Heart, ChevronDown, ChevronRight, LayoutGrid,
@@ -11,10 +11,10 @@ import { useCart } from "@/lib/cart"
 import { useFavorites } from "@/lib/favorites"
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { site } from "@/config/site"
-import { wa } from "@/lib/whatsapp"
+import { buildWa } from "@/lib/whatsapp"
+import { validPhone, validWhatsApp } from "@/lib/storefront/guards"
 import { useRouter } from "next/navigation"
-import CategoryMegaMenu, { MEGA_MENU_GROUPS, CAT_ICONS } from "@/components/layout/CategoryMegaMenu"
+import CategoryMegaMenu, { CAT_ICONS } from "@/components/layout/CategoryMegaMenu"
 import type { StorefrontCategoryWithCount } from "@/lib/storefront/categories"
 
 const navLinks = [
@@ -39,9 +39,12 @@ const WaIconSm = () => (
 
 interface HeaderProps {
   categories: StorefrontCategoryWithCount[]
+  siteName: string
+  phone: string
+  whatsapp: string
 }
 
-export default function Header({ categories }: HeaderProps) {
+export default function Header({ categories, siteName, phone, whatsapp }: HeaderProps) {
   const totalItems     = useCart(s => s.totalItems)()
   const totalFavorites = useFavorites(s => s.totalFavorites)()
   const [mobileOpen,    setMobileOpen]    = useState(false)
@@ -79,7 +82,9 @@ export default function Header({ categories }: HeaderProps) {
     }
   }
 
-  const catMap = new Map(categories.map(c => [c.slug, c]))
+  const validWa  = validWhatsApp(whatsapp)
+  const validPh  = validPhone(phone)
+  const wa       = buildWa(validWa)
 
   return (
     <header
@@ -97,25 +102,18 @@ export default function Header({ categories }: HeaderProps) {
       <div style={{ background: "#101114", borderBottom: "1px solid #1E1E22" }}>
         <div className="max-w-7xl mx-auto px-6 h-9 flex items-center justify-between gap-4 text-xs">
           <span className="text-[#85857F] tracking-wide">
-            📦 Saat {site.shippingCutoff}&apos;ya kadar sipariş verenler bugün kargoda
+            📦 Hızlı kargo · Aynı gün sevkiyat
           </span>
           <div className="flex items-center gap-6">
-            {site.technicalServicePhone && (
+            {validPh && (
               <a
-                href={`tel:${site.technicalServicePhone}`}
-                className="hidden sm:flex items-center gap-1.5 font-semibold text-[#D89B00] hover:text-[#F2B705] transition-colors"
+                href={`tel:${validPh}`}
+                className="flex items-center gap-1.5 font-semibold text-[#D89B00] hover:text-[#F2B705] transition-colors"
               >
                 <Phone size={12} aria-hidden="true" />
-                Teknik: {site.technicalServicePhone}
+                {validPh}
               </a>
             )}
-            <a
-              href={`tel:${site.phone}`}
-              className="flex items-center gap-1.5 font-semibold text-[#D89B00] hover:text-[#F2B705] transition-colors"
-            >
-              <Phone size={12} aria-hidden="true" />
-              {site.phoneDisplay}
-            </a>
           </div>
         </div>
       </div>
@@ -127,11 +125,10 @@ export default function Header({ categories }: HeaderProps) {
         <Link
           href="/"
           className="shrink-0 flex items-center"
-          aria-label={`${site.siteName} Ana Sayfa`}
+          aria-label={`${siteName} Ana Sayfa`}
         >
-          <Image
-            src="/brand/logo.png"
-            alt={site.siteName}
+          <SiteLogo
+            siteName={siteName}
             width={200}
             height={64}
             className="h-11 w-auto object-contain"
@@ -164,32 +161,38 @@ export default function Header({ categories }: HeaderProps) {
         <div className="flex items-center gap-1 shrink-0">
 
           {/* Telefon — desktop */}
-          <a
-            href={`tel:${site.phone}`}
-            className="hidden lg:flex items-center gap-2 bg-[#D89B00] hover:bg-[#F2B705] text-[#090A0C] text-[13px] font-bold px-4 py-2.5 rounded-xl transition-colors"
-            style={{ boxShadow: "0 4px 14px -2px rgba(216,155,0,0.35)" }}
-          >
-            <Phone size={15} aria-hidden="true" />
-            {site.phoneDisplay}
-          </a>
+          {validPh && (
+            <a
+              href={`tel:${validPh}`}
+              className="hidden lg:flex items-center gap-2 bg-[#D89B00] hover:bg-[#F2B705] text-[#090A0C] text-[13px] font-bold px-4 py-2.5 rounded-xl transition-colors"
+              style={{ boxShadow: "0 4px 14px -2px rgba(216,155,0,0.35)" }}
+            >
+              <Phone size={15} aria-hidden="true" />
+              {validPh}
+            </a>
+          )}
 
           {/* Ayırıcı */}
-          <div
-            className="hidden lg:block w-px h-8 mx-2"
-            style={{ background: "#303136" }}
-            aria-hidden="true"
-          />
+          {validWa && (
+            <div
+              className="hidden lg:block w-px h-8 mx-2"
+              style={{ background: "#303136" }}
+              aria-hidden="true"
+            />
+          )}
 
           {/* WhatsApp */}
-          <a
-            href={wa.home}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="WhatsApp ile destek al"
-            className="hidden lg:flex items-center justify-center w-10 h-10 rounded-xl text-[#85857F] hover:text-[#D89B00] hover:bg-[#1B1C20] transition-colors"
-          >
-            <WaIcon />
-          </a>
+          {wa.home && (
+            <a
+              href={wa.home}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp ile destek al"
+              className="hidden lg:flex items-center justify-center w-10 h-10 rounded-xl text-[#85857F] hover:text-[#D89B00] hover:bg-[#1B1C20] transition-colors"
+            >
+              <WaIcon />
+            </a>
+          )}
 
           {/* Favoriler */}
           <Link
@@ -252,9 +255,8 @@ export default function Header({ categories }: HeaderProps) {
                 className="px-6 py-4 flex items-center justify-between"
                 style={{ borderBottom: "1px solid #303136", background: "#101114" }}
               >
-                <Image
-                  src="/brand/logo.png"
-                  alt={site.siteName}
+                <SiteLogo
+                  siteName={siteName}
                   width={130}
                   height={44}
                   className="h-11 w-auto object-contain"
@@ -314,21 +316,29 @@ export default function Header({ categories }: HeaderProps) {
                         className="mt-1 ml-4 pl-4 space-y-4 pb-3"
                         style={{ borderLeft: "1px solid #303136" }}
                       >
-                        {MEGA_MENU_GROUPS.map(group => {
-                          const cats = group.categoryIds
-                            .map(slug => catMap.get(slug))
-                            .filter(Boolean) as StorefrontCategoryWithCount[]
-                          if (cats.length === 0) return null
+                        {(() => {
+                          // Build groups from DB hierarchy: root cats → group headers, their children → items
+                          const rootCats = categories.filter(c => !c.parent_id)
+                          const groups = rootCats
+                            .map(root => ({
+                              id:    root.id,
+                              title: root.name,
+                              items: categories.filter(c => c.parent_id === root.id),
+                            }))
+                            .filter(g => g.items.length > 0)
+
+                          // Root cats with no children show as standalone items
+                          const standalone = rootCats.filter(
+                            root => !categories.some(c => c.parent_id === root.id)
+                          )
+
                           return (
-                            <div key={group.title}>
-                              <div className="text-[10px] font-bold text-[#85857F] uppercase tracking-wider mb-1.5 px-2">
-                                {group.title}
-                              </div>
-                              <ul className="space-y-0.5">
-                                {cats.map(cat => {
-                                  const CatIcon = CAT_ICONS[cat.slug] ?? Flame
-                                  return (
-                                    <li key={cat.id}>
+                            <>
+                              {standalone.map(cat => {
+                                const CatIcon = CAT_ICONS[cat.slug] ?? Flame
+                                return (
+                                  <ul key={cat.id} className="space-y-0.5">
+                                    <li>
                                       <Link
                                         href={`/urunler?kategori=${cat.slug}`}
                                         onClick={() => { setMobileOpen(false); setMobileCatOpen(false) }}
@@ -338,12 +348,39 @@ export default function Header({ categories }: HeaderProps) {
                                         {cat.name}
                                       </Link>
                                     </li>
-                                  )
-                                })}
-                              </ul>
-                            </div>
+                                  </ul>
+                                )
+                              })}
+                              {groups.map(group => (
+                                <div key={group.id}>
+                                  <div className="text-[10px] font-bold text-[#85857F] uppercase tracking-wider mb-1.5 px-2">
+                                    {group.title}
+                                  </div>
+                                  <ul className="space-y-0.5">
+                                    {group.items.map(cat => {
+                                      const CatIcon = CAT_ICONS[cat.slug] ?? Flame
+                                      return (
+                                        <li key={cat.id}>
+                                          <Link
+                                            href={`/urunler?kategori=${cat.slug}`}
+                                            onClick={() => { setMobileOpen(false); setMobileCatOpen(false) }}
+                                            className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm text-[#B9B9B4] hover:bg-[#1B1C20] hover:text-[#D89B00] transition-colors"
+                                          >
+                                            <CatIcon size={14} className="text-[#85857F] shrink-0" aria-hidden="true" />
+                                            {cat.name}
+                                          </Link>
+                                        </li>
+                                      )
+                                    })}
+                                  </ul>
+                                </div>
+                              ))}
+                              {groups.length === 0 && standalone.length === 0 && (
+                                <p className="px-2 py-2 text-sm" style={{ color: "#555550" }}>Henüz kategori eklenmedi.</p>
+                              )}
+                            </>
                           )
-                        })}
+                        })()}
 
                         <Link
                           href="/kategoriler"
@@ -372,34 +409,30 @@ export default function Header({ categories }: HeaderProps) {
 
               {/* Sheet footer */}
               <div className="px-5 pb-6 pt-3 space-y-3" style={{ borderTop: "1px solid #303136" }}>
-                <a
-                  href={`tel:${site.phone}`}
-                  className="flex items-center justify-center gap-2 w-full text-[#090A0C] px-4 py-3.5 rounded-xl font-bold transition-colors text-[15px]"
-                  style={{ background: "#D89B00" }}
-                  onMouseEnter={e => (e.currentTarget.style.background = "#F2B705")}
-                  onMouseLeave={e => (e.currentTarget.style.background = "#D89B00")}
-                >
-                  <Phone size={16} aria-hidden="true" />
-                  {site.phoneDisplay}
-                </a>
-                <a
-                  href={wa.home}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2.5 w-full text-[#F4F4F2] px-4 py-3.5 rounded-xl font-semibold transition-colors text-[15px] hover:bg-[#1B1C20]"
-                  style={{ border: "1px solid #303136" }}
-                >
-                  <WaIconSm />
-                  WhatsApp ile Ulaş
-                </a>
-                <div className="text-center pt-1">
+                {validPh && (
                   <a
-                    href={`tel:${site.phone}`}
-                    className="block text-xs text-[#85857F] hover:text-[#D89B00] transition-colors"
+                    href={`tel:${validPh}`}
+                    className="flex items-center justify-center gap-2 w-full text-[#090A0C] px-4 py-3.5 rounded-xl font-bold transition-colors text-[15px]"
+                    style={{ background: "#D89B00" }}
+                    onMouseEnter={e => (e.currentTarget.style.background = "#F2B705")}
+                    onMouseLeave={e => (e.currentTarget.style.background = "#D89B00")}
                   >
-                    {site.workingHours.weekdays} · {site.workingHours.saturday} (Cmt)
+                    <Phone size={16} aria-hidden="true" />
+                    {validPh}
                   </a>
-                </div>
+                )}
+                {wa.home && (
+                  <a
+                    href={wa.home}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2.5 w-full text-[#F4F4F2] px-4 py-3.5 rounded-xl font-semibold transition-colors text-[15px] hover:bg-[#1B1C20]"
+                    style={{ border: "1px solid #303136" }}
+                  >
+                    <WaIconSm />
+                    WhatsApp ile Ulaş
+                  </a>
+                )}
               </div>
             </SheetContent>
           </Sheet>

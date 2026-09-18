@@ -1,13 +1,8 @@
 import { Phone, Mail, MapPin, Clock, Building2 } from "lucide-react"
-import { site } from "@/config/site"
+import { getStoreSettings, validEmail, validPhone, validWhatsApp } from "@/lib/storefront/settings"
+import { buildWa } from "@/lib/whatsapp"
 import { legal } from "@/config/legal"
-import { wa } from "@/lib/whatsapp"
 import ContactForm from "@/components/ContactForm"
-
-export const metadata = {
-  title: "İletişim",
-  description: "İletişim bilgilerimize ulaşın.",
-}
 
 const WaIcon = () => (
   <svg className="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -15,13 +10,25 @@ const WaIcon = () => (
   </svg>
 )
 
-const hours = [
-  { day: "Pazartesi — Cuma", value: site.workingHours.weekdays, closed: false },
-  { day: "Cumartesi",         value: site.workingHours.saturday, closed: false },
-  { day: "Pazar",             value: site.workingHours.sunday,   closed: false },
-]
+export const metadata = {
+  title: "İletişim",
+  description: "İletişim bilgilerimize ulaşın.",
+}
 
-export default function IletisimPage() {
+export default async function IletisimPage() {
+  const s = await getStoreSettings()
+  const validPh = validPhone(s.phone)
+  const validMail = validEmail(s.email)
+  const waContact = buildWa(validWhatsApp(s.whatsapp)).contact
+
+  const hours = [
+    { day: "Pazartesi — Cuma", value: s.workingHours.weekdays },
+    { day: "Cumartesi",         value: s.workingHours.saturday },
+    { day: "Pazar",             value: s.workingHours.sunday },
+  ]
+
+  const address = legal.fullAddress || s.address
+
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">
 
@@ -45,7 +52,7 @@ export default function IletisimPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        {/* ── Left panel ── */}
+        {/* Left panel */}
         <div className="space-y-4">
 
           {/* Contact info card */}
@@ -59,56 +66,64 @@ export default function IletisimPage() {
             <h2 className="font-bold text-[17px] text-white mb-5">Bize Ulaşın</h2>
 
             {/* WhatsApp */}
-            <a
-              href={wa.contact}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 px-4 py-3 rounded-xl mb-4 transition-all duration-150 hover:-translate-y-0.5"
-              style={{
-                background: "rgba(34,197,94,0.08)",
-                border: "1px solid rgba(34,197,94,0.25)",
-              }}
-              aria-label="WhatsApp ile ulaş"
-            >
-              <WaIcon />
-              <div>
-                <div className="font-semibold text-sm text-white">WhatsApp ile Yaz</div>
-                <div className="text-xs" style={{ color: "#22c55e" }}>En hızlı yanıt yöntemi</div>
-              </div>
-            </a>
+            {waContact ? (
+              <a
+                href={waContact}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl mb-4 transition-all duration-150 hover:-translate-y-0.5"
+                style={{
+                  background: "rgba(34,197,94,0.08)",
+                  border: "1px solid rgba(34,197,94,0.25)",
+                }}
+                aria-label="WhatsApp ile ulaş"
+              >
+                <WaIcon />
+                <div>
+                  <div className="font-semibold text-sm text-white">WhatsApp ile Yaz</div>
+                  <div className="text-xs" style={{ color: "#22c55e" }}>En hızlı yanıt yöntemi</div>
+                </div>
+              </a>
+            ) : null}
 
             {/* Phone */}
-            <a
-              href={`tel:${site.phone}`}
-              className="flex items-center gap-3 py-3 border-b transition-opacity hover:opacity-75"
-              style={{ borderColor: "rgba(255,255,255,0.07)" }}
-            >
-              <Phone size={16} style={{ color: "#D4A534" }} className="shrink-0" aria-hidden="true" />
-              <div>
-                <div className="text-sm font-medium text-white">{site.phoneDisplay}</div>
-                <div className="text-xs" style={{ color: "#A0A0A0" }}>
-                  Hafta içi {site.workingHours.weekdays}
+            {validPh && (
+              <a
+                href={`tel:${validPh}`}
+                className="flex items-center gap-3 py-3 border-b transition-opacity hover:opacity-75"
+                style={{ borderColor: "rgba(255,255,255,0.07)" }}
+              >
+                <Phone size={16} style={{ color: "#D4A534" }} className="shrink-0" aria-hidden="true" />
+                <div>
+                  <div className="text-sm font-medium text-white">{validPh}</div>
+                  {s.workingHours.weekdays && (
+                    <div className="text-xs" style={{ color: "#A0A0A0" }}>
+                      Hafta içi {s.workingHours.weekdays}
+                    </div>
+                  )}
                 </div>
-              </div>
-            </a>
+              </a>
+            )}
 
             {/* Email */}
-            <a
-              href={`mailto:${site.email}`}
-              className="flex items-center gap-3 py-3 border-b transition-opacity hover:opacity-75"
-              style={{ borderColor: "rgba(255,255,255,0.07)" }}
-            >
-              <Mail size={16} style={{ color: "#D4A534" }} className="shrink-0" aria-hidden="true" />
-              <span className="text-sm text-white">{site.email}</span>
-            </a>
+            {validMail && (
+              <a
+                href={`mailto:${validMail}`}
+                className="flex items-center gap-3 py-3 border-b transition-opacity hover:opacity-75"
+                style={{ borderColor: "rgba(255,255,255,0.07)" }}
+              >
+                <Mail size={16} style={{ color: "#D4A534" }} className="shrink-0" aria-hidden="true" />
+                <span className="text-sm text-white">{validMail}</span>
+              </a>
+            )}
 
             {/* Address */}
-            <div className="flex items-start gap-3 pt-3">
-              <MapPin size={16} style={{ color: "#D4A534" }} className="shrink-0 mt-0.5" aria-hidden="true" />
-              <span className="text-sm text-white">
-                {legal.fullAddress || site.address}
-              </span>
-            </div>
+            {address && (
+              <div className="flex items-start gap-3 pt-3">
+                <MapPin size={16} style={{ color: "#D4A534" }} className="shrink-0 mt-0.5" aria-hidden="true" />
+                <span className="text-sm text-white">{address}</span>
+              </div>
+            )}
           </div>
 
           {/* Firma Bilgileri card */}
@@ -160,28 +175,25 @@ export default function IletisimPage() {
               <h3 className="font-semibold text-white text-[14px]">Çalışma Saatleri</h3>
             </div>
             <div className="space-y-2.5">
-              {hours.map(({ day, value, closed }) => (
+              {hours.filter(h => h.value).map(({ day, value }) => (
                 <div key={day} className="flex justify-between text-[13px]">
                   <span style={{ color: "#A0A0A0" }}>{day}</span>
-                  <span
-                    className="font-medium"
-                    style={{ color: closed ? "#EF4444" : "#E0E0DC" }}
-                  >
-                    {value}
-                  </span>
+                  <span className="font-medium" style={{ color: "#E0E0DC" }}>{value}</span>
                 </div>
               ))}
             </div>
-            <div
-              className="mt-4 pt-3 text-[11px]"
-              style={{ borderTop: "1px solid rgba(255,255,255,0.07)", color: "#A0A0A0" }}
-            >
-              Saat {site.shippingCutoff}&apos;ya kadar verilen siparişler aynı gün kargoya verilir.
-            </div>
+            {s.shippingCutoff && (
+              <div
+                className="mt-4 pt-3 text-[11px]"
+                style={{ borderTop: "1px solid rgba(255,255,255,0.07)", color: "#A0A0A0" }}
+              >
+                Saat {s.shippingCutoff}&apos;ya kadar verilen siparişler aynı gün kargoya verilir.
+              </div>
+            )}
           </div>
         </div>
 
-        {/* ── Right panel: form ── */}
+        {/* Right panel: form */}
         <ContactForm />
       </div>
     </div>

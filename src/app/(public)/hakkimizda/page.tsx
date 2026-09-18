@@ -3,13 +3,8 @@ import {
   Flame, MapPin, Phone, Mail, Shield, Zap, Package, Star,
   Users, Award, Truck, CheckCircle,
 } from "lucide-react"
-import { site } from "@/config/site"
-import { wa } from "@/lib/whatsapp"
-
-export const metadata = {
-  title: "Hakkımızda",
-  description: "Yedek parça ve teknik servis hizmetleri.",
-}
+import { getStoreSettings, validEmail, validPhone, validWhatsApp } from "@/lib/storefront/settings"
+import { buildWa } from "@/lib/whatsapp"
 
 const WaIcon = () => (
   <svg className="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -88,16 +83,25 @@ const whyUs = [
   { icon: <Star size={18} />,         text: "Montaj rehberleri ve teknik dokümantasyon" },
 ]
 
-export default function HakkimizdaPage() {
+export const metadata = {
+  title: "Hakkımızda",
+  description: "Yedek parça ve teknik servis hizmetleri.",
+}
+
+export default async function HakkimizdaPage() {
+  const s = await getStoreSettings()
+  const validPh = validPhone(s.phone)
+  const validMail = validEmail(s.email)
+  const waHome = buildWa(validWhatsApp(s.whatsapp)).home
+
   return (
     <div style={{ background: "#090A0C" }}>
 
-      {/* ── Hero ── */}
+      {/* Hero */}
       <section
         className="relative text-center py-20 px-6 overflow-hidden"
         style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}
       >
-        {/* Subtle gold glow bg */}
         <div
           className="absolute left-1/2 top-0 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none"
           style={{
@@ -118,10 +122,9 @@ export default function HakkimizdaPage() {
         </div>
       </section>
 
-      {/* ── Şirket Hikayesi ── */}
+      {/* Şirket Hikayesi */}
       <section className="max-w-5xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          {/* Text */}
           <div>
             {eyebrow("Hikayemiz")}
             <h2 className="text-3xl font-black text-white mb-5 text-center md:text-left">
@@ -129,7 +132,7 @@ export default function HakkimizdaPage() {
             </h2>
             <div className="space-y-4 text-[14px] leading-relaxed" style={{ color: "#A0A0A0" }}>
               <p>
-                {site.siteName}, İstanbul&apos;da küçük bir yedek parça atölyesi olarak yola çıktı.
+                {s.siteName}, İstanbul&apos;da küçük bir yedek parça atölyesi olarak yola çıktı.
                 Kurucumuzun ısıtma sistemleri alanındaki derin teknik bilgisi ve müşteri odaklı yaklaşımı,
                 kısa sürede markamızı sektörün güvenilir adreslerinden biri haline getirdi.
               </p>
@@ -143,23 +146,19 @@ export default function HakkimizdaPage() {
               </p>
             </div>
           </div>
-          {/* Stats card */}
           <div className="rounded-[24px] p-8" style={goldSurface}>
             <div className="grid grid-cols-2 gap-6">
               {[
-                { value: "10+",   label: "Yıllık Tecrübe" },
+                { value: "10+",     label: "Yıllık Tecrübe" },
                 { value: "5.000+", label: "Ürün Çeşidi" },
-                { value: "20+",   label: "Desteklenen Marka" },
+                { value: "20+",    label: "Desteklenen Marka" },
                 { value: "Aynı Gün", label: "Kargo Garantisi" },
-              ].map(s => (
-                <div key={s.label} className="text-center">
-                  <div
-                    className="text-[28px] font-black mb-0.5"
-                    style={{ color: "#D4A534" }}
-                  >
-                    {s.value}
+              ].map(stat => (
+                <div key={stat.label} className="text-center">
+                  <div className="text-[28px] font-black mb-0.5" style={{ color: "#D4A534" }}>
+                    {stat.value}
                   </div>
-                  <div className="text-[12px]" style={{ color: "#A0A0A0" }}>{s.label}</div>
+                  <div className="text-[12px]" style={{ color: "#A0A0A0" }}>{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -167,7 +166,7 @@ export default function HakkimizdaPage() {
         </div>
       </section>
 
-      {/* ── Neden Biz ── */}
+      {/* Neden Biz */}
       <section
         className="py-16 px-6"
         style={{ background: "#0A0B0D", borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
@@ -179,11 +178,7 @@ export default function HakkimizdaPage() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {whyUs.map((item, i) => (
-              <div
-                key={i}
-                className="flex items-start gap-3 p-4 rounded-[14px]"
-                style={surface}
-              >
+              <div key={i} className="flex items-start gap-3 p-4 rounded-[14px]" style={surface}>
                 <span style={{ color: "#D4A534" }} className="mt-0.5 shrink-0" aria-hidden="true">
                   {item.icon}
                 </span>
@@ -194,7 +189,7 @@ export default function HakkimizdaPage() {
         </div>
       </section>
 
-      {/* ── Değerlerimiz ── */}
+      {/* Değerlerimiz */}
       <section className="max-w-5xl mx-auto px-6 py-16">
         {eyebrow("Değerlerimiz")}
         <h2 className="text-3xl font-black text-white mb-10 text-center">
@@ -221,7 +216,7 @@ export default function HakkimizdaPage() {
         </div>
       </section>
 
-      {/* ── İstatistikler ── */}
+      {/* İstatistikler */}
       <section
         className="py-16 px-6"
         style={{
@@ -237,32 +232,28 @@ export default function HakkimizdaPage() {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { icon: <Package size={20} />,  value: "5.000+",   label: "Ürün Çeşidi" },
-              { icon: <Star size={20} />,     value: "4.9/5",    label: "Ortalama Puan" },
-              { icon: <Truck size={20} />,    value: "%98",      label: "Zamanında Teslimat" },
-              { icon: <Users size={20} />,    value: "1.000+",   label: "Aktif Müşteri" },
-            ].map((s, i) => (
-              <div
-                key={i}
-                className="text-center p-6 rounded-[18px]"
-                style={goldSurface}
-              >
+              { icon: <Package size={20} />, value: "5.000+",  label: "Ürün Çeşidi" },
+              { icon: <Star size={20} />,    value: "4.9/5",   label: "Ortalama Puan" },
+              { icon: <Truck size={20} />,   value: "%98",     label: "Zamanında Teslimat" },
+              { icon: <Users size={20} />,   value: "1.000+",  label: "Aktif Müşteri" },
+            ].map((stat, i) => (
+              <div key={i} className="text-center p-6 rounded-[18px]" style={goldSurface}>
                 <div
                   className="w-10 h-10 rounded-[10px] flex items-center justify-center mx-auto mb-3"
                   style={{ background: "rgba(212,165,52,0.12)", color: "#D4A534" }}
                   aria-hidden="true"
                 >
-                  {s.icon}
+                  {stat.icon}
                 </div>
-                <div className="text-[26px] font-black" style={{ color: "#D4A534" }}>{s.value}</div>
-                <div className="text-[12px] mt-0.5" style={{ color: "#A0A0A0" }}>{s.label}</div>
+                <div className="text-[26px] font-black" style={{ color: "#D4A534" }}>{stat.value}</div>
+                <div className="text-[12px] mt-0.5" style={{ color: "#A0A0A0" }}>{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── İletişim Bilgileri ── */}
+      {/* İletişim */}
       <section className="max-w-4xl mx-auto px-6 py-16">
         {eyebrow("Bize Ulaşın")}
         <h2 className="text-3xl font-black text-white mb-8 text-center">
@@ -270,9 +261,9 @@ export default function HakkimizdaPage() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           {[
-            { icon: <Phone size={16} />, label: "Telefon", value: site.phoneDisplay, href: `tel:${site.phone}` },
-            { icon: <Mail size={16} />,  label: "E-posta", value: site.email,        href: `mailto:${site.email}` },
-            { icon: <MapPin size={16} />, label: "Adres",  value: site.address,      href: undefined },
+            ...(validPh ? [{ icon: <Phone size={16} />, label: "Telefon", value: validPh, href: `tel:${validPh}` }] : []),
+            ...(validMail ? [{ icon: <Mail size={16} />, label: "E-posta", value: validMail, href: `mailto:${validMail}` }] : []),
+            ...(s.address ? [{ icon: <MapPin size={16} />, label: "Adres", value: s.address, href: undefined }] : []),
           ].map((c, i) => (
             <div key={i} className="p-5 rounded-[18px] text-center" style={surface}>
               <div
@@ -299,22 +290,23 @@ export default function HakkimizdaPage() {
           ))}
         </div>
 
-        {/* CTA */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href={wa.home}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2.5 px-7 py-3.5 rounded-[12px] font-bold text-[14px] transition-all duration-150 hover:-translate-y-0.5"
-            style={{
-              background: "rgba(34,197,94,0.10)",
-              border: "1px solid rgba(34,197,94,0.30)",
-              color: "#22c55e",
-            }}
-          >
-            <WaIcon />
-            WhatsApp&apos;tan Yaz
-          </a>
+          {waHome ? (
+            <a
+              href={waHome}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2.5 px-7 py-3.5 rounded-[12px] font-bold text-[14px] transition-all duration-150 hover:-translate-y-0.5"
+              style={{
+                background: "rgba(34,197,94,0.10)",
+                border: "1px solid rgba(34,197,94,0.30)",
+                color: "#22c55e",
+              }}
+            >
+              <WaIcon />
+              WhatsApp&apos;tan Yaz
+            </a>
+          ) : null}
           <Link
             href="/iletisim"
             className="flex items-center gap-2 px-7 py-3.5 rounded-[12px] font-bold text-[14px] transition-all duration-150 hover:-translate-y-0.5"
@@ -340,7 +332,7 @@ export default function HakkimizdaPage() {
         </div>
       </section>
 
-      {/* ── Logo / Brand footer strip ── */}
+      {/* Footer strip */}
       <div
         className="py-8 px-6 text-center"
         style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
@@ -354,12 +346,14 @@ export default function HakkimizdaPage() {
             <Flame size={18} style={{ color: "#D4A534" }} />
           </div>
           <div className="leading-tight">
-            <span className="font-bold text-xl text-white">{site.siteName}</span>
+            <span className="font-bold text-xl text-white">{s.siteName}</span>
           </div>
         </div>
-        <p className="mt-2 text-[12px]" style={{ color: "#3A3A3A" }}>
-          {site.siteName} — {site.address}
-        </p>
+        {s.address && (
+          <p className="mt-2 text-[12px]" style={{ color: "#3A3A3A" }}>
+            {s.siteName} — {s.address}
+          </p>
+        )}
       </div>
     </div>
   )

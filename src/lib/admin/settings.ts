@@ -58,6 +58,9 @@ export type IntegrationsSettings = {
   meta_enabled: boolean
   whatsapp_enabled: boolean
   shipping_provider_enabled: boolean
+  bank_transfer_enabled: boolean
+  cash_on_delivery_enabled: boolean
+  whatsapp_order_enabled: boolean
 }
 
 export type SettingsData = {
@@ -116,6 +119,9 @@ const DEFAULT_INTEGRATIONS: IntegrationsSettings = {
   meta_enabled: false,
   whatsapp_enabled: false,
   shipping_provider_enabled: false,
+  bank_transfer_enabled: false,
+  cash_on_delivery_enabled: false,
+  whatsapp_order_enabled: false,
 }
 
 export async function getSettings(): Promise<SettingsData> {

@@ -1,19 +1,27 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { site } from "@/config/site"
+import { getStoreSettings, validEmail, validPhone, validWhatsApp } from "@/lib/storefront/settings"
+import { buildWa } from "@/lib/whatsapp"
+import { siteConfig } from "@/config/site"
 import { legal } from "@/config/legal"
-import { wa } from "@/lib/whatsapp"
 import LegalPageShell, { H2, H3, Para, InfoCard } from "@/components/legal/LegalPageShell"
 
-export const metadata: Metadata = {
-  title: `Teslimat Bilgileri | ${site.siteName}`,
-  description:
-    "Sipariş hazırlama, aynı gün kargo, kargo takibi ve teslimatta dikkat edilmesi gerekenler.",
-  robots: "index, follow",
-  alternates: { canonical: `${site.url}/teslimat-bilgileri` },
+export async function generateMetadata(): Promise<Metadata> {
+  const s = await getStoreSettings()
+  return {
+    title: `Teslimat Bilgileri | ${s.siteName}`,
+    description: "Sipariş hazırlama, aynı gün kargo, kargo takibi ve teslimatta dikkat edilmesi gerekenler.",
+    robots: "index, follow",
+    alternates: { canonical: `${siteConfig.url}/teslimat-bilgileri` },
+  }
 }
 
-export default function TeslimatBilgileriPage() {
+export default async function TeslimatBilgileriPage() {
+  const s = await getStoreSettings()
+  const validMail = validEmail(s.email)
+  const validPh = validPhone(s.phone)
+  const waContact = buildWa(validWhatsApp(s.whatsapp)).contact
+
   return (
     <LegalPageShell
       category="Alışveriş Bilgisi"
@@ -28,9 +36,7 @@ export default function TeslimatBilgileriPage() {
         </Para>
       </InfoCard>
 
-      {/* ── SİPARİŞ HAZIRLAMA ──────────────────────────────────────────── */}
       <H2>Sipariş Hazırlama Süreci</H2>
-
       <Para>
         Ödemeniz onaylandıktan sonra siparişiniz hazırlık sürecine alınır. Stokta
         bulunan ürünler aynı veya ertesi iş günü paketlenip kargoya verilir.
@@ -38,24 +44,29 @@ export default function TeslimatBilgileriPage() {
         bu durumda sizi önceden bilgilendiririz.
       </Para>
 
-      {/* ── AYNI GÜN KARGO ──────────────────────────────────────────────── */}
       <H2>Aynı Gün Kargo</H2>
 
-      <div style={{
-        background: "rgba(212,160,23,0.08)",
-        border: "1px solid rgba(255,196,0,0.22)",
-        borderRadius: 12,
-        padding: "16px 20px",
-        marginBottom: 20,
-      }}>
-        <div style={{ color: "#D4A017", fontSize: 13, fontWeight: 800, marginBottom: 6 }}>
-          ⏰ Kesme Saati: {site.shippingCutoff}
+      {s.shippingCutoff ? (
+        <div style={{
+          background: "rgba(212,160,23,0.08)",
+          border: "1px solid rgba(255,196,0,0.22)",
+          borderRadius: 12,
+          padding: "16px 20px",
+          marginBottom: 20,
+        }}>
+          <div style={{ color: "#D4A017", fontSize: 13, fontWeight: 800, marginBottom: 6 }}>
+            ⏰ Kesme Saati: {s.shippingCutoff}
+          </div>
+          <Para style={{ marginBottom: 0 }}>
+            Hafta içi saat <strong style={{ color: "#F4F4F2" }}>{s.shippingCutoff}</strong>&apos;e
+            kadar ödeme onaylanan siparişler aynı iş günü kargoya teslim edilir.
+          </Para>
         </div>
-        <Para style={{ marginBottom: 0 }}>
-          Hafta içi saat <strong style={{ color: "#F4F4F2" }}>{site.shippingCutoff}</strong>&apos;e
-          kadar ödeme onaylanan siparişler aynı iş günü kargoya teslim edilir.
+      ) : (
+        <Para>
+          Hafta içi iş günleri ödeme onaylanan stokta bulunan siparişler aynı gün kargoya verilebilir.
         </Para>
-      </div>
+      )}
 
       <Para>
         Hafta sonu verilen siparişler hafta içi kargo akışına dahil edilir; bir sonraki
@@ -63,9 +74,7 @@ export default function TeslimatBilgileriPage() {
         bu tarihlerdeki siparişler takip eden ilk iş gününde kargoya verilir.
       </Para>
 
-      {/* ── KARGO TAKIP ─────────────────────────────────────────────────── */}
       <H2>Kargo Takibi</H2>
-
       <Para>
         Siparişiniz{legal.shippingCompany ? ` ${legal.shippingCompany} aracılığıyla` : ""} kargoya
         teslim edildiğinde, kayıtlı e-posta adresinize ve telefon numaranıza otomatik bildirim
@@ -80,9 +89,7 @@ export default function TeslimatBilgileriPage() {
         <li>Alternatif: tarafımızla iletişime geçerek sizi yönlendirmemizi isteyin</li>
       </ul>
 
-      {/* ── TAHMİNİ TESLİMAT ────────────────────────────────────────────── */}
       <H2>Tahmini Teslimat Süresi</H2>
-
       <Para>
         Kargoya verilen siparişler normal koşullarda <strong style={{ color: "#F4F4F2" }}>yaklaşık 2 iş günü</strong>{" "}
         içinde teslim edilir. Teslimat süresi adresinize ve kargo bölgenize göre değişiklik
@@ -98,25 +105,20 @@ export default function TeslimatBilgileriPage() {
         iletişime geçmenizi öneririz.
       </Para>
 
-      {/* ── TESLİMAT ADRESİ ─────────────────────────────────────────────── */}
       <H2>Teslimat Adresi</H2>
-
       <Para>
         Sipariş sırasında girdiğiniz adres üzerinden teslimat gerçekleştirilir.
         Adres değişikliği için siparişiniz kargoya verilmeden önce bizimle
         iletişime geçin; kargoya verildikten sonra adres değişikliği mümkün
         olmayabilir.
       </Para>
-
       <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
         <li>Kapı numarası ve kat bilgisi dahil tam adresi girin</li>
         <li>Ulaşılabilecek bir telefon numarası bırakın</li>
         <li>Teslimatta evde olmayacaksanız komşu veya güvenlik görevlisine bırakma talimatı verebilirsiniz</li>
       </ul>
 
-      {/* ── TESLİM SIRASINDA KONTROL ─────────────────────────────────────── */}
       <H2>Teslim Sırasında Paket Kontrolü</H2>
-
       <Para>
         Kargonuzu teslim alırken paketin dış yüzeyini kontrol edin. Ezilme,
         ıslanma veya açılma izleri varsa teslimi reddetmeyin — önce kargo
@@ -129,7 +131,9 @@ export default function TeslimatBilgileriPage() {
           "Paketi teslim almadan önce dış hasarı kargo görevlisine bildirin",
           "Kargo görevlisiyle birlikte hasarı fotoğrafla belgeleyin",
           "\"Hasar Tutanağı\" düzenlenmesini isteyin — tutanak olmadan hak talep edemezsiniz",
-          `Durumu ${site.email} adresine veya WhatsApp üzerinden bildirin`,
+          validMail
+            ? `Durumu ${validMail} adresine veya WhatsApp üzerinden bildirin`
+            : "Durumu e-posta veya WhatsApp üzerinden bildirin",
           "2 iş günü içinde çözüm için sizi arayacağız",
         ].map((step, i) => (
           <div key={i} style={{
@@ -150,53 +154,59 @@ export default function TeslimatBilgileriPage() {
         ))}
       </div>
 
-      {/* ── ELDEN TESLİM ────────────────────────────────────────────────── */}
       <H2>Elden Teslim</H2>
-
       <Para>
         Uygun koşullarda ürününüzü işyerimizden elden teslim alabilirsiniz.
         Elden teslim için sipariş öncesinde WhatsApp veya telefon ile iletişime geçin;
         hazırlık onayı aldıktan sonra aşağıdaki adresten teslim alabilirsiniz:
       </Para>
-      <div style={{
-        background: "rgba(212,160,23,0.06)", border: "1px solid rgba(255,196,0,0.18)",
-        borderRadius: 10, padding: "12px 16px", marginBottom: 16,
-      }}>
-        <div style={{ color: "#D4A017", fontSize: 12, fontWeight: 700, marginBottom: 4 }}>İşyeri Adresi</div>
-        <div style={{ color: "#C0C0BA", fontSize: 13 }}>{legal.fullAddress}</div>
-      </div>
+      {legal.fullAddress && (
+        <div style={{
+          background: "rgba(212,160,23,0.06)", border: "1px solid rgba(255,196,0,0.18)",
+          borderRadius: 10, padding: "12px 16px", marginBottom: 16,
+        }}>
+          <div style={{ color: "#D4A017", fontSize: 12, fontWeight: 700, marginBottom: 4 }}>İşyeri Adresi</div>
+          <div style={{ color: "#C0C0BA", fontSize: 13 }}>{legal.fullAddress}</div>
+        </div>
+      )}
       <Para>
-        Çalışma saatlerimiz: her gün {site.workingHours.weekdays}. Elden teslim için önceden
-        aranmanız gerekir; hazırlıksız gelen müşteriler için ürün bekletme garantisi verilmez.
+        {s.workingHours.weekdays ? `Çalışma saatlerimiz: her gün ${s.workingHours.weekdays}. ` : ""}
+        Elden teslim için önceden aranmanız gerekir; hazırlıksız gelen müşteriler için ürün bekletme garantisi verilmez.
       </Para>
 
-      {/* ── EKSİK ÜRÜN ──────────────────────────────────────────────────── */}
       <H2>Eksik Ürün Bildirimi</H2>
-
       <Para>
         Paketinizde eksik ürün olduğunu fark ederseniz teslim tarihinden itibaren
         2 iş günü içinde sipariş numaranızı belirterek{" "}
-        <a href={`mailto:${site.email}`} style={{ color: "#D4A534" }}>{site.email}</a>{" "}
-        adresine bildirin. Eksik ürün en kısa sürede gönderilecektir.
+        {validMail
+          ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+          : "e-posta yoluyla"
+        }{" "}adresine bildirin. Eksik ürün en kısa sürede gönderilecektir.
       </Para>
 
-      {/* ── İLETİŞİM ─────────────────────────────────────────────────────── */}
       <InfoCard>
         <H3>Teslimat Sorunları için İletişim</H3>
-        <Para>
-          <strong style={{ color: "#F4F4F2" }}>WhatsApp:</strong>{" "}
-          <a href={wa.contact} target="_blank" rel="noopener noreferrer" style={{ color: "#22c55e" }}>
-            Hızlı Destek — WhatsApp
-          </a>
-        </Para>
-        <Para>
-          <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
-          <a href={`mailto:${site.email}`} style={{ color: "#D4A534" }}>{site.email}</a>
-        </Para>
+        {waContact && (
+          <Para>
+            <strong style={{ color: "#F4F4F2" }}>WhatsApp:</strong>{" "}
+            <a href={waContact} target="_blank" rel="noopener noreferrer" style={{ color: "#22c55e" }}>
+              Hızlı Destek — WhatsApp
+            </a>
+          </Para>
+        )}
+        {validMail && (
+          <Para>
+            <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
+            <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+          </Para>
+        )}
         <Para style={{ marginBottom: 0 }}>
           <strong style={{ color: "#F4F4F2" }}>Telefon:</strong>{" "}
-          <a href={`tel:${site.phone}`} style={{ color: "#D4A534" }}>{site.phoneDisplay}</a>
-          {" "}— Her gün {site.workingHours.weekdays}
+          {validPh
+            ? <a href={`tel:${validPh}`} style={{ color: "#D4A534" }}>{validPh}</a>
+            : "iletişim sayfamızdaki numaramız"
+          }
+          {s.workingHours.weekdays ? ` — Her gün ${s.workingHours.weekdays}` : ""}
         </Para>
       </InfoCard>
 

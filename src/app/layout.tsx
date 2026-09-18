@@ -1,23 +1,30 @@
 import type { Metadata } from "next"
 import { Geist } from "next/font/google"
 import "./globals.css"
-import { site } from "@/config/site"
+import { getStoreSettings } from "@/lib/storefront/settings"
+import { siteConfig } from "@/config/site"
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
 
-export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
-  title: { default: site.seo.defaultTitle, template: site.seo.titleTemplate },
-  description: site.description,
-  keywords: site.seo.keywords,
-  openGraph: {
-    title: site.seo.defaultTitle,
-    description: site.description,
-    url: site.url,
-    locale: "tr_TR",
-    type: "website",
-  },
-  alternates: { canonical: site.url },
+export async function generateMetadata(): Promise<Metadata> {
+  const s = await getStoreSettings()
+  return {
+    metadataBase: new URL(siteConfig.url),
+    title: {
+      default:  s.seo.defaultTitle  || s.siteName,
+      template: s.seo.titleTemplate || `%s | ${s.siteName}`,
+    },
+    description: s.seo.description || undefined,
+    keywords:    s.seo.keywords.length > 0 ? s.seo.keywords : undefined,
+    openGraph: {
+      title:       s.seo.defaultTitle || s.siteName,
+      description: s.seo.description || undefined,
+      url:         siteConfig.url,
+      locale:      "tr_TR",
+      type:        "website",
+    },
+    alternates: { canonical: siteConfig.url },
+  }
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

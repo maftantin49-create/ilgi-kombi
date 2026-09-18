@@ -250,7 +250,7 @@ export default function OdemePage() {
             href={wa.cartOrder(
               cartItems.map((i) => ({ name: i.name, sku: i.sku, quantity: i.quantity, unitPrice: i.unitPrice })),
               r.grandTotal
-            )}
+            ) ?? undefined}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-medium transition-colors"
@@ -561,7 +561,7 @@ export default function OdemePage() {
               {/* WhatsApp fallback */}
               {waItems.length > 0 && (
                 <a
-                  href={waHref}
+                  href={waHref ?? undefined}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-medium transition-colors text-sm"
