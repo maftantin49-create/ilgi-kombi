@@ -43,7 +43,12 @@ const BRAND_ATTR_NAMES = new Set(
 )
 
 export function extractBrandFromProduct(p: WcProduct): string | null {
-  // 1. Attributes named "Marka" / "Brand" / "Üretici"
+  // 1. Perfect Brands plugin — top-level `brands` array (authoritative)
+  if (p.brands && p.brands.length > 0) {
+    return p.brands[0].name.trim() || null
+  }
+
+  // 2. Attributes named "Marka" / "Brand" / "Üretici"
   for (const attr of p.attributes) {
     if (BRAND_ATTR_NAMES.has(normalizeName(attr.name))) {
       const val = attr.options[0]?.trim()
@@ -51,7 +56,7 @@ export function extractBrandFromProduct(p: WcProduct): string | null {
     }
   }
 
-  // 2. meta_data (various WC brand plugins store here)
+  // 3. meta_data (various WC brand plugins store here)
   const brandMetaKeys = ["_brand", "brand", "pa_brand", "product_brand", "yoast_seo_primary_product_brand"]
   for (const m of p.meta_data) {
     if (brandMetaKeys.includes(m.key)) {
@@ -180,6 +185,10 @@ export function normalizeWcProduct(p: WcProduct): WcImportRow {
   const descriptionRaw = stripHtml(p.description)
   const shortDescRaw   = stripHtml(p.short_description)
 
+  // SKU fallback: all WC products have empty sku → deterministic WC-{id}
+  const rawSku = p.sku.trim()
+  const sku    = rawSku || `WC-${p.id}`
+
   return {
     sourceId:        p.id,
     sourceSlug:      p.slug,
@@ -190,7 +199,7 @@ export function normalizeWcProduct(p: WcProduct): WcImportRow {
 
     name:            p.name.trim(),
     slug:            slugify(p.name),
-    sku:             p.sku.trim(),
+    sku,
     price,
     compareAtPrice,
     stockQuantity:   p.stock_quantity ?? 0,

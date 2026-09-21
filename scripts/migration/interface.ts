@@ -65,6 +65,7 @@ export interface WcProduct {
   stock_status:      WcStockStatus
   manage_stock:      boolean
   categories:        WcTaxonomyTerm[]
+  brands:            WcTaxonomyTerm[]   // Perfect Brands plugin — top-level field
   tags:              WcTaxonomyTerm[]
   attributes:        WcAttribute[]
   images:            WcImage[]
