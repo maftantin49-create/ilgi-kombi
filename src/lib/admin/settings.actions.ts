@@ -149,5 +149,6 @@ export async function updateSettingsAction(
   }
 
   revalidatePath("/admin/settings")
+  revalidatePath("/", "layout")
   return { success: true, message: "Ayarlar başarıyla kaydedildi." }
 }
