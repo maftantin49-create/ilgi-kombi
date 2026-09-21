@@ -73,10 +73,13 @@ function extractTabData(tab: TabKey, fd: FormData): Record<string, unknown> {
       }
     case "integrations":
       return {
-        online_payment_enabled:            fd.get("online_payment_enabled"),
+        online_payment_enabled:    fd.get("online_payment_enabled"),
+        bank_transfer_enabled:     fd.get("bank_transfer_enabled"),
+        cash_on_delivery_enabled:  fd.get("cash_on_delivery_enabled"),
+        whatsapp_enabled:          fd.get("whatsapp_enabled"),
+        whatsapp_order_enabled:    fd.get("whatsapp_order_enabled"),
         google_ads_enabled:        fd.get("google_ads_enabled"),
         meta_enabled:              fd.get("meta_enabled"),
-        whatsapp_enabled:          fd.get("whatsapp_enabled"),
         shipping_provider_enabled: fd.get("shipping_provider_enabled"),
       }
   }

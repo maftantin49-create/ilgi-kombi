@@ -110,10 +110,13 @@ export const securitySettingsSchema = z.object({
 })
 
 export const integrationsSettingsSchema = z.object({
-  online_payment_enabled:            checkboxBool,
+  online_payment_enabled:    checkboxBool,
+  bank_transfer_enabled:     checkboxBool,
+  cash_on_delivery_enabled:  checkboxBool,
+  whatsapp_enabled:          checkboxBool,
+  whatsapp_order_enabled:    checkboxBool,
   google_ads_enabled:        checkboxBool,
   meta_enabled:              checkboxBool,
-  whatsapp_enabled:          checkboxBool,
   shipping_provider_enabled: checkboxBool,
 })
 

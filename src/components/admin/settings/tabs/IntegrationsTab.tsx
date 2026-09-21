@@ -17,9 +17,33 @@ const INTEGRATIONS: {
   envVars: string[]
 }[] = [
   {
+    key: "bank_transfer_enabled",
+    label: "Havale / EFT",
+    description: "Müşterilere banka havalesi veya EFT ile ödeme seçeneği sunar. IBAN bilgileri sipariş onayında gösterilir.",
+    envVars: [],
+  },
+  {
+    key: "cash_on_delivery_enabled",
+    label: "Kapıda Ödeme",
+    description: "Kapıda nakit veya kart ile ödeme seçeneğini etkinleştirir.",
+    envVars: [],
+  },
+  {
     key: "online_payment_enabled",
     label: "Online Ödeme (Kart)",
     description: "Kredi/banka kartı ile online ödeme altyapısını etkinleştirir. Sağlayıcı bilgileri ayrıca yapılandırılmalıdır.",
+    envVars: [],
+  },
+  {
+    key: "whatsapp_enabled",
+    label: "WhatsApp Destek",
+    description: "Storefront'ta WhatsApp iletişim butonunu gösterir.",
+    envVars: [],
+  },
+  {
+    key: "whatsapp_order_enabled",
+    label: "WhatsApp Sipariş",
+    description: "Siparişin WhatsApp üzerinden tamamlanmasına izin verir (DB sipariş akışı yerine).",
     envVars: [],
   },
   {
@@ -33,12 +57,6 @@ const INTEGRATIONS: {
     label: "Meta Pixel (Facebook)",
     description: "Meta Pixel izlemesini etkinleştirir.",
     envVars: ["META_PIXEL_ID"],
-  },
-  {
-    key: "whatsapp_enabled",
-    label: "WhatsApp",
-    description: "WhatsApp destek butonunu ve bildirimlerini etkinleştirir.",
-    envVars: ["WHATSAPP_TOKEN", "WHATSAPP_PHONE_NUMBER_ID"],
   },
   {
     key: "shipping_provider_enabled",

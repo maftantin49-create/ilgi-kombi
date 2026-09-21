@@ -1,6 +1,7 @@
 import {
   getSameDayStorefrontProducts,
   getDiscountedStorefrontProducts,
+  getFeaturedStorefrontProducts,
   getStorefrontProducts,
 } from "@/lib/storefront/products"
 import { getStorefrontBrands } from "@/lib/storefront/brands"
@@ -21,10 +22,11 @@ export const revalidate = 300 // ISR: 5 dakikada bir yenile
 
 export default async function HomePage() {
   // Stage 1: categories + non-catalog data in parallel
-  const [categories, sameDayProducts, discountedProducts, brands, settings] = await Promise.all([
+  const [categories, sameDayProducts, discountedProducts, featuredProducts, brands, settings] = await Promise.all([
     getStorefrontCategories(),
     getSameDayStorefrontProducts(8),
     getDiscountedStorefrontProducts(8),
+    getFeaturedStorefrontProducts(8),
     getStorefrontBrands(),
     getStoreSettings(),
   ])
@@ -137,20 +139,39 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* ─── 9. İndirimli Ürünler ─── */}
-      <AnimatedSection
-        variant="fade-up"
-        as="div"
-        style={{ background: "#0A0B0D" } as React.CSSProperties}
-      >
-        <ProductSection
-          eyebrow="Fırsatlar"
-          title="İndirimli Ürünler"
-          description="Fırsatı kaçırma — indirimli kombi parçaları"
-          products={discountedProducts}
-          viewAllHref="/urunler"
-        />
-      </AnimatedSection>
+      {/* ─── 9. Fırsat Ürünleri (indirimli) ─── */}
+      {discountedProducts.length > 0 && (
+        <AnimatedSection
+          variant="fade-up"
+          as="div"
+          style={{ background: "#0A0B0D" } as React.CSSProperties}
+        >
+          <ProductSection
+            eyebrow="Fırsatlar"
+            title="Fırsat Ürünleri"
+            description="Özel fiyatlarla kombi yedek parçaları"
+            products={discountedProducts}
+            viewAllHref="/urunler"
+          />
+        </AnimatedSection>
+      )}
+
+      {/* ─── 9b. En Çok Satanlar (admin is_featured flag) ─── */}
+      {featuredProducts.length > 0 && (
+        <AnimatedSection
+          variant="fade-up"
+          as="div"
+          style={{ background: "#090A0C" } as React.CSSProperties}
+        >
+          <ProductSection
+            eyebrow="Popüler"
+            title="En Çok Satanlar"
+            description="Müşterilerimizin en çok tercih ettiği yedek parçalar"
+            products={featuredProducts}
+            viewAllHref="/urunler"
+          />
+        </AnimatedSection>
+      )}
 
       {/* ─── 10. Aynı Gün Kargo ─── */}
       <AnimatedSection variant="fade-up" as="div">
