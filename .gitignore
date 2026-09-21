@@ -43,3 +43,8 @@ next-env.d.ts
 
 # supabase local state (project-specific, must not be committed)
 supabase/.temp/
+
+# Migration working output — raw + normalized source snapshots
+# Contains full product catalog data — never commit
+scripts/migration/output/
+scripts/migration/dry-run-report.json

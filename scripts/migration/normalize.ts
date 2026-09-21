@@ -1,4 +1,4 @@
-import type { WcProduct, WcImportRow } from "./interface"
+import type { WcProduct, WcImportRow, YoastSeoData, SeoSnapshot } from "./interface"
 
 // ── Turkish char map ──────────────────────────────────────────────────────────
 
@@ -145,6 +145,45 @@ export function extractSpecifications(
   }
 
   return specs
+}
+
+// ── Brand normalization map ───────────────────────────────────────────────────
+// Confirmed from Phase 6 live API data + Phase 5 public discovery
+
+export const BRAND_NORM_MAP: Record<string, string> = {
+  "E.C.A":              "ECA",
+  "Bosh Kombi Parçaları": "Bosch",
+  "Baretta":            "Beretta",
+  "İmmergaz":           "İmmergas",
+}
+
+export function normalizeBrandName(raw: string): string {
+  return BRAND_NORM_MAP[raw] ?? raw
+}
+
+// ── Yoast SEO extraction ──────────────────────────────────────────────────────
+
+export function extractSeo(yoast: YoastSeoData | undefined): SeoSnapshot {
+  if (!yoast) {
+    return {
+      title: null, description: null, canonical: null, robots: null,
+      ogTitle: null, ogDescription: null, ogImage: null, ogType: null,
+      twitterCard: null, twitterTitle: null, twitterDesc: null,
+    }
+  }
+  return {
+    title:          yoast.title        ?? null,
+    description:    yoast.description  ?? null,
+    canonical:      yoast.canonical    ?? null,
+    robots:         yoast.robots       ?? null,
+    ogTitle:        yoast.og_title     ?? null,
+    ogDescription:  yoast.og_description ?? null,
+    ogImage:        yoast.og_image?.[0]?.url ?? null,
+    ogType:         yoast.og_type      ?? null,
+    twitterCard:    yoast.twitter_card ?? null,
+    twitterTitle:   yoast.twitter_title ?? null,
+    twitterDesc:    yoast.twitter_description ?? null,
+  }
 }
 
 // ── Price parsing ─────────────────────────────────────────────────────────────

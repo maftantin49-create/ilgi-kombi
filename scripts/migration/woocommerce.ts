@@ -3,6 +3,7 @@ import type {
   WcCategory,
   WcBrand,
   WcProductAttribute,
+  WpPage,
 } from "./interface"
 
 // ── WooCommerce REST API v3 client (read-only) ────────────────────────────────
@@ -110,6 +111,42 @@ export class WooCommerceClient {
   async getAttributes(): Promise<WcProductAttribute[]> {
     const { data } = await this.get<WcProductAttribute[]>("/products/attributes")
     return data
+  }
+
+  /** Full products including yoast_head_json and all commerce fields */
+  async getProductsFull(): Promise<WcProduct[]> {
+    return this.getProducts()
+  }
+
+  /** Full categories including yoast_head_json */
+  async getCategoriesFull(): Promise<WcCategory[]> {
+    return this.fetchAll<WcCategory>("/products/categories", { hide_empty: "false" })
+  }
+
+  /** Full brands including description, image, yoast_head_json */
+  async getBrandsFull(): Promise<WcBrand[] | null> {
+    try {
+      return await this.fetchAll<WcBrand>("/products/brands")
+    } catch (e) {
+      if (e instanceof WcApiError && (e.status === 404 || e.status === 403)) return null
+      throw e
+    }
+  }
+
+  /** WordPress public pages — no WC auth needed for published pages */
+  async getWordPressPages(): Promise<WpPage[]> {
+    const wpBase = this.base.replace("/wp-json/wc/v3", "/wp-json/wp/v2")
+    const url = new URL(`${wpBase}/pages`)
+    url.searchParams.set("per_page", "100")
+    url.searchParams.set("status", "publish")
+
+    const res = await fetch(url.toString(), {
+      method: "GET",
+      headers: { "User-Agent": "PITT-Migration/1.0 (read-only)" },
+    })
+
+    if (!res.ok) return []
+    return (await res.json()) as WpPage[]
   }
 }
 
