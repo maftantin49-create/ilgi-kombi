@@ -65,7 +65,7 @@ export default async function HomePage() {
       <CategoryRail categories={categories} />
 
       {/* ─── 2. Hero ─── */}
-      <HeroSlider />
+      <HeroSlider waLink={wa.home} />
 
       {/* ─── 3. Popüler Kategoriler ─── */}
       <AnimatedSection variant="fade-up" as="div">
