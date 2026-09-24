@@ -58,12 +58,14 @@ export async function getDashboardStats(): Promise<DashboardStats> {
       .from("products")
       .select("*", { count: "exact", head: true })
       .eq("is_active", true)
+      .eq("track_stock", true)
       .gt("stock_quantity", 0)
       .lt("stock_quantity", LOW_STOCK_THRESHOLD),
     db
       .from("products")
       .select("*", { count: "exact", head: true })
       .eq("is_active", true)
+      .eq("track_stock", true)
       .eq("stock_quantity", 0),
     db.from("brands").select("*", { count: "exact", head: true }).eq("is_active", true),
     db.from("categories").select("*", { count: "exact", head: true }).eq("is_active", true),
@@ -95,6 +97,7 @@ export async function getLowStockProducts(): Promise<LowStockProduct[]> {
     .from("products")
     .select("id, name, sku, stock_quantity, brands(name)")
     .eq("is_active", true)
+    .eq("track_stock", true)
     .lt("stock_quantity", LOW_STOCK_THRESHOLD)
     .order("stock_quantity", { ascending: true })
     .limit(10)

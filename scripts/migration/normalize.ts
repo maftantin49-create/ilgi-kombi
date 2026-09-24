@@ -243,6 +243,7 @@ export function normalizeWcProduct(p: WcProduct): WcImportRow {
     compareAtPrice,
     stockQuantity:   p.stock_quantity ?? 0,
     stockStatus:     p.stock_status,
+    trackStock:      p.manage_stock,
     brandName:       brand,
     categoryName,
     description:     descriptionRaw || null,

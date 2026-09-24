@@ -77,6 +77,8 @@ export const createProductSchema = z.object({
   same_day_shipping: checkboxBool,
   seo_title: nullableStr,
   seo_description: nullableStr,
+  track_stock: checkboxBool,
+  short_description: nullableStr,
 })
 
 // Edit schema: no stock_quantity (managed by Wave 4 inventory system)

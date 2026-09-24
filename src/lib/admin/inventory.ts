@@ -18,6 +18,7 @@ export type StockItem = {
   name: string
   image_url: string | null
   stock_quantity: number
+  track_stock: boolean
   reserved_stock: number
   available_stock: number
   status: StockStatus
@@ -69,7 +70,7 @@ export async function getStockList(filters: InventoryFilters) {
   // DB-level filters: search, brand, category
   let query = db
     .from("products")
-    .select("id, sku, name, image_url, stock_quantity, brands(name), categories(name)")
+    .select("id, sku, name, image_url, stock_quantity, track_stock, brands(name), categories(name)")
     .order("name")
 
   if (filters.search) {
@@ -90,6 +91,7 @@ export async function getStockList(filters: InventoryFilters) {
     name: string
     image_url: string | null
     stock_quantity: number
+    track_stock: boolean
     brands: { name: string } | null
     categories: { name: string } | null
   }
@@ -137,9 +139,10 @@ export async function getStockList(filters: InventoryFilters) {
       name: p.name,
       image_url: p.image_url,
       stock_quantity: p.stock_quantity,
+      track_stock: p.track_stock,
       reserved_stock: reserved,
       available_stock: available,
-      status: getStockStatus(available, reserved),
+      status: p.track_stock ? getStockStatus(available, reserved) : "in_stock",
       last_movement_at: lastMov?.created_at ?? null,
       last_movement_type: lastMov?.type ?? null,
       brands: p.brands,

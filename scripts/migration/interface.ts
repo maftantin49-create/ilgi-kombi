@@ -143,6 +143,7 @@ export interface WcImportRow {
   compareAtPrice:  number | null
   stockQuantity:   number
   stockStatus:     WcStockStatus
+  trackStock:      boolean
   brandName:       string | null
   categoryName:    string | null
   description:     string | null

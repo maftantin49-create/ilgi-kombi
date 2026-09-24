@@ -69,6 +69,7 @@ export interface StorefrontProductCard {
   price: number
   compare_at_price: number | null
   stock_quantity: number
+  track_stock: boolean
   image_url: string | null
   hover_image_url: string | null
   is_featured: boolean
@@ -82,6 +83,7 @@ export interface StorefrontProductCard {
 
 export interface StorefrontProductDetail extends Omit<StorefrontProductCard, "category"> {
   description: string | null
+  short_description: string | null
   seo_title: string | null
   seo_description: string | null
   category: Pick<StorefrontCategory, "id" | "name" | "slug" | "parent_id"> | null
@@ -96,17 +98,19 @@ export interface StorefrontProductDetail extends Omit<StorefrontProductCard, "ca
 export type ProductAvailability = "available" | "out_of_stock" | "price_on_request"
 
 export function getProductAvailability(
-  product: Pick<StorefrontProductCard, "price" | "stock_quantity">
+  product: Pick<StorefrontProductCard, "price" | "stock_quantity" | "track_stock">
 ): ProductAvailability {
-  if (product.stock_quantity <= 0) return "out_of_stock"
+  if (product.track_stock && product.stock_quantity <= 0) return "out_of_stock"
   if (product.price <= 0) return "price_on_request"
   return "available"
 }
 
 export function canAddToCart(
-  product: Pick<StorefrontProductCard, "price" | "stock_quantity">
+  product: Pick<StorefrontProductCard, "price" | "stock_quantity" | "track_stock">
 ): boolean {
-  return product.price > 0 && product.stock_quantity > 0
+  if (product.price <= 0) return false
+  if (!product.track_stock) return true
+  return product.stock_quantity > 0
 }
 
 // ── Image helpers ──────────────────────────────────────────────────────────────

@@ -149,6 +149,7 @@ export default function ProductForm({
   const [pvIsFeatured, setPvIsFeatured] = useState(initialData?.is_featured ?? false)
   const [pvIsNew, setPvIsNew] = useState(initialData?.is_new ?? false)
   const [pvSameDay, setPvSameDay] = useState(initialData?.same_day_shipping ?? false)
+  const [trackStock, setTrackStock] = useState(initialData?.track_stock ?? true)
 
   // ── Image URL hidden fields ──
   const [imageUrl, setImageUrl] = useState<string>(initialData?.image_url ?? "")
@@ -384,6 +385,22 @@ export default function ProductForm({
             />
             <FieldError msgs={fe.description} />
           </div>
+
+          <div>
+            <label htmlFor="short_description" className={LABEL} style={MUTED}>
+              Kısa Açıklama
+            </label>
+            <textarea
+              id="short_description"
+              name="short_description"
+              rows={2}
+              defaultValue={initialData?.short_description ?? ""}
+              className={INPUT}
+              style={{ ...INPUT_STYLE, resize: "vertical" }}
+              placeholder="Ürün başlığının altında görünecek özet"
+            />
+            <FieldError msgs={fe.short_description} />
+          </div>
         </section>
 
         {/* ── Tab: Görseller ── */}
@@ -521,6 +538,21 @@ export default function ProductForm({
               />
             )}
             <FieldError msgs={fe.stock_quantity} />
+          </div>
+
+          <div style={SECTION_DIVIDER}>
+            <SectionHeading>Stok Takibi</SectionHeading>
+            <Checkbox
+              name="track_stock"
+              label="Stok takibi aktif"
+              checked={trackStock}
+              onChange={setTrackStock}
+            />
+            {!trackStock && (
+              <p className="text-xs mt-2" style={{ color: "#6B7280" }}>
+                Stok takibi kapalı — ürün stok miktarından bağımsız olarak her zaman satışta görünür.
+              </p>
+            )}
           </div>
         </section>
 

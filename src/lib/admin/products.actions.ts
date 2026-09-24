@@ -45,6 +45,8 @@ function parseFormFields(formData: FormData) {
     same_day_shipping: formData.get("same_day_shipping"),
     seo_title: formData.get("seo_title"),
     seo_description: formData.get("seo_description"),
+    track_stock: formData.get("track_stock"),
+    short_description: formData.get("short_description"),
   }
 }
 
@@ -299,6 +301,8 @@ export async function createProductAction(
       same_day_shipping: String(parsed.data.same_day_shipping),
       seo_title: parsed.data.seo_title ?? "",
       seo_description: parsed.data.seo_description ?? "",
+      track_stock: String(parsed.data.track_stock),
+      short_description: parsed.data.short_description ?? "",
     },
     p_images: galleryRows,
     p_oem_codes: oemResult,
@@ -384,6 +388,8 @@ export async function updateProductAction(
       same_day_shipping: String(parsed.data.same_day_shipping),
       seo_title: parsed.data.seo_title ?? "",
       seo_description: parsed.data.seo_description ?? "",
+      track_stock: String(parsed.data.track_stock),
+      short_description: parsed.data.short_description ?? "",
     },
     p_images: galleryRows,
     p_oem_codes: oemResult,

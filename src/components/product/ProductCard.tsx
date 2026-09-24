@@ -28,6 +28,7 @@ function mockProductToCartItem(p: Product): CartItem {
     brandName: p.brand ?? null,
     unitPrice: p.price,
     stockQuantity: p.stock,
+    trackStock: true,
     quantity: 1,
   }
 }

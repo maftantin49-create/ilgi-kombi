@@ -47,6 +47,7 @@ type ProductRow = {
   image_url: string | null
   price: number
   stock_quantity: number
+  track_stock: boolean
   brands: BrandRow | BrandRow[] | null
 }
 
@@ -63,7 +64,7 @@ export async function validateCheckoutCart(
   ])
   const { data: rows } = await db
     .from("products")
-    .select("id, slug, sku, name, image_url, price, stock_quantity, brands!brand_id ( name )")
+    .select("id, slug, sku, name, image_url, price, stock_quantity, track_stock, brands!brand_id ( name )")
     .in(
       "id",
       input.map((i) => i.productId)
@@ -101,7 +102,7 @@ export async function validateCheckoutCart(
     const brandRow = Array.isArray(row.brands) ? row.brands[0] : row.brands
     const brandName = (brandRow as BrandRow | null)?.name ?? null
 
-    if (stock <= 0) {
+    if (row.track_stock && stock <= 0) {
       hasHardError = true
       return {
         productId: inp.productId,
@@ -119,7 +120,7 @@ export async function validateCheckoutCart(
       }
     }
 
-    const confirmedQty = Math.min(inp.quantity, stock)
+    const confirmedQty = row.track_stock ? Math.min(inp.quantity, stock) : inp.quantity
     return {
       productId: inp.productId,
       slug: row.slug,

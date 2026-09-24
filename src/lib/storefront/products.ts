@@ -50,7 +50,7 @@ export interface ProductListResult {
 // Card: no description, no detail relations — keeps listing queries lean.
 const CARD_SELECT = `
   id, slug, sku, name,
-  price, compare_at_price, stock_quantity,
+  price, compare_at_price, stock_quantity, track_stock,
   image_url, hover_image_url,
   is_featured, is_new, same_day_shipping,
   brands!brand_id ( id, name, slug ),
@@ -59,8 +59,8 @@ const CARD_SELECT = `
 
 // Detail: full product + all embedded child tables.
 const DETAIL_SELECT = `
-  id, slug, sku, name, description, seo_title, seo_description,
-  price, compare_at_price, stock_quantity,
+  id, slug, sku, name, description, short_description, seo_title, seo_description,
+  price, compare_at_price, stock_quantity, track_stock,
   image_url, hover_image_url,
   is_featured, is_new, same_day_shipping, created_at,
   brands!brand_id ( id, name, slug ),
@@ -95,6 +95,7 @@ function mapCard(row: Record<string, unknown>): StorefrontProductCard {
     price: row.price as number,
     compare_at_price: row.compare_at_price as number | null,
     stock_quantity: row.stock_quantity as number,
+    track_stock: row.track_stock as boolean,
     image_url: row.image_url as string | null,
     hover_image_url: row.hover_image_url as string | null,
     is_featured: row.is_featured as boolean,
@@ -183,7 +184,7 @@ export async function getStorefrontProducts(
   }
 
   if (resolvedBrandId) query = query.eq("brand_id", resolvedBrandId)
-  if (filters.inStock) query = query.gt("stock_quantity", 0)
+  if (filters.inStock) query = query.or("stock_quantity.gt.0,track_stock.eq.false")
 
   // Text search: name ILIKE + SKU ILIKE + brand_id IN matching brands (R2).
   // searchBrandIds are UUIDs from the DB — safe to interpolate into the filter string.
@@ -324,11 +325,13 @@ export async function getStorefrontProductBySlug(
     sku: row.sku as string,
     name: row.name as string,
     description: row.description as string | null,
+    short_description: row.short_description as string | null,
     seo_title: row.seo_title as string | null,
     seo_description: row.seo_description as string | null,
     price: row.price as number,
     compare_at_price: row.compare_at_price as number | null,
     stock_quantity: row.stock_quantity as number,
+    track_stock: row.track_stock as boolean,
     image_url: row.image_url as string | null,
     hover_image_url: row.hover_image_url as string | null,
     is_featured: row.is_featured as boolean,

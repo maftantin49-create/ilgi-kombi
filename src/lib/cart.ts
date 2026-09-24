@@ -18,6 +18,7 @@ export interface CartItem {
   brandName: string | null
   unitPrice: number        // price snapshot at time of add
   stockQuantity: number    // stock snapshot at time of add (soft cap — not DB-authoritative)
+  trackStock: boolean      // when false: no stock cap on quantity
   quantity: number
 }
 
@@ -31,6 +32,7 @@ export interface CartableProduct {
   image_url: string | null
   price: number
   stock_quantity: number
+  track_stock?: boolean
   brand?: { name: string } | null
 }
 
@@ -39,7 +41,10 @@ export interface CartableProduct {
 // Single adapter for StorefrontProductCard and StorefrontProductDetail → CartItem.
 // Callers (listing, detail) use this so the conversion logic is never duplicated.
 export function toCartItem(product: CartableProduct, quantity = 1): CartItem {
-  const safeQty = Math.max(1, Math.min(quantity, product.stock_quantity))
+  const tracked = product.track_stock ?? true
+  const safeQty = tracked
+    ? Math.max(1, Math.min(quantity, product.stock_quantity))
+    : Math.max(1, quantity)
   return {
     productId: product.id,
     slug: product.slug,
@@ -49,6 +54,7 @@ export function toCartItem(product: CartableProduct, quantity = 1): CartItem {
     brandName: product.brand?.name ?? null,
     unitPrice: product.price,
     stockQuantity: product.stock_quantity,
+    trackStock: tracked,
     quantity: safeQty,
   }
 }
@@ -60,8 +66,7 @@ function isAddable(item: CartItem): boolean {
   return (
     item.unitPrice > 0 &&
     Number.isFinite(item.unitPrice) &&
-    item.stockQuantity > 0 &&
-    Number.isFinite(item.stockQuantity) &&
+    (!item.trackStock || (item.stockQuantity > 0 && Number.isFinite(item.stockQuantity))) &&
     item.quantity >= 1
   )
 }
@@ -118,6 +123,7 @@ function migrateFromV0(state: unknown): { items: CartItem[] } {
         brandName: i.product.brand ?? null,
         unitPrice: i.product.price!,
         stockQuantity: i.product.stock!,
+        trackStock: true,
         quantity: Math.max(1, i.quantity ?? 1),
       }))
 
@@ -139,11 +145,10 @@ export const useCart = create<CartStore>()(
 
         const existing = get().items.find((i) => i.productId === item.productId)
         if (existing) {
-          // Increment, capped at known stock
-          const newQty = Math.min(
-            existing.quantity + item.quantity,
-            item.stockQuantity
-          )
+          const uncapped = existing.quantity + item.quantity
+          const newQty = item.trackStock
+            ? Math.min(uncapped, item.stockQuantity)
+            : uncapped
           set({
             items: get().items.map((i) =>
               i.productId === item.productId ? { ...i, quantity: newQty } : i
@@ -165,7 +170,8 @@ export const useCart = create<CartStore>()(
         set({
           items: get().items.map((i) => {
             if (i.productId !== productId) return i
-            return { ...i, quantity: Math.min(quantity, i.stockQuantity) }
+            const capped = i.trackStock ? Math.min(quantity, i.stockQuantity) : quantity
+            return { ...i, quantity: capped }
           }),
         })
       },

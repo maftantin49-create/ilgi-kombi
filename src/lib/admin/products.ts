@@ -48,6 +48,8 @@ export type ProductDetail = {
   same_day_shipping: boolean
   seo_title: string | null
   seo_description: string | null
+  track_stock: boolean
+  short_description: string | null
   created_at: string
   updated_at: string
 }
@@ -113,9 +115,9 @@ export async function getProducts(filters: ProductFilters) {
   if (filters.stock === "in_stock") {
     query = query.gte("stock_quantity", 5)
   } else if (filters.stock === "low") {
-    query = query.gt("stock_quantity", 0).lt("stock_quantity", 5)
+    query = query.gt("stock_quantity", 0).lt("stock_quantity", 5).eq("track_stock", true)
   } else if (filters.stock === "out") {
-    query = query.eq("stock_quantity", 0)
+    query = query.eq("stock_quantity", 0).eq("track_stock", true)
   }
 
   const { data, count, error } = await query
@@ -132,7 +134,7 @@ export async function getProductById(id: string): Promise<ProductDetail | null> 
   const db = createServiceClient()
   const { data } = await db
     .from("products")
-    .select("id, slug, sku, name, description, seo_title, seo_description, price, compare_at_price, stock_quantity, brand_id, category_id, compatible_brands, image_url, hover_image_url, is_active, is_featured, is_new, same_day_shipping, created_at, updated_at")
+    .select("id, slug, sku, name, description, short_description, seo_title, seo_description, price, compare_at_price, stock_quantity, track_stock, brand_id, category_id, compatible_brands, image_url, hover_image_url, is_active, is_featured, is_new, same_day_shipping, created_at, updated_at")
     .eq("id", id)
     .single()
 

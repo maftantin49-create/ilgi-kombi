@@ -748,9 +748,11 @@ export type Database = {
           same_day_shipping: boolean
           seo_description: string | null
           seo_title: string | null
+          short_description: string | null
           sku: string
           slug: string
           stock_quantity: number
+          track_stock: boolean
           updated_at: string
         }
         Insert: {
@@ -771,9 +773,11 @@ export type Database = {
           same_day_shipping?: boolean
           seo_description?: string | null
           seo_title?: string | null
+          short_description?: string | null
           sku: string
           slug: string
           stock_quantity?: number
+          track_stock?: boolean
           updated_at?: string
         }
         Update: {
@@ -794,9 +798,11 @@ export type Database = {
           same_day_shipping?: boolean
           seo_description?: string | null
           seo_title?: string | null
+          short_description?: string | null
           sku?: string
           slug?: string
           stock_quantity?: number
+          track_stock?: boolean
           updated_at?: string
         }
         Relationships: [
