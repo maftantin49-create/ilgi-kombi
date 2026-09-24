@@ -22,6 +22,8 @@ export interface StorefrontCategory {
   is_featured: boolean
   image_url: string | null
   description: string | null
+  seo_title: string | null
+  seo_description: string | null
 }
 
 export interface StorefrontProductImage {
@@ -80,6 +82,8 @@ export interface StorefrontProductCard {
 
 export interface StorefrontProductDetail extends Omit<StorefrontProductCard, "category"> {
   description: string | null
+  seo_title: string | null
+  seo_description: string | null
   category: Pick<StorefrontCategory, "id" | "name" | "slug" | "parent_id"> | null
   images: StorefrontProductImage[]
   oem_codes: StorefrontOEMCode[]

@@ -132,6 +132,8 @@ export type Database = {
           is_featured: boolean
           logo_url: string | null
           name: string
+          seo_description: string | null
+          seo_title: string | null
           slug: string
           sort_order: number
         }
@@ -142,6 +144,8 @@ export type Database = {
           is_featured?: boolean
           logo_url?: string | null
           name: string
+          seo_description?: string | null
+          seo_title?: string | null
           slug: string
           sort_order?: number
         }
@@ -152,6 +156,8 @@ export type Database = {
           is_featured?: boolean
           logo_url?: string | null
           name?: string
+          seo_description?: string | null
+          seo_title?: string | null
           slug?: string
           sort_order?: number
         }
@@ -167,6 +173,8 @@ export type Database = {
           is_featured: boolean
           name: string
           parent_id: string | null
+          seo_description: string | null
+          seo_title: string | null
           slug: string
           sort_order: number
         }
@@ -179,6 +187,8 @@ export type Database = {
           is_featured?: boolean
           name: string
           parent_id?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
           slug: string
           sort_order?: number
         }
@@ -191,6 +201,8 @@ export type Database = {
           is_featured?: boolean
           name?: string
           parent_id?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
           slug?: string
           sort_order?: number
         }
@@ -734,6 +746,8 @@ export type Database = {
           name: string
           price: number
           same_day_shipping: boolean
+          seo_description: string | null
+          seo_title: string | null
           sku: string
           slug: string
           stock_quantity: number
@@ -755,6 +769,8 @@ export type Database = {
           name: string
           price: number
           same_day_shipping?: boolean
+          seo_description?: string | null
+          seo_title?: string | null
           sku: string
           slug: string
           stock_quantity?: number
@@ -776,6 +792,8 @@ export type Database = {
           name?: string
           price?: number
           same_day_shipping?: boolean
+          seo_description?: string | null
+          seo_title?: string | null
           sku?: string
           slug?: string
           stock_quantity?: number

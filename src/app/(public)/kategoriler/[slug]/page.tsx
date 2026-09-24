@@ -1,14 +1,44 @@
+import { cache } from "react"
 import { notFound } from "next/navigation"
+import type { Metadata } from "next"
 import Link from "next/link"
 import { getStorefrontCategories, getCategoryDescendantIds } from "@/lib/storefront/categories"
 import { getStorefrontProducts } from "@/lib/storefront/products"
 import StorefrontProductCardComponent from "@/components/product/StorefrontProductCard"
 import { wa } from "@/lib/whatsapp"
 
+const getCachedCategories = cache(getStorefrontCategories)
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const allCategories = await getCachedCategories()
+  const category = allCategories.find((c) => c.slug === slug)
+
+  if (!category) return { title: "Kategori Bulunamadı" }
+
+  const title = category.seo_title || category.name
+  const description =
+    category.seo_description ||
+    category.description ||
+    `${category.name} kategorisindeki ürünleri inceleyin.`
+
+  return {
+    title,
+    description,
+    openGraph: category.image_url
+      ? { images: [{ url: category.image_url }], title, description }
+      : undefined,
+  }
+}
+
 export default async function KategoriPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
 
-  const allCategories = await getStorefrontCategories()
+  const allCategories = await getCachedCategories()
   const category = allCategories.find((c) => c.slug === slug)
   if (!category) notFound()
 

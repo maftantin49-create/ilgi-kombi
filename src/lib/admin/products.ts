@@ -46,6 +46,8 @@ export type ProductDetail = {
   is_featured: boolean
   is_new: boolean
   same_day_shipping: boolean
+  seo_title: string | null
+  seo_description: string | null
   created_at: string
   updated_at: string
 }
@@ -130,7 +132,7 @@ export async function getProductById(id: string): Promise<ProductDetail | null> 
   const db = createServiceClient()
   const { data } = await db
     .from("products")
-    .select("id, slug, sku, name, description, price, compare_at_price, stock_quantity, brand_id, category_id, compatible_brands, image_url, hover_image_url, is_active, is_featured, is_new, same_day_shipping, created_at, updated_at")
+    .select("id, slug, sku, name, description, seo_title, seo_description, price, compare_at_price, stock_quantity, brand_id, category_id, compatible_brands, image_url, hover_image_url, is_active, is_featured, is_new, same_day_shipping, created_at, updated_at")
     .eq("id", id)
     .single()
 

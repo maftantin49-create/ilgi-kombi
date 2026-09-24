@@ -18,7 +18,7 @@ import { OemEditor, type OemItem } from "./OemEditor"
 import { SpecEditor, type SpecItem } from "./SpecEditor"
 import { DeviceSearch, type SelectedDevice } from "./DeviceSearch"
 
-type Tab = "general" | "media" | "pricing" | "classification" | "attributes"
+type Tab = "general" | "media" | "pricing" | "classification" | "attributes" | "seo"
 
 const TABS: Array<{ id: Tab; label: string }> = [
   { id: "general", label: "Genel" },
@@ -26,6 +26,7 @@ const TABS: Array<{ id: Tab; label: string }> = [
   { id: "pricing", label: "Fiyat & Stok" },
   { id: "classification", label: "Sınıflandırma" },
   { id: "attributes", label: "Özellikler" },
+  { id: "seo", label: "SEO" },
 ]
 
 const LABEL = "block text-xs font-medium mb-1.5"
@@ -630,6 +631,50 @@ export default function ProductForm({
               initialItems={deviceItems}
               onChange={setDeviceItems}
             />
+          </div>
+        </section>
+
+        {/* ── Tab: SEO ── */}
+        <section
+          className={activeTab !== "seo" ? "hidden" : "space-y-4"}
+          style={CARD}
+        >
+          <div>
+            <label htmlFor="seo_title" className={LABEL} style={MUTED}>
+              SEO Başlık
+            </label>
+            <input
+              id="seo_title"
+              name="seo_title"
+              type="text"
+              defaultValue={initialData?.seo_title ?? ""}
+              className={INPUT}
+              style={INPUT_STYLE}
+              placeholder="Boş bırakılırsa ürün adı kullanılır"
+              maxLength={120}
+            />
+            <p className="text-xs mt-1" style={{ color: "#6B7280" }}>
+              Tarayıcı sekmesi ve arama sonuçlarında görünür. En fazla 60 karakter önerilir.
+            </p>
+          </div>
+
+          <div>
+            <label htmlFor="seo_description" className={LABEL} style={MUTED}>
+              SEO Açıklama
+            </label>
+            <textarea
+              id="seo_description"
+              name="seo_description"
+              defaultValue={initialData?.seo_description ?? ""}
+              rows={3}
+              className={INPUT + " resize-none"}
+              style={INPUT_STYLE}
+              placeholder="Arama sonuçlarında görünecek kısa açıklama"
+              maxLength={300}
+            />
+            <p className="text-xs mt-1" style={{ color: "#6B7280" }}>
+              En fazla 155 karakter önerilir.
+            </p>
           </div>
         </section>
 

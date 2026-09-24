@@ -59,7 +59,7 @@ const CARD_SELECT = `
 
 // Detail: full product + all embedded child tables.
 const DETAIL_SELECT = `
-  id, slug, sku, name, description,
+  id, slug, sku, name, description, seo_title, seo_description,
   price, compare_at_price, stock_quantity,
   image_url, hover_image_url,
   is_featured, is_new, same_day_shipping, created_at,
@@ -324,6 +324,8 @@ export async function getStorefrontProductBySlug(
     sku: row.sku as string,
     name: row.name as string,
     description: row.description as string | null,
+    seo_title: row.seo_title as string | null,
+    seo_description: row.seo_description as string | null,
     price: row.price as number,
     compare_at_price: row.compare_at_price as number | null,
     stock_quantity: row.stock_quantity as number,

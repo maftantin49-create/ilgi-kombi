@@ -40,21 +40,24 @@ export async function generateMetadata({
     return { title: "Ürün Bulunamadı" }
   }
 
-  const desc = product.description
-    ? product.description.slice(0, 155).replace(/\s+/g, " ").trim()
-    : [product.name, product.brand?.name, product.category?.name]
-        .filter(Boolean)
-        .join(" — ")
+  const title = product.seo_title || product.name
+
+  const desc = product.seo_description
+    || (product.description
+      ? product.description.slice(0, 155).replace(/\s+/g, " ").trim()
+      : [product.name, product.brand?.name, product.category?.name]
+          .filter(Boolean)
+          .join(" — "))
 
   const ogImage = product.image_url ?? product.images[0]?.url ?? null
 
   return {
-    title: product.name,
+    title,
     description: desc,
     openGraph: ogImage
       ? {
           images: [{ url: ogImage }],
-          title: product.name,
+          title,
           description: desc,
         }
       : undefined,

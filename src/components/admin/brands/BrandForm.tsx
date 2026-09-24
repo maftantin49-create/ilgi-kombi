@@ -208,6 +208,49 @@ export function BrandForm({ action, mode, initialData }: Props) {
         </div>
       </div>
 
+      {/* SEO */}
+      <div className="space-y-4 pt-2" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+        <p className="text-xs font-semibold" style={{ color: "#A5A5A5", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+          SEO
+        </p>
+
+        <div className="space-y-1.5">
+          <label className="block text-sm font-medium" style={{ color: "#F4F4F2" }}>
+            SEO Başlık
+          </label>
+          <input
+            type="text"
+            name="seo_title"
+            defaultValue={(initialData as Record<string, unknown>)?.seo_title as string ?? ""}
+            className={inputClass}
+            style={inputStyle}
+            placeholder="Boş bırakılırsa marka adı kullanılır"
+            maxLength={120}
+          />
+          <p className="text-xs" style={{ color: "#A5A5A5" }}>
+            Tarayıcı sekmesi ve arama sonuçlarında görünür. En fazla 60 karakter önerilir.
+          </p>
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="block text-sm font-medium" style={{ color: "#F4F4F2" }}>
+            SEO Açıklama
+          </label>
+          <textarea
+            name="seo_description"
+            defaultValue={(initialData as Record<string, unknown>)?.seo_description as string ?? ""}
+            rows={2}
+            className="w-full px-3 py-2 rounded-lg text-sm outline-none resize-none"
+            style={inputStyle}
+            placeholder="Arama sonuçlarında görünecek kısa açıklama"
+            maxLength={300}
+          />
+          <p className="text-xs" style={{ color: "#A5A5A5" }}>
+            En fazla 155 karakter önerilir.
+          </p>
+        </div>
+      </div>
+
       {/* Footer */}
       <div className="flex items-center gap-3 pt-2">
         <button

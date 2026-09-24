@@ -154,6 +154,10 @@ export interface WcImportRow {
   sameDayShipping: boolean
   compatibleBrands: string[] | null
 
+  // seo_title / seo_description (from Yoast — no DB write until import phase)
+  seoTitle:        string | null
+  seoDescription:  string | null
+
   // product_oem_codes table
   oemCodes:        string[]
 

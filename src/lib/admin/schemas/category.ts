@@ -36,8 +36,10 @@ export const categorySchema = z.object({
   ),
   is_active:   checkboxBool,
   is_featured: checkboxBool,
-  image_url:   nullableText,
-  description: nullableText,
+  image_url:       nullableText,
+  description:     nullableText,
+  seo_title:       nullableText,
+  seo_description: nullableText,
 })
 
 export type CategoryFormData = z.infer<typeof categorySchema>

@@ -43,6 +43,8 @@ function parseFormFields(formData: FormData) {
     is_featured: formData.get("is_featured"),
     is_new: formData.get("is_new"),
     same_day_shipping: formData.get("same_day_shipping"),
+    seo_title: formData.get("seo_title"),
+    seo_description: formData.get("seo_description"),
   }
 }
 
@@ -295,6 +297,8 @@ export async function createProductAction(
       is_featured: String(parsed.data.is_featured),
       is_new: String(parsed.data.is_new),
       same_day_shipping: String(parsed.data.same_day_shipping),
+      seo_title: parsed.data.seo_title ?? "",
+      seo_description: parsed.data.seo_description ?? "",
     },
     p_images: galleryRows,
     p_oem_codes: oemResult,
@@ -378,6 +382,8 @@ export async function updateProductAction(
       is_featured: String(parsed.data.is_featured),
       is_new: String(parsed.data.is_new),
       same_day_shipping: String(parsed.data.same_day_shipping),
+      seo_title: parsed.data.seo_title ?? "",
+      seo_description: parsed.data.seo_description ?? "",
     },
     p_images: galleryRows,
     p_oem_codes: oemResult,

@@ -41,7 +41,7 @@ async function fetchCategoriesWithCounts(): Promise<StorefrontCategoryWithCount[
   const [catsResult, countsResult] = await Promise.all([
     db
       .from("categories")
-      .select("id, name, slug, parent_id, sort_order, is_featured, image_url, description")
+      .select("id, name, slug, parent_id, sort_order, is_featured, image_url, description, seo_title, seo_description")
       .eq("is_active", true)
       .order("sort_order"),
     db
@@ -75,18 +75,22 @@ async function fetchCategoriesWithCounts(): Promise<StorefrontCategoryWithCount[
     is_featured: boolean
     image_url: string | null
     description: string | null
+    seo_title: string | null
+    seo_description: string | null
   }
   return (catsResult.data ?? []).map((c) => {
     const row = c as CatRow
     return {
-      id:          row.id,
-      name:        row.name,
-      slug:        row.slug,
-      parent_id:   row.parent_id,
-      sort_order:  row.sort_order,
-      is_featured: row.is_featured,
-      image_url:   row.image_url,
-      description: row.description,
+      id:              row.id,
+      name:            row.name,
+      slug:            row.slug,
+      parent_id:       row.parent_id,
+      sort_order:      row.sort_order,
+      is_featured:     row.is_featured,
+      image_url:       row.image_url,
+      description:     row.description,
+      seo_title:       row.seo_title,
+      seo_description: row.seo_description,
       productCount: countMap.get(row.id) ?? 0,
     }
   })
@@ -137,7 +141,7 @@ export async function getStorefrontCategoryBySlug(
 
   const { data, error } = await db
     .from("categories")
-    .select("id, name, slug, parent_id, sort_order, is_featured, image_url, description")
+    .select("id, name, slug, parent_id, sort_order, is_featured, image_url, description, seo_title, seo_description")
     .eq("slug", slug)
     .eq("is_active", true)
     .single()
@@ -153,6 +157,8 @@ export async function getStorefrontCategoryBySlug(
     is_featured: boolean
     image_url: string | null
     description: string | null
+    seo_title: string | null
+    seo_description: string | null
   }
 
   const { count } = await db
@@ -162,14 +168,16 @@ export async function getStorefrontCategoryBySlug(
     .eq("is_active", true)
 
   return {
-    id:          c.id,
-    name:        c.name,
-    slug:        c.slug,
-    parent_id:   c.parent_id,
-    sort_order:  c.sort_order,
-    is_featured: c.is_featured,
-    image_url:   c.image_url,
-    description: c.description,
+    id:              c.id,
+    name:            c.name,
+    slug:            c.slug,
+    parent_id:       c.parent_id,
+    sort_order:      c.sort_order,
+    is_featured:     c.is_featured,
+    image_url:       c.image_url,
+    description:     c.description,
+    seo_title:       c.seo_title,
+    seo_description: c.seo_description,
     productCount: count ?? 0,
   }
 }

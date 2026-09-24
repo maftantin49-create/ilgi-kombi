@@ -256,6 +256,9 @@ export function normalizeWcProduct(p: WcProduct): WcImportRow {
       ? [...new Set(extractCompatibleModels(p).map(m => m.split(/\s+/)[0]))]
       : null,
 
+    seoTitle:       p.yoast_head_json?.title ?? null,
+    seoDescription: p.yoast_head_json?.description ?? null,
+
     oemCodes,
     specifications: specs,
 

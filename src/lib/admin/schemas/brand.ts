@@ -22,7 +22,9 @@ export const brandSchema = z.object({
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug: küçük harf, rakam ve tire kullanın"),
   is_active:   checkboxBool,
   is_featured: checkboxBool,
-  logo_url:    nullableText,
+  logo_url:        nullableText,
+  seo_title:       nullableText,
+  seo_description: nullableText,
   sort_order:  z.preprocess(
     (v) => {
       if (v === "" || v === undefined || v === null) return 0
