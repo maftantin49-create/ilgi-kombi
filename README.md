@@ -1,6 +1,6 @@
 # PITT Commerce Core — v0.1.0
 
-İstanbul Kombi Klima yedek parça e-ticaret platformu.
+İlgi Kombi yedek parça e-ticaret platformu.
 Admin paneli + müşteri sitesi — Next.js 16 App Router üzerine inşa edildi.
 
 ---

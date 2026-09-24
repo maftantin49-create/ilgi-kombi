@@ -108,7 +108,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
             {validPh && (
               <a
                 href={`tel:${validPh}`}
-                className="flex items-center gap-1.5 font-semibold text-[#D89B00] hover:text-[#F2B705] transition-colors"
+                className="flex items-center gap-1.5 font-semibold text-[#E2E8F0] hover:text-white transition-colors"
               >
                 <Phone size={12} aria-hidden="true" />
                 {validPh}
@@ -145,12 +145,12 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Parça adı, marka veya model numarası ara..."
-              className="h-10 text-[14px] pr-12 rounded-xl border border-[#303136] bg-[#151619] text-[#F4F4F2] placeholder:text-[#85857F] focus-visible:border-[#D89B00] focus-visible:ring-0"
+              className="h-10 text-[14px] pr-12 rounded-xl border border-[#303136] bg-[#151619] text-[#F4F4F2] placeholder:text-[#85857F] focus-visible:border-[#64748B] focus-visible:ring-0"
             />
             <button
               type="submit"
               aria-label="Ara"
-              className="absolute right-0 top-0 h-10 w-12 flex items-center justify-center rounded-r-xl bg-[#D89B00] text-[#090A0C] hover:bg-[#F2B705] transition-colors"
+              className="absolute right-0 top-0 h-10 w-12 flex items-center justify-center rounded-r-xl bg-[#334155] text-white hover:bg-[#475569] transition-colors"
             >
               <Search size={18} aria-hidden="true" />
             </button>
@@ -164,8 +164,8 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
           {validPh && (
             <a
               href={`tel:${validPh}`}
-              className="hidden lg:flex items-center gap-2 bg-[#D89B00] hover:bg-[#F2B705] text-[#090A0C] text-[13px] font-bold px-4 py-2.5 rounded-xl transition-colors"
-              style={{ boxShadow: "0 4px 14px -2px rgba(216,155,0,0.35)" }}
+              className="hidden lg:flex items-center gap-2 bg-[#334155] hover:bg-[#475569] text-white text-[13px] font-bold px-4 py-2.5 rounded-xl transition-colors"
+              style={{ boxShadow: "0 4px 14px -2px rgba(0,0,0,0.20)" }}
             >
               <Phone size={15} aria-hidden="true" />
               {validPh}
@@ -188,7 +188,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp ile destek al"
-              className="hidden lg:flex items-center justify-center w-10 h-10 rounded-xl text-[#85857F] hover:text-[#D89B00] hover:bg-[#1B1C20] transition-colors"
+              className="hidden lg:flex items-center justify-center w-10 h-10 rounded-xl text-[#85857F] hover:text-white hover:bg-[#1B1C20] transition-colors"
             >
               <WaIcon />
             </a>
@@ -197,15 +197,15 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
           {/* Favoriler */}
           <Link
             href="/favoriler"
-            className="relative flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-xl text-[#85857F] hover:text-[#D89B00] hover:bg-[#1B1C20] transition-colors"
+            className="relative flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-xl text-[#85857F] hover:text-white hover:bg-[#1B1C20] transition-colors"
             aria-label={`Favoriler${totalFavorites > 0 ? `, ${totalFavorites} ürün` : ""}`}
           >
             <div className="relative">
               <Heart size={22} aria-hidden="true" />
               {totalFavorites > 0 && (
                 <span
-                  className="absolute -top-1.5 -right-1.5 text-[#090A0C] text-[9px] rounded-full w-4 h-4 flex items-center justify-center font-bold"
-                  style={{ background: "#D89B00" }}
+                  className="absolute -top-1.5 -right-1.5 text-white text-[9px] rounded-full w-4 h-4 flex items-center justify-center font-bold"
+                  style={{ background: "#64748B" }}
                   aria-hidden="true"
                 >
                   {totalFavorites}
@@ -218,15 +218,15 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
           {/* Sepet */}
           <Link
             href="/sepet"
-            className="relative flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-xl text-[#85857F] hover:text-[#D89B00] hover:bg-[#1B1C20] transition-colors"
+            className="relative flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-xl text-[#85857F] hover:text-white hover:bg-[#1B1C20] transition-colors"
             aria-label={`Sepet${totalItems > 0 ? `, ${totalItems} ürün` : ""}`}
           >
             <div className="relative">
               <ShoppingCart size={22} aria-hidden="true" />
               {totalItems > 0 && (
                 <span
-                  className="absolute -top-1.5 -right-1.5 text-[#090A0C] text-[9px] rounded-full w-4 h-4 flex items-center justify-center font-bold"
-                  style={{ background: "#D89B00" }}
+                  className="absolute -top-1.5 -right-1.5 text-white text-[9px] rounded-full w-4 h-4 flex items-center justify-center font-bold"
+                  style={{ background: "#64748B" }}
                   aria-hidden="true"
                 >
                   {totalItems}
@@ -239,7 +239,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
           {/* Mobile menu */}
           <Sheet open={mobileOpen} onOpenChange={v => { setMobileOpen(v); if (!v) setMobileCatOpen(false) }}>
             <SheetTrigger
-              className="md:hidden p-2.5 rounded-xl text-[#85857F] hover:text-[#D89B00] hover:bg-[#1B1C20] transition-colors"
+              className="md:hidden p-2.5 rounded-xl text-[#85857F] hover:text-white hover:bg-[#1B1C20] transition-colors"
               aria-label="Menüyü aç"
             >
               <Menu size={24} aria-hidden="true" />
@@ -264,7 +264,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                 <button
                   onClick={() => setMobileOpen(false)}
                   aria-label="Menüyü kapat"
-                  className="p-1.5 rounded-lg transition-colors text-[#85857F] hover:text-[#D89B00] hover:bg-[#1B1C20]"
+                  className="p-1.5 rounded-lg transition-colors text-[#85857F] hover:text-white hover:bg-[#1B1C20]"
                 >
                   <X size={20} aria-hidden="true" />
                 </button>
@@ -280,7 +280,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                       value={search}
                       onChange={e => setSearch(e.target.value)}
                       placeholder="Parça ara..."
-                      className="h-11 pr-11 rounded-xl border border-[#303136] bg-[#151619] text-[#F4F4F2] placeholder:text-[#85857F] focus-visible:border-[#D89B00] focus-visible:ring-0"
+                      className="h-11 pr-11 rounded-xl border border-[#303136] bg-[#151619] text-[#F4F4F2] placeholder:text-[#85857F] focus-visible:border-[#64748B] focus-visible:ring-0"
                     />
                     <button type="submit" aria-label="Ara" className="absolute right-3 top-2.5">
                       <Search size={18} className="text-[#85857F]" aria-hidden="true" />
@@ -301,7 +301,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                       className="w-full flex items-center justify-between px-4 py-3 rounded-xl hover:bg-[#1B1C20] font-semibold text-[#F4F4F2] transition-colors text-[15px]"
                     >
                       <span className="flex items-center gap-3">
-                        <LayoutGrid size={17} className="text-[#D89B00]" aria-hidden="true" />
+                        <LayoutGrid size={17} className="text-[#94A3B8]" aria-hidden="true" />
                         Kategoriler
                       </span>
                       <ChevronDown
@@ -342,7 +342,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                                       <Link
                                         href={`/urunler?kategori=${cat.slug}`}
                                         onClick={() => { setMobileOpen(false); setMobileCatOpen(false) }}
-                                        className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm text-[#B9B9B4] hover:bg-[#1B1C20] hover:text-[#D89B00] transition-colors"
+                                        className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm text-[#B9B9B4] hover:bg-[#1B1C20] hover:text-white transition-colors"
                                       >
                                         <CatIcon size={14} className="text-[#85857F] shrink-0" aria-hidden="true" />
                                         {cat.name}
@@ -364,7 +364,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                                           <Link
                                             href={`/urunler?kategori=${cat.slug}`}
                                             onClick={() => { setMobileOpen(false); setMobileCatOpen(false) }}
-                                            className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm text-[#B9B9B4] hover:bg-[#1B1C20] hover:text-[#D89B00] transition-colors"
+                                            className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm text-[#B9B9B4] hover:bg-[#1B1C20] hover:text-white transition-colors"
                                           >
                                             <CatIcon size={14} className="text-[#85857F] shrink-0" aria-hidden="true" />
                                             {cat.name}
@@ -385,7 +385,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                         <Link
                           href="/kategoriler"
                           onClick={() => setMobileOpen(false)}
-                          className="flex items-center gap-1.5 px-2 py-2 text-sm font-semibold text-[#D89B00] hover:underline"
+                          className="flex items-center gap-1.5 px-2 py-2 text-sm font-semibold text-[#94A3B8] hover:underline"
                         >
                           Tüm Kategoriler <ChevronRight size={13} aria-hidden="true" />
                         </Link>
@@ -398,7 +398,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                       <Link
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
-                        className="block px-4 py-3 rounded-xl hover:bg-[#1B1C20] font-medium text-[#B9B9B4] hover:text-[#D89B00] transition-colors text-[15px]"
+                        className="block px-4 py-3 rounded-xl hover:bg-[#1B1C20] font-medium text-[#B9B9B4] hover:text-white transition-colors text-[15px]"
                       >
                         {link.label}
                       </Link>
@@ -412,10 +412,10 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                 {validPh && (
                   <a
                     href={`tel:${validPh}`}
-                    className="flex items-center justify-center gap-2 w-full text-[#090A0C] px-4 py-3.5 rounded-xl font-bold transition-colors text-[15px]"
-                    style={{ background: "#D89B00" }}
-                    onMouseEnter={e => (e.currentTarget.style.background = "#F2B705")}
-                    onMouseLeave={e => (e.currentTarget.style.background = "#D89B00")}
+                    className="flex items-center justify-center gap-2 w-full text-white px-4 py-3.5 rounded-xl font-bold transition-colors text-[15px]"
+                    style={{ background: "#334155" }}
+                    onMouseEnter={e => (e.currentTarget.style.background = "#475569")}
+                    onMouseLeave={e => (e.currentTarget.style.background = "#334155")}
                   >
                     <Phone size={16} aria-hidden="true" />
                     {validPh}
@@ -452,21 +452,20 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
             aria-expanded={megaOpen}
             aria-controls="mega-menu"
             aria-haspopup="true"
-            aria-label="Kombi yedek parça kategorilerini aç"
-            className={`flex items-center gap-3 shrink-0 w-[230px] lg:w-[250px] xl:w-[270px] px-6 py-4 text-[14px] font-bold tracking-tight transition-all duration-150 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#D89B00] ${
+            aria-label="Kategorileri aç"
+            className={`flex items-center gap-3 shrink-0 w-[230px] lg:w-[250px] xl:w-[270px] px-6 py-4 text-[14px] font-bold tracking-tight transition-all duration-150 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#64748B] ${
               megaOpen
-                ? "text-[#090A0C]"
+                ? "text-white"
                 : "text-[#F4F4F2] hover:bg-[#1B1C20]"
             }`}
             style={
               megaOpen
-                ? { background: "#D89B00" }
+                ? { background: "#334155" }
                 : { borderRight: "1px solid #303136", background: "#151619" }
             }
           >
             <LayoutGrid size={16} className="shrink-0" aria-hidden="true" />
-            <span className="truncate hidden xl:inline">Kombi Yedek Parça</span>
-            <span className="truncate xl:hidden">Kategoriler</span>
+            <span className="truncate">Kategoriler</span>
             <ChevronDown
               size={14}
               aria-hidden="true"
@@ -481,7 +480,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="flex items-center h-full px-5 py-4 text-[14px] font-semibold text-[#B9B9B4] hover:text-[#D89B00] hover:bg-[#1B1C20] rounded-lg transition-all duration-150 focus-visible:ring-2 focus-visible:ring-[#D89B00] tracking-wide"
+                    className="flex items-center h-full px-5 py-4 text-[14px] font-semibold text-[#B9B9B4] hover:text-white hover:bg-[#1B1C20] rounded-lg transition-all duration-150 focus-visible:ring-2 focus-visible:ring-[#64748B] tracking-wide"
                   >
                     {link.label}
                   </Link>

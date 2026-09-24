@@ -39,17 +39,17 @@ export default function BottomInfoCards() {
             className="flex gap-5 p-6 rounded-2xl"
             style={{
               background: "#151618",
-              border: "1px solid rgba(255,196,0,0.10)",
+              border: "1px solid rgba(255,255,255,0.06)",
             }}
           >
             <div
               className="w-11 h-11 flex items-center justify-center rounded-xl shrink-0"
               style={{
-                background: "rgba(212,160,23,0.08)",
-                border: "1px solid rgba(255,196,0,0.16)",
+                background: "rgba(226,232,240,0.06)",
+                border: "1px solid rgba(226,232,240,0.10)",
               }}
             >
-              <Icon size={20} style={{ color: "#D4A017" }} aria-hidden="true" />
+              <Icon size={20} style={{ color: "#94A3B8" }} aria-hidden="true" />
             </div>
             <div>
               <div className="font-bold text-[14px] mb-1.5" style={{ color: "#E8E8E2" }}>

@@ -8,7 +8,7 @@ Durum: READY FOR RELEASE
 
 ## Bu Sürümde Ne Var
 
-v0.1.0, İstanbul Kombi Klima yedek parça e-ticaret platformunun
+v0.1.0, İlgi Kombi yedek parça e-ticaret platformunun
 ilk production-ready admin panelini içerir.
 
 ### Admin Panel — 10 Modül

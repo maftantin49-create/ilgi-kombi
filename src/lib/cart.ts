@@ -187,7 +187,7 @@ export const useCart = create<CartStore>()(
         }, 0),
     }),
     {
-      name: "parcamarket-cart",
+      name: "ilgikombi-cart",
       version: 2,
       migrate: (state, fromVersion) => {
         if (fromVersion < 2) return migrateFromV0(state)

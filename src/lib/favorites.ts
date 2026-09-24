@@ -26,6 +26,6 @@ export const useFavorites = create<FavoritesStore>()(
       isFavorite: (id) => get().items.some(p => p.id === id),
       totalFavorites: () => get().items.length,
     }),
-    { name: "parcamarket-favorites" }
+    { name: "ilgikombi-favorites" }
   )
 )

@@ -39,9 +39,9 @@ export default function AdminSidebar() {
         className="px-5 py-4 border-b"
         style={{ borderColor: "rgba(255,255,255,0.07)" }}
       >
-        <p className="text-xs font-medium" style={{ color: "#A5A5A5" }}>Admin Panel</p>
-        <p className="text-xs mt-0.5 font-semibold tracking-wide" style={{ color: "#D4A017" }}>
-          Admin Panel
+        <p className="text-xs font-semibold" style={{ color: "#E2E8F0" }}>İlgi Kombi</p>
+        <p className="text-xs mt-0.5 font-medium tracking-wide" style={{ color: "#64748B" }}>
+          Yönetim Paneli
         </p>
       </div>
 
@@ -58,8 +58,8 @@ export default function AdminSidebar() {
               href={href}
               className="flex items-center gap-2.5 px-3 py-2 rounded-md text-sm transition-colors"
               style={{
-                color:      isActive ? "#D4A017" : "#A5A5A5",
-                background: isActive ? "rgba(212,160,23,0.08)" : "transparent",
+                color:      isActive ? "#E2E8F0" : "#A5A5A5",
+                background: isActive ? "rgba(226,232,240,0.08)" : "transparent",
                 fontWeight: isActive ? 500 : 400,
               }}
             >

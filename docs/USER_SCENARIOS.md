@@ -1,6 +1,6 @@
 # Kullanıcı Senaryoları — v0.1.0
 
-İstanbul Kombi Klima admin kullanıcısının gerçek günlük iş akışları.
+İlgi Kombi admin kullanıcısının gerçek günlük iş akışları.
 
 ---
 

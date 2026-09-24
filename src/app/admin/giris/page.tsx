@@ -22,9 +22,9 @@ export default async function AdminGirisPage({ searchParams }: Props) {
         <div className="mb-8 text-center">
           <p
             className="text-xs font-medium tracking-widest uppercase mb-2"
-            style={{ color: "#D4A017" }}
+            style={{ color: "#64748B" }}
           >
-            Admin Panel
+            İlgi Kombi
           </p>
           <h1 className="text-2xl font-semibold" style={{ color: "#F4F4F2" }}>
             Admin Girişi
@@ -100,7 +100,7 @@ export default async function AdminGirisPage({ searchParams }: Props) {
             <button
               type="submit"
               className="w-full rounded py-2.5 text-sm font-semibold transition-opacity hover:opacity-90 active:opacity-80"
-              style={{ background: "#D4A017", color: "#090A0C" }}
+              style={{ background: "#334155", color: "#F4F4F2" }}
             >
               Giriş Yap
             </button>

@@ -1,6 +1,6 @@
 # Architecture — PITT Commerce Core
 
-İstanbul Kombi Klima yedek parça e-ticaret admin paneli teknik mimarisi.
+İlgi Kombi yedek parça e-ticaret admin paneli teknik mimarisi.
 
 ---
 
