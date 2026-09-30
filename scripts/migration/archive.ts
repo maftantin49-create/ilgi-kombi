@@ -190,6 +190,7 @@ function archiveProduct(p: WcProduct): ArchivedProduct {
     stockStatus:      p.stock_status,
     stockQuantity:    p.stock_quantity ?? 0,
     manageStock:      p.manage_stock,
+    trackStock:       p.manage_stock,
     backorders:       p.backorders ?? "no",
     soldIndividually: p.sold_individually ?? false,
     taxStatus:        p.tax_status ?? "taxable",

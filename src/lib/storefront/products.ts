@@ -207,10 +207,11 @@ export async function getStorefrontProducts(
       query = query
         .order("is_featured", { ascending: false })
         .order("created_at", { ascending: false })
+        .order("id", { ascending: true })
       break
     case "newest":
     default:
-      query = query.order("created_at", { ascending: false })
+      query = query.order("created_at", { ascending: false }).order("id", { ascending: true })
   }
 
   query = query.range(from, to)

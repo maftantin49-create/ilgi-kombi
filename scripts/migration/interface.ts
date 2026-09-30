@@ -284,6 +284,7 @@ export interface ArchivedProduct {
   stockStatus:      WcStockStatus
   stockQuantity:    number
   manageStock:      boolean
+  trackStock:       boolean
   backorders:       string
   soldIndividually: boolean
   taxStatus:        string

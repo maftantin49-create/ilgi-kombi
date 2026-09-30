@@ -12,6 +12,7 @@ import {
 } from "@/lib/storefront/products"
 import {
   getProductAvailability,
+  canAddToCart,
   PRODUCT_IMAGE_PLACEHOLDER,
   type StorefrontCompatibleDevice,
   type StorefrontProductDetail,
@@ -135,7 +136,7 @@ function buildJsonLd(
       priceCurrency: "TRY",
       price: product.price,
       availability:
-        product.stock_quantity > 0
+        canAddToCart(product)
           ? "https://schema.org/InStock"
           : "https://schema.org/OutOfStock",
     },
