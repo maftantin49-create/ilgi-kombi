@@ -174,16 +174,18 @@ export default async function HomePage() {
       )}
 
       {/* ─── 10. Aynı Gün Kargo ─── */}
-      <AnimatedSection variant="fade-up" as="div">
-        <ProductSection
-          eyebrow="Hızlı Teslimat"
-          title="Aynı Gün Kargo"
-          description={settings.shippingCutoff ? `Saat ${settings.shippingCutoff}'ya kadar sipariş verin, bugün kargoda olsun` : "Hafta içi iş saatlerinde sipariş verin, bugün kargoda olsun"}
-          products={sameDayProducts}
-          viewAllHref="/urunler"
-          viewAllLabel="Tümünü Gör"
-        />
-      </AnimatedSection>
+      {sameDayProducts.length > 0 && (
+        <AnimatedSection variant="fade-up" as="div">
+          <ProductSection
+            eyebrow="Hızlı Teslimat"
+            title="Aynı Gün Kargo"
+            description={settings.shippingCutoff ? `Saat ${settings.shippingCutoff}'ya kadar sipariş verin, bugün kargoda olsun` : "Hafta içi iş saatlerinde sipariş verin, bugün kargoda olsun"}
+            products={sameDayProducts}
+            viewAllHref="/urunler"
+            viewAllLabel="Tümünü Gör"
+          />
+        </AnimatedSection>
+      )}
 
       {/* ─── 13. Alt 3 Kart ─── */}
       <BottomInfoCards />
