@@ -6,6 +6,7 @@ import { getStorefrontCategories, getCategoryDescendantIds } from "@/lib/storefr
 import { getStorefrontProducts } from "@/lib/storefront/products"
 import StorefrontProductCardComponent from "@/components/product/StorefrontProductCard"
 import { wa } from "@/lib/whatsapp"
+import { siteConfig } from "@/config/site"
 
 const getCachedCategories = cache(getStorefrontCategories)
 
@@ -29,6 +30,9 @@ export async function generateMetadata({
   return {
     title,
     description,
+    alternates: {
+      canonical: `${siteConfig.url}/kategoriler/${slug}`,
+    },
     openGraph: category.image_url
       ? { images: [{ url: category.image_url }], title, description }
       : undefined,

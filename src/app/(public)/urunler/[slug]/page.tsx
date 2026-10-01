@@ -55,6 +55,9 @@ export async function generateMetadata({
   return {
     title,
     description: desc,
+    alternates: {
+      canonical: `${siteConfig.url}/urunler/${slug}`,
+    },
     openGraph: ogImage
       ? {
           images: [{ url: ogImage }],

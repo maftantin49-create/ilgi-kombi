@@ -7,7 +7,7 @@ const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [productResult, categories, brands] = await Promise.all([
-    getStorefrontProducts({ sort: "newest", pageSize: 48 }),
+    getStorefrontProducts({ sort: "newest", pageSize: 200 }),
     getStorefrontCategories(),
     getStorefrontBrands(),
   ])
