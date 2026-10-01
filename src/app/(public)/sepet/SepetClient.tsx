@@ -128,12 +128,12 @@ export default function SepetClient({ freeShippingThreshold, shippingCost, waNum
                     </span>
                     <button
                       onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                      disabled={item.quantity >= item.stockQuantity}
+                      disabled={item.trackStock && item.quantity >= item.stockQuantity}
                       aria-label="Adeti artır"
                       className="px-2.5 py-1.5 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                       style={{ color: "#A0A09A" }}
                       onMouseEnter={(e) => {
-                        if (item.quantity < item.stockQuantity)
+                        if (!item.trackStock || item.quantity < item.stockQuantity)
                           (e.currentTarget as HTMLButtonElement).style.background = "#1E1F21"
                       }}
                       onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.background = "transparent")}

@@ -46,6 +46,7 @@ export default function ProductActions({
   const [added, setAdded] = useState(false)
 
   const { price, stock_quantity, name, sku } = product
+  const tracked = product.track_stock ?? true
 
   const discount =
     compare_at_price && compare_at_price > price
@@ -119,8 +120,8 @@ export default function ProductActions({
               {qty}
             </span>
             <button
-              onClick={() => setQty((q) => Math.min(stock_quantity, q + 1))}
-              disabled={qty >= stock_quantity || availability === "out_of_stock"}
+              onClick={() => setQty((q) => tracked ? Math.min(stock_quantity, q + 1) : q + 1)}
+              disabled={(tracked && qty >= stock_quantity) || availability === "out_of_stock"}
               aria-label="Adeti artır"
               className="px-3 py-2 transition-colors disabled:opacity-30"
               style={{ color: "#A0A0A0" }}
