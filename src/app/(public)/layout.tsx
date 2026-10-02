@@ -2,11 +2,13 @@ import Header from "@/components/layout/Header"
 import Footer from "@/components/layout/Footer"
 import WhatsAppFloat from "@/components/layout/WhatsAppFloat"
 import { getStorefrontCategories } from "@/lib/storefront/categories"
+import { getStorefrontBrands } from "@/lib/storefront/brands"
 import { getStoreSettings } from "@/lib/storefront/settings"
 
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
-  const [categories, settings] = await Promise.all([
+  const [categories, brands, settings] = await Promise.all([
     getStorefrontCategories(),
+    getStorefrontBrands(),
     getStoreSettings(),
   ])
 
@@ -14,6 +16,7 @@ export default async function PublicLayout({ children }: { children: React.React
     <div className="flex flex-col min-h-screen">
       <Header
         categories={categories}
+        brands={brands}
         siteName={settings.siteName}
         phone={settings.phone}
         whatsapp={settings.whatsapp}

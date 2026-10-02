@@ -3,7 +3,7 @@
 import Link from "next/link"
 import {
   ShoppingCart, Search, Phone, Menu, X,
-  Heart, ChevronDown, ChevronRight, LayoutGrid, Flame,
+  Heart, ChevronDown, ChevronRight, Flame,
 } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
 import { useCart } from "@/lib/cart"
@@ -12,17 +12,19 @@ import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { buildWa } from "@/lib/whatsapp"
 import { validPhone, validWhatsApp } from "@/lib/storefront/guards"
-import { useRouter } from "next/navigation"
-import CategoryMegaMenu, { CAT_ICONS } from "@/components/layout/CategoryMegaMenu"
+import { useRouter, usePathname } from "next/navigation"
+import { CAT_ICONS } from "@/components/layout/CategoryMegaMenu"
+import ParcaGruplariMegaMenu, { QUICK_LINKS } from "@/components/layout/ParcaGruplariMegaMenu"
 import type { StorefrontCategoryWithCount } from "@/lib/storefront/categories"
+import type { StorefrontBrandWithCount } from "@/lib/storefront/brands"
 
-const navLinks = [
-  { href: "/urunler",                    label: "Ürünler"         },
-  { href: "/markalar",                   label: "Kombi Markaları" },
-  { href: "/kategoriler",                label: "Parça Grupları"  },
-  { href: "/urunler",                    label: "Kampanyalar"     },
-  { href: "/hakkimizda",                 label: "Hakkımızda"      },
-  { href: "/iletisim",                   label: "İletişim"        },
+// Nav links — "Parça Grupları" is rendered as a special mega-menu trigger below
+const NAV_LINKS = [
+  { href: "/urunler",    label: "Ürünler"         },
+  { href: "/markalar",   label: "Kombi Markaları" },
+  { href: "/urunler",    label: "Kampanyalar"      },
+  { href: "/hakkimizda", label: "Hakkımızda"       },
+  { href: "/iletisim",   label: "İletişim"         },
 ]
 
 const WaIcon = () => (
@@ -33,12 +35,13 @@ const WaIcon = () => (
 
 interface HeaderProps {
   categories: StorefrontCategoryWithCount[]
-  siteName: string
-  phone: string
-  whatsapp: string
+  brands:     StorefrontBrandWithCount[]
+  siteName:   string
+  phone:      string
+  whatsapp:   string
 }
 
-export default function Header({ categories, siteName, phone, whatsapp }: HeaderProps) {
+export default function Header({ categories, brands, siteName, phone, whatsapp }: HeaderProps) {
   const totalItems     = useCart(s => s.totalItems)()
   const totalFavorites = useFavorites(s => s.totalFavorites)()
   const [mobileOpen,    setMobileOpen]    = useState(false)
@@ -46,8 +49,10 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
   const [mobileCatOpen, setMobileCatOpen] = useState(false)
   const [search,        setSearch]        = useState("")
   const router    = useRouter()
+  const pathname  = usePathname()
   const headerRef = useRef<HTMLElement>(null)
 
+  // Close mega menu on outside click
   useEffect(() => {
     if (!megaOpen) return
     const onDown = (e: MouseEvent) => {
@@ -59,6 +64,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
     return () => document.removeEventListener("mousedown", onDown)
   }, [megaOpen])
 
+  // Close mega menu on Escape
   useEffect(() => {
     if (!megaOpen) return
     const onKey = (e: KeyboardEvent) => {
@@ -80,6 +86,19 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
   const validWa = validWhatsApp(whatsapp)
   const validPh = validPhone(phone)
   const wa      = buildWa(validWa)
+
+  // Shared nav link class helper
+  const navLinkClass = (href: string) => {
+    const isActive = pathname === href || (href !== "/" && pathname.startsWith(href))
+    return isActive
+      ? "flex items-center px-3 py-2.5 text-[13px] font-medium text-blue-700 relative transition-all duration-150 whitespace-nowrap after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-blue-700 after:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+      : "flex items-center px-3 py-2.5 text-[13px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded transition-all duration-150 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+  }
+
+  // Parça Grupları trigger class
+  const parcaClass = megaOpen
+    ? "flex items-center gap-1 px-3 py-2.5 text-[13px] font-medium text-blue-700 relative transition-all duration-150 whitespace-nowrap after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-blue-700 after:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+    : "flex items-center gap-1 px-3 py-2.5 text-[13px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded transition-all duration-150 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
 
   return (
     <header
@@ -235,21 +254,18 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                 </form>
               </div>
 
-              {/* Nav */}
+              {/* Mobile Nav */}
               <nav aria-label="Mobil menü" className="px-3 py-2">
                 <ul className="space-y-0.5">
 
-                  {/* Kategoriler accordion */}
+                  {/* Parça Grupları accordion */}
                   <li>
                     <button
                       onClick={() => setMobileCatOpen(v => !v)}
                       aria-expanded={mobileCatOpen}
                       className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-50 font-semibold text-gray-700 transition-colors text-[14px]"
                     >
-                      <span className="flex items-center gap-2.5">
-                        <LayoutGrid size={16} className="text-[#1E3A8A]" aria-hidden="true" />
-                        Tüm Kategoriler
-                      </span>
+                      <span>Parça Grupları</span>
                       <ChevronDown
                         size={15}
                         aria-hidden="true"
@@ -258,82 +274,129 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                     </button>
 
                     {mobileCatOpen && (
-                      <div className="mt-1 ml-4 pl-3 space-y-3 pb-2" style={{ borderLeft: "1px solid #E2E6EA" }}>
-                        {(() => {
-                          const rootCats = categories.filter(c => !c.parent_id)
-                          const groups = rootCats
-                            .map(root => ({
-                              id:    root.id,
-                              title: root.name,
-                              items: categories.filter(c => c.parent_id === root.id),
-                            }))
-                            .filter(g => g.items.length > 0)
+                      <div className="mt-1 ml-3 space-y-3 pb-2" style={{ borderLeft: "1px solid #E2E6EA", paddingLeft: "12px" }}>
 
-                          const standalone = rootCats.filter(
-                            root => !categories.some(c => c.parent_id === root.id)
-                          )
+                        {/* Parça Türleri */}
+                        <div>
+                          <p className="px-2 py-1.5 text-[10px] font-semibold text-gray-400 uppercase tracking-wider">
+                            Parça Türleri
+                          </p>
+                          {(() => {
+                            const rootCats = categories.filter(c => !c.parent_id)
+                            const groups = rootCats
+                              .map(root => ({
+                                id:    root.id,
+                                title: root.name,
+                                items: categories.filter(c => c.parent_id === root.id),
+                              }))
+                              .filter(g => g.items.length > 0)
 
-                          return (
-                            <>
-                              {standalone.map(cat => {
-                                const CatIcon = CAT_ICONS[cat.slug] ?? Flame
-                                return (
-                                  <ul key={cat.id} className="space-y-0.5">
-                                    <li>
-                                      <Link
-                                        href={`/urunler?kategori=${cat.slug}`}
-                                        onClick={() => { setMobileOpen(false); setMobileCatOpen(false) }}
-                                        className="flex items-center gap-2.5 px-2 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
-                                      >
-                                        <CatIcon size={13} className="text-gray-400 shrink-0" aria-hidden="true" />
-                                        {cat.name}
-                                      </Link>
-                                    </li>
-                                  </ul>
-                                )
-                              })}
-                              {groups.map(group => (
-                                <div key={group.id}>
-                                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5 px-2">
-                                    {group.title}
-                                  </div>
-                                  <ul className="space-y-0.5">
+                            const standalone = rootCats.filter(
+                              root => !categories.some(c => c.parent_id === root.id)
+                            )
+
+                            return (
+                              <>
+                                {standalone.map(cat => {
+                                  const CatIcon = CAT_ICONS[cat.slug] ?? Flame
+                                  return (
+                                    <Link
+                                      key={cat.id}
+                                      href={`/urunler?kategori=${cat.slug}`}
+                                      onClick={() => { setMobileOpen(false); setMobileCatOpen(false) }}
+                                      className="flex items-center gap-2.5 px-2 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+                                    >
+                                      <CatIcon size={13} className="text-gray-400 shrink-0" aria-hidden="true" />
+                                      {cat.name}
+                                    </Link>
+                                  )
+                                })}
+                                {groups.map(group => (
+                                  <div key={group.id}>
+                                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 px-2 mt-2">
+                                      {group.title}
+                                    </div>
                                     {group.items.map(cat => {
                                       const CatIcon = CAT_ICONS[cat.slug] ?? Flame
                                       return (
-                                        <li key={cat.id}>
-                                          <Link
-                                            href={`/urunler?kategori=${cat.slug}`}
-                                            onClick={() => { setMobileOpen(false); setMobileCatOpen(false) }}
-                                            className="flex items-center gap-2.5 px-2 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
-                                          >
-                                            <CatIcon size={13} className="text-gray-400 shrink-0" aria-hidden="true" />
-                                            {cat.name}
-                                          </Link>
-                                        </li>
+                                        <Link
+                                          key={cat.id}
+                                          href={`/urunler?kategori=${cat.slug}`}
+                                          onClick={() => { setMobileOpen(false); setMobileCatOpen(false) }}
+                                          className="flex items-center gap-2.5 px-2 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+                                        >
+                                          <CatIcon size={13} className="text-gray-400 shrink-0" aria-hidden="true" />
+                                          {cat.name}
+                                        </Link>
                                       )
                                     })}
-                                  </ul>
-                                </div>
-                              ))}
-                              {groups.length === 0 && standalone.length === 0 && (
-                                <p className="px-2 py-2 text-sm text-gray-400">Henüz kategori eklenmedi.</p>
-                              )}
-                            </>
-                          )
-                        })()}
-                        <Link
-                          href="/kategoriler"
-                          onClick={() => setMobileOpen(false)}
-                          className="flex items-center gap-1 px-2 py-2 text-sm font-semibold text-blue-700 hover:underline"
-                        >
-                          Tüm Kategoriler <ChevronRight size={12} aria-hidden="true" />
-                        </Link>
+                                  </div>
+                                ))}
+                                {groups.length === 0 && standalone.length === 0 && (
+                                  <p className="px-2 py-2 text-sm text-gray-400">Henüz kategori eklenmedi.</p>
+                                )}
+                              </>
+                            )
+                          })()}
+                          <Link
+                            href="/kategoriler"
+                            onClick={() => setMobileOpen(false)}
+                            className="flex items-center gap-1 px-2 py-2 text-sm font-semibold text-blue-700 hover:underline mt-1"
+                          >
+                            Tüm Kategoriler <ChevronRight size={12} aria-hidden="true" />
+                          </Link>
+                        </div>
+
+                        {/* Markaya Göre */}
+                        {brands.filter(b => b.productCount > 0).length > 0 && (
+                          <div style={{ borderTop: "1px solid #F1F3F5", paddingTop: "8px" }}>
+                            <p className="px-2 py-1.5 text-[10px] font-semibold text-gray-400 uppercase tracking-wider">
+                              Markaya Göre
+                            </p>
+                            {brands.filter(b => b.productCount > 0).slice(0, 6).map(brand => (
+                              <Link
+                                key={brand.id}
+                                href={`/urunler?marka=${encodeURIComponent(brand.name)}`}
+                                onClick={() => { setMobileOpen(false); setMobileCatOpen(false) }}
+                                className="flex items-center justify-between px-2 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+                              >
+                                <span>{brand.name}</span>
+                                <span className="text-xs text-gray-400">{brand.productCount}</span>
+                              </Link>
+                            ))}
+                            <Link
+                              href="/markalar"
+                              onClick={() => setMobileOpen(false)}
+                              className="flex items-center gap-1 px-2 py-2 text-sm font-semibold text-blue-700 hover:underline"
+                            >
+                              Tüm Markalar <ChevronRight size={12} aria-hidden="true" />
+                            </Link>
+                          </div>
+                        )}
+
+                        {/* Hızlı Erişim */}
+                        <div style={{ borderTop: "1px solid #F1F3F5", paddingTop: "8px" }}>
+                          <p className="px-2 py-1.5 text-[10px] font-semibold text-gray-400 uppercase tracking-wider">
+                            Hızlı Erişim
+                          </p>
+                          {QUICK_LINKS.map(link => (
+                            <Link
+                              key={link.label}
+                              href={link.href}
+                              onClick={() => { setMobileOpen(false); setMobileCatOpen(false) }}
+                              className="block px-2 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+                            >
+                              {link.label}
+                            </Link>
+                          ))}
+                        </div>
+
                       </div>
                     )}
                   </li>
 
-                  {navLinks.map(link => (
+                  {/* Regular nav links */}
+                  {NAV_LINKS.map(link => (
                     <li key={`${link.href}-${link.label}`}>
                       <Link
                         href={link.href}
@@ -377,52 +440,84 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
 
       {/* ── Satır 2: Nav bar ─────────────────────────────────────────────── */}
       <div
-        className="hidden md:block"
+        className="hidden md:block relative"
         style={{ borderTop: "1px solid #F1F3F5", background: "#FFFFFF" }}
+        onMouseLeave={() => setMegaOpen(false)}
       >
-        <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-stretch">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <nav aria-label="Ana menü">
+            <ul className="flex items-stretch">
 
-          {/* ☰ Tüm Kategoriler butonu */}
-          <button
-            onClick={() => setMegaOpen(v => !v)}
-            aria-expanded={megaOpen}
-            aria-controls="mega-menu"
-            aria-haspopup="true"
-            aria-label="Kategorileri aç"
-            className={`flex items-center gap-2 shrink-0 px-4 py-2.5 text-[13px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 ${
-              megaOpen
-                ? "bg-[#1E3A8A] text-white"
-                : "text-white bg-[#1E3A8A] hover:bg-[#1E40AF]"
-            }`}
-          >
-            <LayoutGrid size={14} className="shrink-0" aria-hidden="true" />
-            <span>Tüm Kategoriler</span>
-            <ChevronDown
-              size={13}
-              aria-hidden="true"
-              className={`ml-1 shrink-0 transition-transform duration-200 ${megaOpen ? "rotate-180" : ""}`}
-            />
-          </button>
+              {/* Ürünler */}
+              <li>
+                <Link href="/urunler" className={navLinkClass("/urunler")}>
+                  Ürünler
+                </Link>
+              </li>
 
-          {/* Nav linkleri */}
-          <nav aria-label="Ana menü" className="flex-1 px-2">
-            <ul className="flex h-full items-center">
-              {navLinks.map(link => (
-                <li key={`${link.href}-${link.label}`}>
-                  <Link
-                    href={link.href}
-                    className="flex items-center px-4 py-2.5 text-[13px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 whitespace-nowrap"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              {/* Kombi Markaları */}
+              <li>
+                <Link href="/markalar" className={navLinkClass("/markalar")}>
+                  Kombi Markaları
+                </Link>
+              </li>
+
+              {/* Parça Grupları — mega menu trigger */}
+              <li
+                onMouseEnter={() => setMegaOpen(true)}
+                className="relative"
+              >
+                <button
+                  onClick={() => setMegaOpen(v => !v)}
+                  aria-expanded={megaOpen}
+                  aria-haspopup="true"
+                  className={parcaClass}
+                >
+                  Parça Grupları
+                  <ChevronDown
+                    size={13}
+                    aria-hidden="true"
+                    className={`transition-transform duration-200 ${megaOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+              </li>
+
+              {/* Kampanyalar */}
+              <li>
+                <Link href="/urunler" className={navLinkClass("/__never__")}>
+                  Kampanyalar
+                </Link>
+              </li>
+
+              {/* Hakkımızda */}
+              <li>
+                <Link href="/hakkimizda" className={navLinkClass("/hakkimizda")}>
+                  Hakkımızda
+                </Link>
+              </li>
+
+              {/* İletişim */}
+              <li>
+                <Link href="/iletisim" className={navLinkClass("/iletisim")}>
+                  İletişim
+                </Link>
+              </li>
+
             </ul>
           </nav>
         </div>
 
+        {/* Mega menu — rendered inside nav row div so mouseLeave works correctly */}
         {megaOpen && (
-          <CategoryMegaMenu onClose={() => setMegaOpen(false)} categories={categories} />
+          <div className="absolute top-full left-0 right-0 z-50">
+            <div className="max-w-7xl mx-auto px-4 md:px-6">
+              <ParcaGruplariMegaMenu
+                categories={categories}
+                brands={brands}
+                onClose={() => setMegaOpen(false)}
+              />
+            </div>
+          </div>
         )}
       </div>
 
