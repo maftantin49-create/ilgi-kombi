@@ -22,13 +22,13 @@ function CategoryCard({
       tabIndex={ariaHidden ? -1 : undefined}
       className={`${CARD_WIDTH_CLASS} shrink-0 group flex flex-col rounded-xl overflow-hidden transition-all duration-200 hover:-translate-y-0.5`}
       style={{
-        background: "#151618",
-        border: "1px solid rgba(255,255,255,0.07)",
+        background: "#FFFFFF",
+        border: "1px solid #E2E6EA",
       }}
     >
       <div
         className="relative w-full overflow-hidden"
-        style={{ aspectRatio: "1/1", background: "rgba(212,160,23,0.04)" }}
+        style={{ aspectRatio: "1/1", background: "#F8F9FA" }}
       >
         {cat.image_url ? (
           <Image
@@ -40,7 +40,7 @@ function CategoryCard({
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-2xl font-bold" style={{ color: "rgba(212,160,23,0.25)" }}>
+            <span className="text-2xl font-bold text-blue-200">
               {cat.name.charAt(0)}
             </span>
           </div>
@@ -48,15 +48,12 @@ function CategoryCard({
 
         <div
           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none rounded-[inherit]"
-          style={{ boxShadow: "inset 0 0 0 1px rgba(255,196,0,0.35)" }}
+          style={{ boxShadow: "inset 0 0 0 2px #93C5FD" }}
           aria-hidden="true"
         />
       </div>
 
-      <div
-        className="px-3 py-2 text-[12px] font-semibold leading-snug transition-colors group-hover:text-[#D4A017] truncate"
-        style={{ color: "#C0C0BA" }}
-      >
+      <div className="px-3 py-2 text-[12px] font-semibold leading-snug transition-colors text-gray-700 group-hover:text-blue-700 truncate">
         {cat.name}
       </div>
     </Link>
@@ -74,22 +71,18 @@ export default function CategoryRail({ categories }: Props) {
     <section
       aria-label="Kategori hızlı erişim"
       style={{
-        background: "#0D0E11",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
+        background: "#FFFFFF",
+        borderBottom: "1px solid #E2E6EA",
       }}
     >
       <div className="max-w-7xl mx-auto px-4 py-4 lg:py-5">
         <div className="flex items-center justify-between mb-3">
-          <span
-            className="text-[11px] font-bold tracking-[0.18em] uppercase"
-            style={{ color: "#555550" }}
-          >
+          <span className="text-[11px] font-bold tracking-[0.18em] uppercase text-gray-400">
             Kategoriler
           </span>
           <Link
             href="/kategoriler"
-            className="text-[11px] font-medium flex items-center gap-0.5 transition-colors hover:text-[#F2C94C]"
-            style={{ color: "#D4A017" }}
+            className="text-[11px] font-medium flex items-center gap-0.5 text-blue-700 transition-colors hover:text-blue-900"
           >
             Tümü <ChevronRight size={12} aria-hidden="true" />
           </Link>

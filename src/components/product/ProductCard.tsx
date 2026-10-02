@@ -60,9 +60,9 @@ export default function ProductCard({ product }: Props) {
       transition={{ duration: 0.4, ease: "easeOut" }}
       className="group relative flex flex-col overflow-hidden"
       style={{
-        background: "#151618",
-        border: "1px solid rgba(255,196,0,0.10)",
-        borderRadius: "20px",
+        background: "#FFFFFF",
+        border: "1px solid #E2E6EA",
+        borderRadius: "12px",
         willChange: "transform",
       }}
     >
@@ -70,8 +70,8 @@ export default function ProductCard({ product }: Props) {
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
         style={{
-          borderRadius: "20px",
-          boxShadow: "inset 0 0 0 1px rgba(255,196,0,0.40), 0 8px 30px rgba(212,160,23,0.10)",
+          borderRadius: "12px",
+          boxShadow: "inset 0 0 0 1px #93C5FD, 0 4px 16px rgba(0,0,0,0.08)",
         }}
         aria-hidden="true"
       />
@@ -83,8 +83,8 @@ export default function ProductCard({ product }: Props) {
         whileTap={{ scale: 0.88 }}
         className="absolute top-2.5 right-2.5 z-10 w-7 h-7 rounded-full flex items-center justify-center transition-colors duration-150"
         style={{
-          background: "rgba(21,22,24,0.90)",
-          border: `1px solid ${favorited ? "rgba(239,68,68,0.35)" : "rgba(255,255,255,0.10)"}`,
+          background: "rgba(255,255,255,0.90)",
+          border: `1px solid ${favorited ? "rgba(239,68,68,0.35)" : "#E2E6EA"}`,
         }}
       >
         <Heart
@@ -98,7 +98,7 @@ export default function ProductCard({ product }: Props) {
       <Link
         href={`/urunler/${product.slug}`}
         className="block relative aspect-square overflow-hidden"
-        style={{ background: "#111214" }}
+        style={{ background: "#F8F9FA" }}
         onMouseEnter={() => product.hoverImage && setImgHovered(true)}
         onMouseLeave={() => setImgHovered(false)}
       >
@@ -130,7 +130,7 @@ export default function ProductCard({ product }: Props) {
           {product.isNew && (
             <span
               className="text-[10px] font-black px-2 py-0.5 rounded-full tracking-[0.05em]"
-              style={{ background: "#D4A017", color: "#090A0C" }}
+              style={{ background: "#2563EB", color: "#FFFFFF" }}
             >
               Yeni
             </span>
@@ -139,9 +139,9 @@ export default function ProductCard({ product }: Props) {
             <span
               className="text-[10px] font-bold px-2 py-0.5 rounded-full"
               style={{
-                background: "rgba(212,160,23,0.12)",
-                border: "1px solid rgba(212,160,23,0.35)",
-                color: "#D4A017",
+                background: "#FEF2F2",
+                border: "1px solid #FCA5A5",
+                color: "#B91C1C",
               }}
             >
               %{discount} indirim
@@ -154,9 +154,9 @@ export default function ProductCard({ product }: Props) {
             <span
               className="text-[10px] px-2 py-0.5 rounded-full"
               style={{
-                background: "rgba(21,22,24,0.92)",
+                background: "rgba(255,255,255,0.92)",
                 border: "1px solid rgba(245,158,11,0.38)",
-                color: "#F59E0B",
+                color: "#B45309",
               }}
             >
               Son {product.stock} adet
@@ -168,7 +168,7 @@ export default function ProductCard({ product }: Props) {
       {/* Content */}
       <div className="flex flex-col flex-1 p-3">
         <Link href={`/urunler/${product.slug}`}>
-          <h3 className="font-medium text-sm leading-snug line-clamp-2 mb-1.5 transition-colors duration-150 text-[#E0E0DC] hover:text-[#D4A017]">
+          <h3 className="font-medium text-sm leading-snug line-clamp-2 mb-1.5 transition-colors duration-150 text-gray-800 hover:text-blue-700">
             {product.name}
           </h3>
         </Link>
@@ -185,11 +185,11 @@ export default function ProductCard({ product }: Props) {
         {/* Price row */}
         <div className="flex items-end justify-between mt-auto mb-2.5">
           <div>
-            <div className="font-bold text-base leading-none" style={{ color: "#D4A017" }}>
+            <div className="font-bold text-base leading-none" style={{ color: "#1E3A8A" }}>
               {product.price.toLocaleString("tr-TR")} ₺
             </div>
             {product.originalPrice && (
-              <div className="text-[11px] line-through mt-0.5" style={{ color: "#3E3E3E" }}>
+              <div className="text-[11px] line-through mt-0.5 text-gray-400">
                 {product.originalPrice.toLocaleString("tr-TR")} ₺
               </div>
             )}
@@ -212,12 +212,12 @@ export default function ProductCard({ product }: Props) {
           className={`w-full h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5 transition-all duration-150 ${
             added
               ? "text-[#22c55e]"
-              : "hover:bg-[#D4A017] hover:text-[#090A0C] hover:border-[#D4A017] text-[#D4A017]"
+              : "hover:bg-blue-800 hover:text-white hover:border-blue-800 text-blue-700"
           }`}
           style={
             added
               ? { background: "rgba(34,197,94,0.08)", border: "1px solid rgba(34,197,94,0.32)" }
-              : { background: "transparent", border: "1px solid rgba(255,196,0,0.35)" }
+              : { background: "transparent", border: "1px solid #93C5FD" }
           }
         >
           {added ? (

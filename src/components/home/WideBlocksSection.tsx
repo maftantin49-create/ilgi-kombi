@@ -38,8 +38,8 @@ function BlockCard({
       tabIndex={ariaHidden ? -1 : undefined}
       className={`${CARD_WIDTH_CLASS} shrink-0 group relative block overflow-hidden rounded-2xl`}
       style={{
-        background: "#151618",
-        border: "1px solid rgba(255,196,0,0.08)",
+        background: "#F8F9FA",
+        border: "1px solid #E2E6EA",
         aspectRatio: "16/9",
       }}
     >
@@ -53,10 +53,10 @@ function BlockCard({
         />
       )}
 
-      {/* Hover border glow */}
+      {/* Hover border highlight */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none rounded-[inherit]"
-        style={{ boxShadow: "inset 0 0 0 1px rgba(255,196,0,0.28)" }}
+        style={{ boxShadow: "inset 0 0 0 2px #93C5FD" }}
         aria-hidden="true"
       />
     </Link>

@@ -245,18 +245,18 @@ export default async function SSSPage() {
   const totalQuestions = groups.reduce((acc, g) => acc + g.items.length, 0)
 
   return (
-    <div style={{ background: "#090A0C", minHeight: "100vh" }}>
+    <div className="bg-white min-h-screen">
 
       {/* Hero */}
-      <div style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+      <div style={{ borderBottom: "1px solid #E2E6EA" }}>
         <div className="max-w-[820px] mx-auto px-6 py-12">
-          <p style={{ color: "#D4A017", fontSize: 11, fontWeight: 700, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>
+          <p style={{ color: "#2563EB", fontSize: 11, fontWeight: 700, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>
             Yardım Merkezi
           </p>
-          <h1 style={{ color: "#F4F4F2", fontSize: 30, fontWeight: 900, lineHeight: 1.2, marginBottom: 12 }}>
+          <h1 style={{ color: "#111827", fontSize: 30, fontWeight: 900, lineHeight: 1.2, marginBottom: 12 }}>
             Sıkça Sorulan Sorular
           </h1>
-          <p style={{ color: "#A0A0A0", fontSize: 15, lineHeight: 1.75, maxWidth: 520 }}>
+          <p style={{ color: "#6B7280", fontSize: 15, lineHeight: 1.75, maxWidth: 520 }}>
             {totalQuestions} soruya yanıt bulacağınız yardım merkezimiz. Aradığınızı bulamadıysanız
             WhatsApp üzerinden doğrudan sorabilirsiniz.
           </p>
@@ -268,7 +268,7 @@ export default async function SSSPage() {
         {groups.map((group) => (
           <section key={group.title}>
             <h2 style={{
-              color: "#D4A017", fontSize: 11, fontWeight: 700,
+              color: "#2563EB", fontSize: 11, fontWeight: 700,
               letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: 12,
             }}>
               {group.title}
@@ -279,23 +279,23 @@ export default async function SSSPage() {
                 <details
                   key={item.q}
                   className="group rounded-xl overflow-hidden"
-                  style={{ background: "#111214", border: "1px solid rgba(255,255,255,0.07)" }}
+                  style={{ background: "#FFFFFF", border: "1px solid #E2E6EA" }}
                 >
                   <summary
                     className="flex items-center justify-between gap-3 cursor-pointer select-none list-none px-5 py-4"
-                    style={{ color: "#C0C0BA" }}
+                    style={{ color: "#111827" }}
                   >
                     <span className="font-semibold text-sm leading-snug pr-2">{item.q}</span>
                     <ChevronDown
                       size={16}
                       className="shrink-0 transition-transform duration-200 group-open:rotate-180"
-                      style={{ color: "#D4A017" }}
+                      style={{ color: "#2563EB" }}
                       aria-hidden="true"
                     />
                   </summary>
                   <div
                     className="px-5 pb-5 pt-2 text-sm leading-relaxed"
-                    style={{ color: "#888882", borderTop: "1px solid rgba(255,255,255,0.05)" }}
+                    style={{ color: "#374151", borderTop: "1px solid #E2E6EA" }}
                   >
                     {item.a}
                   </div>
@@ -308,12 +308,12 @@ export default async function SSSPage() {
         {/* CTA */}
         <div
           className="rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5"
-          style={{ background: "rgba(34,197,94,0.05)", border: "1px solid rgba(34,197,94,0.18)" }}
+          style={{ background: "rgba(22,163,74,0.04)", border: "1px solid rgba(22,163,74,0.18)" }}
         >
           <div>
-            <p className="font-bold mb-1" style={{ color: "#4ade80" }}>Sorunuzu bulamadınız mı?</p>
+            <p className="font-bold mb-1" style={{ color: "#16A34A" }}>Sorunuzu bulamadınız mı?</p>
             {hours && (
-              <p className="text-sm" style={{ color: "#555550" }}>
+              <p className="text-sm" style={{ color: "#6B7280" }}>
                 Teknik ekibimiz her gün {hours} hizmetinizdedir.
               </p>
             )}
@@ -340,8 +340,8 @@ export default async function SSSPage() {
             )}
             <Link
               href="/iletisim"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-bold border border-[rgba(255,255,255,0.12)] hover:border-[rgba(255,196,0,0.35)] transition-colors"
-              style={{ color: "#C0C0BA" }}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-bold border border-[#E2E6EA] hover:border-[#93C5FD] transition-colors"
+              style={{ color: "#374151" }}
             >
               İletişim Formu
             </Link>
@@ -349,8 +349,8 @@ export default async function SSSPage() {
         </div>
 
         {/* İlgili sayfalar */}
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 24 }}>
-          <p style={{ color: "#555550", fontSize: 13, marginBottom: 12 }}>İlgili sayfalar</p>
+        <div style={{ borderTop: "1px solid #E2E6EA", paddingTop: 24 }}>
+          <p style={{ color: "#9CA3AF", fontSize: 13, marginBottom: 12 }}>İlgili sayfalar</p>
           <div className="flex flex-wrap gap-2">
             {[
               { label: "Garanti ve İade",     href: "/garanti-ve-iade" },
@@ -363,8 +363,8 @@ export default async function SSSPage() {
               <Link
                 key={href}
                 href={href}
-                className="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors hover:text-[#D4A017] border border-[rgba(255,255,255,0.07)] hover:border-[rgba(255,196,0,0.30)]"
-                style={{ background: "#151618", color: "#888882" }}
+                className="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors hover:text-blue-700 border border-[#E2E6EA] hover:border-[#93C5FD]"
+                style={{ background: "#F8F9FA", color: "#374151" }}
               >
                 {label}
               </Link>

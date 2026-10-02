@@ -53,18 +53,18 @@ export default function StorefrontProductCardComponent({ product }: Props) {
       transition={{ duration: 0.4, ease: "easeOut" }}
       className="group relative flex flex-col overflow-hidden"
       style={{
-        background: "#151618",
-        border: "1px solid rgba(255,196,0,0.10)",
-        borderRadius: "20px",
+        background: "#FFFFFF",
+        border: "1px solid #E2E6EA",
+        borderRadius: "12px",
         willChange: "transform",
       }}
     >
-      {/* Hover border glow */}
+      {/* Hover border highlight */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
         style={{
-          borderRadius: "20px",
-          boxShadow: "inset 0 0 0 1px rgba(255,196,0,0.40), 0 8px 30px rgba(212,160,23,0.10)",
+          borderRadius: "12px",
+          boxShadow: "inset 0 0 0 1px #93C5FD, 0 4px 16px rgba(0,0,0,0.10)",
         }}
         aria-hidden="true"
       />
@@ -73,7 +73,7 @@ export default function StorefrontProductCardComponent({ product }: Props) {
       <Link
         href={`/urunler/${product.slug}`}
         className="block relative aspect-square overflow-hidden"
-        style={{ background: "#111214" }}
+        style={{ background: "#F8F9FA" }}
         onMouseEnter={() => hoverImageUrl && setImgHovered(true)}
         onMouseLeave={() => setImgHovered(false)}
       >
@@ -109,7 +109,7 @@ export default function StorefrontProductCardComponent({ product }: Props) {
           {product.is_new && (
             <span
               className="text-[10px] font-black px-2 py-0.5 rounded-full tracking-[0.05em]"
-              style={{ background: "#D4A017", color: "#090A0C" }}
+              style={{ background: "#2563EB", color: "#FFFFFF" }}
             >
               Yeni
             </span>
@@ -118,9 +118,9 @@ export default function StorefrontProductCardComponent({ product }: Props) {
             <span
               className="text-[10px] font-bold px-2 py-0.5 rounded-full"
               style={{
-                background: "rgba(212,160,23,0.12)",
-                border: "1px solid rgba(212,160,23,0.35)",
-                color: "#D4A017",
+                background: "#FEF2F2",
+                border: "1px solid #FECACA",
+                color: "#B91C1C",
               }}
             >
               %{discount} indirim
@@ -133,9 +133,9 @@ export default function StorefrontProductCardComponent({ product }: Props) {
             <span
               className="text-[10px] px-2 py-0.5 rounded-full"
               style={{
-                background: "rgba(21,22,24,0.92)",
-                border: "1px solid rgba(245,158,11,0.38)",
-                color: "#F59E0B",
+                background: "rgba(255,255,255,0.92)",
+                border: "1px solid #FCD34D",
+                color: "#92400E",
               }}
             >
               Son {product.stock_quantity} adet
@@ -147,13 +147,13 @@ export default function StorefrontProductCardComponent({ product }: Props) {
       {/* Content */}
       <div className="flex flex-col flex-1 p-3">
         {product.brand && (
-          <p className="text-[10px] mb-0.5" style={{ color: "#5A5A5A" }}>
+          <p className="text-[10px] mb-0.5 text-gray-400">
             {product.brand.name}
           </p>
         )}
 
         <Link href={`/urunler/${product.slug}`}>
-          <h3 className="font-medium text-sm leading-snug line-clamp-2 mb-1.5 transition-colors duration-150 text-[#E0E0DC] hover:text-[#D4A017]">
+          <h3 className="font-medium text-sm leading-snug line-clamp-2 mb-1.5 transition-colors duration-150 text-gray-800 hover:text-blue-700">
             {product.name}
           </h3>
         </Link>
@@ -161,7 +161,7 @@ export default function StorefrontProductCardComponent({ product }: Props) {
         {product.same_day_shipping && (
           <span
             className="flex items-center gap-0.5 text-[11px] font-medium mb-1.5"
-            style={{ color: "#22c55e" }}
+            style={{ color: "#16A34A" }}
           >
             <Truck size={10} aria-hidden="true" /> Aynı gün kargo
           </span>
@@ -171,16 +171,16 @@ export default function StorefrontProductCardComponent({ product }: Props) {
         <div className="flex items-end justify-between mt-auto mb-2.5">
           <div>
             {availability === "price_on_request" ? (
-              <div className="text-sm font-semibold" style={{ color: "#5A5A5A" }}>
+              <div className="text-sm font-semibold text-gray-500">
                 Fiyat Sorunuz
               </div>
             ) : (
               <>
-                <div className="font-bold text-base leading-none" style={{ color: "#D4A017" }}>
+                <div className="font-bold text-base leading-none" style={{ color: "#1E3A8A" }}>
                   {product.price.toLocaleString("tr-TR")} ₺
                 </div>
                 {product.compare_at_price && product.compare_at_price > product.price && (
-                  <div className="text-[11px] line-through mt-0.5" style={{ color: "#3E3E3E" }}>
+                  <div className="text-[11px] line-through mt-0.5 text-gray-400">
                     {product.compare_at_price.toLocaleString("tr-TR")} ₺
                   </div>
                 )}
@@ -193,7 +193,7 @@ export default function StorefrontProductCardComponent({ product }: Props) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${product.name} hakkında WhatsApp'tan sor`}
-              className="transition-colors duration-150 text-[#3A3A3A] hover:text-[#22c55e]"
+              className="transition-colors duration-150 text-gray-400 hover:text-green-600"
             >
               <MessageCircle size={17} aria-hidden="true" />
             </a>
@@ -205,9 +205,9 @@ export default function StorefrontProductCardComponent({ product }: Props) {
           <div
             className="w-full h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5"
             style={{
-              background: "rgba(30,30,30,0.6)",
-              border: "1px solid rgba(255,255,255,0.06)",
-              color: "#3E3E3E",
+              background: "#F8F9FA",
+              border: "1px solid #E2E6EA",
+              color: "#9CA3AF",
               cursor: "default",
             }}
             aria-label="Bu ürün stokta yok"
@@ -220,15 +220,15 @@ export default function StorefrontProductCardComponent({ product }: Props) {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5 transition-all duration-150 hover:bg-[#22c55e] hover:text-[#090A0C] hover:border-[#22c55e] text-[#22c55e]"
-              style={{ background: "transparent", border: "1px solid rgba(34,197,94,0.35)" }}
+              className="w-full h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5 transition-all duration-150 hover:bg-green-500 hover:text-white hover:border-green-500 text-green-700"
+              style={{ background: "transparent", border: "1px solid rgba(34,197,94,0.40)" }}
             >
               WhatsApp&apos;tan Fiyat Al
             </a>
           ) : (
             <div
               className="w-full h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5"
-              style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.10)", color: "#5A5A5A" }}
+              style={{ background: "#F8F9FA", border: "1px solid #E2E6EA", color: "#9CA3AF" }}
             >
               Fiyat Sorunuz
             </div>
@@ -239,13 +239,13 @@ export default function StorefrontProductCardComponent({ product }: Props) {
             whileTap={{ scale: 0.96 }}
             className={`w-full h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5 transition-all duration-150 ${
               added
-                ? "text-[#22c55e]"
-                : "hover:bg-[#D4A017] hover:text-[#090A0C] hover:border-[#D4A017] text-[#D4A017]"
+                ? "text-green-700"
+                : "hover:bg-blue-800 hover:text-white hover:border-blue-800 text-blue-800"
             }`}
             style={
               added
-                ? { background: "rgba(34,197,94,0.08)", border: "1px solid rgba(34,197,94,0.32)" }
-                : { background: "transparent", border: "1px solid rgba(255,196,0,0.35)" }
+                ? { background: "rgba(22,163,74,0.08)", border: "1px solid rgba(22,163,74,0.32)" }
+                : { background: "transparent", border: "1px solid #93C5FD" }
             }
             aria-label={added ? "Sepete eklendi" : "Sepete ekle"}
           >

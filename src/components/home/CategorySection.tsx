@@ -54,12 +54,11 @@ export default async function CategorySection({
   return (
     <section className="max-w-7xl mx-auto px-4 py-10" aria-label={title}>
       <div className="flex items-center justify-between mb-5">
-        <h2 className="text-xl font-bold" style={{ color: "#F4F4F2" }}>{title}</h2>
+        <h2 className="text-xl font-bold text-gray-900">{title}</h2>
         {showViewAll && (
           <Link
             href="/kategoriler"
-            className="text-sm font-medium flex items-center gap-1 transition-colors hover:text-[#F2C94C]"
-            style={{ color: "#D4A017" }}
+            className="text-sm font-medium flex items-center gap-1 text-blue-700 transition-colors hover:text-blue-900"
           >
             Tümü <ArrowRight size={15} aria-hidden="true" />
           </Link>
@@ -73,12 +72,12 @@ export default async function CategorySection({
             <Link
               key={cat.id}
               href={`/urunler?kategori=${cat.slug}`}
-              className="group flex flex-col rounded-xl p-5 transition-all hover:-translate-y-0.5 border border-[rgba(255,196,0,0.10)] hover:border-[rgba(255,196,0,0.35)] hover:shadow-[0_4px_20px_rgba(212,160,23,0.10)]"
-              style={{ background: "#151618" }}
+              className="group flex flex-col rounded-xl p-5 transition-all hover:-translate-y-0.5 border border-[#E2E6EA] hover:border-[#93C5FD] hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
+              style={{ background: "#FFFFFF" }}
             >
               <div
                 className="w-14 h-14 sm:w-16 sm:h-16 lg:w-[72px] lg:h-[72px] rounded-lg flex items-center justify-center mb-3 shrink-0 overflow-hidden"
-                style={{ background: "rgba(212,160,23,0.08)", border: "1px solid rgba(255,196,0,0.14)" }}
+                style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.12)" }}
               >
                 {cat.image_url ? (
                   <Image
@@ -89,24 +88,18 @@ export default async function CategorySection({
                     className="w-full h-full object-cover object-center transition-transform duration-[250ms] ease-in-out group-hover:scale-105"
                   />
                 ) : (
-                  <Icon size={20} aria-hidden="true" style={{ color: "#D4A017" }} />
+                  <Icon size={20} aria-hidden="true" className="text-blue-600" />
                 )}
               </div>
-              <div
-                className="font-semibold text-sm leading-snug transition-colors group-hover:text-[#D4A017]"
-                style={{ color: "#C0C0BA" }}
-              >
+              <div className="font-semibold text-sm leading-snug transition-colors text-gray-700 group-hover:text-blue-700">
                 {cat.name}
               </div>
               <div className="flex-1" />
-              <div
-                className="flex items-center justify-between mt-3 pt-2"
-                style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
-              >
-                <span className="text-xs" style={{ color: "#555550" }}>
+              <div className="flex items-center justify-between mt-3 pt-2 border-t border-gray-100">
+                <span className="text-xs text-gray-400">
                   {cat.productCount > 0 ? `${cat.productCount}+ ürün` : "Ürünleri Gör"}
                 </span>
-                <ArrowRight size={13} aria-hidden="true" style={{ color: "#555550" }} />
+                <ArrowRight size={13} aria-hidden="true" className="text-gray-400" />
               </div>
             </Link>
           )
@@ -116,48 +109,42 @@ export default async function CategorySection({
         {!maxItems && <Link
           href="/parca-bul"
           className="group rounded-xl p-5 flex flex-col transition-all hover:-translate-y-0.5 hover:opacity-90"
-          style={{ background: "#D4A017" }}
+          style={{ background: "#1E3A8A" }}
         >
           <div
             className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 shrink-0"
-            style={{ background: "rgba(9,10,12,0.20)" }}
+            style={{ background: "rgba(255,255,255,0.15)" }}
           >
-            <Search size={20} style={{ color: "#090A0C" }} aria-hidden="true" />
+            <Search size={20} className="text-white" aria-hidden="true" />
           </div>
-          <div className="font-semibold text-sm leading-snug" style={{ color: "#090A0C" }}>
+          <div className="font-semibold text-sm leading-snug text-white">
             Parça Bul
           </div>
           <div className="flex-1" />
-          <div
-            className="flex items-center justify-between mt-3 pt-2"
-            style={{ borderTop: "1px solid rgba(9,10,12,0.18)" }}
-          >
-            <span className="text-xs" style={{ color: "rgba(9,10,12,0.65)" }}>Cihazıma göre ara</span>
-            <ArrowRight size={13} style={{ color: "rgba(9,10,12,0.65)" }} aria-hidden="true" />
+          <div className="flex items-center justify-between mt-3 pt-2 border-t border-white/20">
+            <span className="text-xs text-blue-200">Cihazıma göre ara</span>
+            <ArrowRight size={13} className="text-blue-200" aria-hidden="true" />
           </div>
         </Link>}
 
         {!maxItems && <Link
           href="/markalar"
-          className="group rounded-xl p-5 flex flex-col transition-all hover:-translate-y-0.5 border border-[rgba(255,196,0,0.14)] hover:border-[rgba(255,196,0,0.40)] hover:shadow-[0_4px_20px_rgba(212,160,23,0.10)]"
-          style={{ background: "#151618" }}
+          className="group rounded-xl p-5 flex flex-col transition-all hover:-translate-y-0.5 border border-[#E2E6EA] hover:border-[#93C5FD] hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
+          style={{ background: "#FFFFFF" }}
         >
           <div
             className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 shrink-0"
-            style={{ background: "rgba(212,160,23,0.08)", border: "1px solid rgba(255,196,0,0.18)" }}
+            style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.12)" }}
           >
-            <Tag size={20} style={{ color: "#D4A017" }} aria-hidden="true" />
+            <Tag size={20} className="text-blue-600" aria-hidden="true" />
           </div>
-          <div className="font-semibold text-sm leading-snug transition-colors group-hover:text-[#D4A017]" style={{ color: "#C0C0BA" }}>
+          <div className="font-semibold text-sm leading-snug transition-colors text-gray-700 group-hover:text-blue-700">
             Tüm Markalar
           </div>
           <div className="flex-1" />
-          <div
-            className="flex items-center justify-between mt-3 pt-2"
-            style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
-          >
-            <span className="text-xs" style={{ color: "#555550" }}>Tüm markalar</span>
-            <ArrowRight size={13} style={{ color: "#555550" }} aria-hidden="true" />
+          <div className="flex items-center justify-between mt-3 pt-2 border-t border-gray-100">
+            <span className="text-xs text-gray-400">Tüm markalar</span>
+            <ArrowRight size={13} className="text-gray-400" aria-hidden="true" />
           </div>
         </Link>}
       </div>

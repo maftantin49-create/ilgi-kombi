@@ -37,12 +37,11 @@ function PaginationContent({ currentPage, totalPages, total }: Props) {
 
   const btnBase =
     "w-9 h-9 rounded-xl text-sm font-medium flex items-center justify-center transition-all duration-150"
-  const btnActive = "text-[#090A0C] font-bold"
-  const btnInactive = "text-[#5A5A5A] hover:text-[#E0E0DC]"
+  const btnInactive = "text-gray-500 hover:text-blue-700 hover:bg-blue-50"
 
   return (
     <div className="flex items-center justify-between mt-8 flex-wrap gap-3">
-      <p className="text-sm" style={{ color: "#5A5A5A" }}>
+      <p className="text-sm text-gray-400">
         Sayfa {currentPage} / {totalPages} — {total} ürün
       </p>
 
@@ -52,7 +51,7 @@ function PaginationContent({ currentPage, totalPages, total }: Props) {
           disabled={currentPage <= 1}
           aria-label="Önceki sayfa"
           className={`${btnBase} ${btnInactive} disabled:opacity-30 disabled:cursor-not-allowed`}
-          style={{ border: "1px solid rgba(255,255,255,0.08)" }}
+          style={{ border: "1px solid #E2E6EA" }}
         >
           <ChevronLeft size={16} />
         </button>
@@ -62,12 +61,12 @@ function PaginationContent({ currentPage, totalPages, total }: Props) {
             <button
               onClick={() => goTo(1)}
               className={`${btnBase} ${btnInactive}`}
-              style={{ border: "1px solid rgba(255,255,255,0.08)" }}
+              style={{ border: "1px solid #E2E6EA" }}
             >
               1
             </button>
             {left > 2 && (
-              <span className="w-9 h-9 flex items-center justify-center text-sm" style={{ color: "#3A3A3A" }}>
+              <span className="w-9 h-9 flex items-center justify-center text-sm text-gray-300">
                 …
               </span>
             )}
@@ -79,11 +78,11 @@ function PaginationContent({ currentPage, totalPages, total }: Props) {
             key={p}
             onClick={() => goTo(p)}
             aria-current={p === currentPage ? "page" : undefined}
-            className={`${btnBase} ${p === currentPage ? btnActive : btnInactive}`}
+            className={`${btnBase} ${p === currentPage ? "text-white font-bold" : btnInactive}`}
             style={
               p === currentPage
-                ? { background: "#D4A017", border: "1px solid #D4A017" }
-                : { border: "1px solid rgba(255,255,255,0.08)" }
+                ? { background: "#1E3A8A", border: "1px solid #1E3A8A" }
+                : { border: "1px solid #E2E6EA" }
             }
           >
             {p}
@@ -93,14 +92,14 @@ function PaginationContent({ currentPage, totalPages, total }: Props) {
         {right < totalPages && (
           <>
             {right < totalPages - 1 && (
-              <span className="w-9 h-9 flex items-center justify-center text-sm" style={{ color: "#3A3A3A" }}>
+              <span className="w-9 h-9 flex items-center justify-center text-sm text-gray-300">
                 …
               </span>
             )}
             <button
               onClick={() => goTo(totalPages)}
               className={`${btnBase} ${btnInactive}`}
-              style={{ border: "1px solid rgba(255,255,255,0.08)" }}
+              style={{ border: "1px solid #E2E6EA" }}
             >
               {totalPages}
             </button>
@@ -112,7 +111,7 @@ function PaginationContent({ currentPage, totalPages, total }: Props) {
           disabled={currentPage >= totalPages}
           aria-label="Sonraki sayfa"
           className={`${btnBase} ${btnInactive} disabled:opacity-30 disabled:cursor-not-allowed`}
-          style={{ border: "1px solid rgba(255,255,255,0.08)" }}
+          style={{ border: "1px solid #E2E6EA" }}
         >
           <ChevronRight size={16} />
         </button>

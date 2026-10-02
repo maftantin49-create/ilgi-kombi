@@ -65,9 +65,9 @@ export default async function KvkkPage() {
       <div style={{ overflowX: "auto", marginBottom: 20 }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
           <thead>
-            <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
-              <th style={{ textAlign: "left", color: "#D4A534", padding: "10px 12px", fontWeight: 700, fontSize: 12 }}>Amaç</th>
-              <th style={{ textAlign: "left", color: "#D4A534", padding: "10px 12px", fontWeight: 700, fontSize: 12 }}>Hukuki Sebep</th>
+            <tr style={{ borderBottom: "1px solid #E2E6EA" }}>
+              <th style={{ textAlign: "left", color: "#1E3A8A", padding: "10px 12px", fontWeight: 700, fontSize: 12 }}>Amaç</th>
+              <th style={{ textAlign: "left", color: "#1E3A8A", padding: "10px 12px", fontWeight: 700, fontSize: 12 }}>Hukuki Sebep</th>
             </tr>
           </thead>
           <tbody>
@@ -79,9 +79,9 @@ export default async function KvkkPage() {
               ["Pazarlama e-postaları ve bildirimler",      "KVKK m.5/1 — Açık rıza"],
               ["Yasal talepler ve resmi bildirimler",       "KVKK m.5/2-ç — Yasal yükümlülük"],
             ].map(([amac, sebep], i) => (
-              <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-                <td style={{ color: "#A0A0A0", padding: "10px 12px" }}>{amac}</td>
-                <td style={{ color: "#A0A0A0", padding: "10px 12px" }}>{sebep}</td>
+              <tr key={i} style={{ borderBottom: "1px solid #E2E6EA" }}>
+                <td style={{ color: "#374151", padding: "10px 12px" }}>{amac}</td>
+                <td style={{ color: "#374151", padding: "10px 12px" }}>{sebep}</td>
               </tr>
             ))}
           </tbody>
@@ -90,16 +90,16 @@ export default async function KvkkPage() {
 
       <H2>4. Kişisel Verilerin Aktarıldığı Taraflar</H2>
       <Para>Kişisel verileriniz aşağıdaki alıcı kategorilerine, yalnızca amacın gerektirdiği ölçüde aktarılmaktadır:</Para>
-      <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
+      <ul style={{ color: "#374151", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
         <li>
-          <strong style={{ color: "#F4F4F2" }}>
+          <strong style={{ color: "#111827" }}>
             {legal.shippingCompany || "Kargo Firması"}:
           </strong>
           {" "}Teslimat için ad, adres, telefon
         </li>
-        <li><strong style={{ color: "#F4F4F2" }}>Banka / Ödeme Kuruluşu:</strong> Havale/EFT işlem doğrulaması</li>
-        <li><strong style={{ color: "#F4F4F2" }}>Supabase Inc. (ABD):</strong> Veritabanı barındırma — yeterli koruma önlemleri alınmıştır</li>
-        <li><strong style={{ color: "#F4F4F2" }}>Yetkili Kamu Kurumları:</strong> Kanunen zorunlu hallerde</li>
+        <li><strong style={{ color: "#111827" }}>Banka / Ödeme Kuruluşu:</strong> Havale/EFT işlem doğrulaması</li>
+        <li><strong style={{ color: "#111827" }}>Supabase Inc. (ABD):</strong> Veritabanı barındırma — yeterli koruma önlemleri alınmıştır</li>
+        <li><strong style={{ color: "#111827" }}>Yetkili Kamu Kurumları:</strong> Kanunen zorunlu hallerde</li>
       </ul>
 
       <H2>5. Kişisel Verilerin Saklanma Süreleri</H2>
@@ -111,7 +111,7 @@ export default async function KvkkPage() {
 
       <H2>6. İlgili Kişi Hakları</H2>
       <Para>KVKK&apos;nın 11. maddesi uyarınca aşağıdaki haklara sahipsiniz:</Para>
-      <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
+      <ul style={{ color: "#374151", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
         <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme</li>
         <li>İşlenmişse buna ilişkin bilgi talep etme</li>
         <li>İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme</li>
@@ -128,16 +128,16 @@ export default async function KvkkPage() {
           Haklarınızı kullanmak için aşağıdaki kanallardan birini kullanabilirsiniz:
         </Para>
         <Para>
-          <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
+          <strong style={{ color: "#111827" }}>E-posta:</strong>{" "}
           {validMail
-            ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            ? <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
             : "iletişim sayfamızdaki e-posta adresimiz"
           }
           {" "}(konu: KVKK Başvurusu)
         </Para>
         {legal.fullAddress && (
           <Para>
-            <strong style={{ color: "#F4F4F2" }}>Posta:</strong>{" "}
+            <strong style={{ color: "#111827" }}>Posta:</strong>{" "}
             {legal.tradeName && <>{legal.tradeName}, </>}{legal.fullAddress} — &quot;KVKK Başvurusu&quot; ibaresiyle
           </Para>
         )}

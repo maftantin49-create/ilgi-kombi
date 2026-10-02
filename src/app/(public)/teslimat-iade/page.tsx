@@ -35,15 +35,15 @@ export default async function TeslimatIadePage() {
           ...(s.shippingCutoff ? [{ label: "Aynı Gün Kesme", value: `${s.shippingCutoff} (iş günleri)` }] : []),
         ].map(({ label, value }) => (
           <div key={label} style={{
-            background: "#111111",
-            border: "1px solid rgba(212,165,52,0.12)",
+            background: "#F8F9FA",
+            border: "1px solid #E2E6EA",
             borderRadius: 12,
             padding: "16px 18px",
           }}>
-            <div style={{ color: "#5A5A5A", fontSize: 11, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.1em" }}>
+            <div style={{ color: "#9CA3AF", fontSize: 11, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.1em" }}>
               {label}
             </div>
-            <div style={{ color: "#F4F4F2", fontSize: 18, fontWeight: 800 }}>{value}</div>
+            <div style={{ color: "#111827", fontSize: 18, fontWeight: 800 }}>{value}</div>
           </div>
         ))}
       </div>
@@ -70,7 +70,7 @@ export default async function TeslimatIadePage() {
         Siparişiniz kargoya verildiğinde takip numarası SMS ve e-posta ile bildirilir. Teslimat
         gecikmeleri için{" "}
         {validPh
-          ? <a href={`tel:${validPh}`} style={{ color: "#D4A534" }}>{validPh}</a>
+          ? <a href={`tel:${validPh}`} style={{ color: "#2563EB" }}>{validPh}</a>
           : "telefon hattımızı"
         }{" "}arayabilirsiniz.
       </Para>
@@ -80,7 +80,7 @@ export default async function TeslimatIadePage() {
         Teslimatta hasarlı veya eksik ürün tespit ederseniz teslimi reddedip tutanak tutturmanızı
         öneririz. Ardından{" "}
         {validMail
-          ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+          ? <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
           : "e-posta yoluyla"
         }{" "}adresine fotoğraflı bildirim yapın; 2 iş günü içinde dönüş sağlanır.
       </Para>
@@ -89,13 +89,13 @@ export default async function TeslimatIadePage() {
 
       <H3>Cayma Hakkı</H3>
       <Para>
-        Teslim tarihinden itibaren <strong style={{ color: "#F4F4F2" }}>14 gün</strong> içinde,
+        Teslim tarihinden itibaren <strong style={{ color: "#111827" }}>14 gün</strong> içinde,
         herhangi bir gerekçe göstermeksizin iade talebinde bulunabilirsiniz.
         Bu hak 6502 sayılı Tüketici Kanunu güvencesindedir.
       </Para>
 
       <H3>İade Koşulları</H3>
-      <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
+      <ul style={{ color: "#374151", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
         <li>Ürün kullanılmamış ve orijinal ambalajında olmalıdır</li>
         <li>Fatura veya sipariş numarası ile birlikte gönderilmelidir</li>
         <li>14 günlük cayma süresi geçmemiş olmalıdır</li>
@@ -108,7 +108,7 @@ export default async function TeslimatIadePage() {
           <>
             {legal.tradeName && (
               <Para style={{ marginBottom: 6 }}>
-                <strong style={{ color: "#F4F4F2" }}>{legal.tradeName}</strong>
+                <strong style={{ color: "#111827" }}>{legal.tradeName}</strong>
               </Para>
             )}
             <Para style={{ marginBottom: 8 }}>{returnAddr}</Para>
@@ -117,7 +117,7 @@ export default async function TeslimatIadePage() {
           <Para style={{ marginBottom: 8 }}>
             İade adresi için{" "}
             {validMail
-              ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+              ? <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
               : "e-posta yoluyla"
             }{" "}sipariş numaranızı belirterek ulaşın.
           </Para>
@@ -131,7 +131,7 @@ export default async function TeslimatIadePage() {
       <H3>Geri Ödeme</H3>
       <Para>
         İade ürünü aldıktan ve kontrol ettikten sonra{" "}
-        <strong style={{ color: "#F4F4F2" }}>14 gün</strong> içinde ödemeniz iade edilir.
+        <strong style={{ color: "#111827" }}>14 gün</strong> içinde ödemeniz iade edilir.
         Geri ödeme aynı ödeme yöntemiyle yapılır. Kredi kartı iadeleri bankanızın işlem
         süresine bağlı olarak ekstrenize 1-3 iş günü sonra yansır.
       </Para>
@@ -147,15 +147,15 @@ export default async function TeslimatIadePage() {
         <H3>İade Başlatmak İçin</H3>
         {validMail && (
           <Para>
-            <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
-            <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            <strong style={{ color: "#111827" }}>E-posta:</strong>{" "}
+            <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
             {" "}— konu: &quot;İade Talebi — Sipariş No:&quot;
           </Para>
         )}
         <Para style={{ marginBottom: 0 }}>
-          <strong style={{ color: "#F4F4F2" }}>WhatsApp / Telefon:</strong>{" "}
+          <strong style={{ color: "#111827" }}>WhatsApp / Telefon:</strong>{" "}
           {validPh
-            ? <a href={`tel:${validPh}`} style={{ color: "#D4A534" }}>{validPh}</a>
+            ? <a href={`tel:${validPh}`} style={{ color: "#2563EB" }}>{validPh}</a>
             : "iletişim sayfamızdaki numaramız"
           }
           {s.workingHours.weekdays ? ` — Her gün ${s.workingHours.weekdays}` : ""}

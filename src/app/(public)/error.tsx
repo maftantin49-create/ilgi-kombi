@@ -23,7 +23,7 @@ export default function PublicError({
         alignItems: "center",
         justifyContent: "center",
         padding: "48px 24px",
-        background: "#090A0C",
+        background: "#FFFFFF",
       }}
     >
       <div style={{ textAlign: "center", maxWidth: "440px" }}>
@@ -31,14 +31,15 @@ export default function PublicError({
           style={{
             width: "52px",
             height: "52px",
-            background: "rgba(212,160,23,0.08)",
-            border: "1px solid rgba(212,160,23,0.2)",
+            background: "rgba(239,68,68,0.06)",
+            border: "1px solid rgba(239,68,68,0.18)",
             borderRadius: "12px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             fontSize: "22px",
             margin: "0 auto 20px",
+            color: "#EF4444",
           }}
         >
           !
@@ -48,7 +49,7 @@ export default function PublicError({
           style={{
             fontSize: "20px",
             fontWeight: 700,
-            color: "#F4F4F2",
+            color: "#111827",
             marginBottom: "10px",
           }}
         >
@@ -58,7 +59,7 @@ export default function PublicError({
         <p
           style={{
             fontSize: "14px",
-            color: "#A5A5A5",
+            color: "#6B7280",
             marginBottom: "28px",
             lineHeight: 1.65,
           }}
@@ -72,7 +73,7 @@ export default function PublicError({
                 fontFamily: "monospace",
                 fontSize: "11px",
                 marginTop: "10px",
-                color: "#444",
+                color: "#9CA3AF",
               }}
             >
               Hata kodu: {error.digest}
@@ -91,8 +92,8 @@ export default function PublicError({
           <button
             onClick={reset}
             style={{
-              background: "#D4A017",
-              color: "#090A0C",
+              background: "#1E3A8A",
+              color: "#FFFFFF",
               fontWeight: 700,
               fontSize: "13px",
               letterSpacing: "0.04em",
@@ -111,9 +112,9 @@ export default function PublicError({
               alignItems: "center",
               fontSize: "13px",
               fontWeight: 500,
-              color: "#A5A5A5",
+              color: "#6B7280",
               padding: "11px 22px",
-              border: "1px solid rgba(255,255,255,0.1)",
+              border: "1px solid #E2E6EA",
               borderRadius: "8px",
               textDecoration: "none",
             }}

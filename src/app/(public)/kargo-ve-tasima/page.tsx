@@ -50,10 +50,10 @@ export default async function KargoVeTasimaPage() {
         Siparişler{legal.shippingCompany ? ` ${legal.shippingCompany} ile` : ""} gönderilir.
         {s.shippingCutoff && (
           <> Aynı gün kargo için kesme saati hafta içi{" "}
-          <strong style={{ color: "#F4F4F2" }}>{s.shippingCutoff}</strong>&apos;dir.
+          <strong style={{ color: "#111827" }}>{s.shippingCutoff}</strong>&apos;dir.
           Bu saatten sonra verilen siparişler bir sonraki iş günü kargoya verilir.</>
         )}
-        {" "}Normal koşullarda teslimat <strong style={{ color: "#F4F4F2" }}>yaklaşık 2 iş günü</strong> sürer.
+        {" "}Normal koşullarda teslimat <strong style={{ color: "#111827" }}>yaklaşık 2 iş günü</strong> sürer.
       </Para>
 
       <H3>Resmi Tatiller</H3>
@@ -71,17 +71,17 @@ export default async function KargoVeTasimaPage() {
 
       {s.freeShippingThreshold > 0 && (
         <div style={{
-          background: "rgba(212,160,23,0.06)",
-          border: "1px solid rgba(255,196,0,0.18)",
+          background: "rgba(37,99,235,0.04)",
+          border: "1px solid rgba(37,99,235,0.14)",
           borderRadius: 12,
           padding: "14px 18px",
           marginBottom: 16,
         }}>
-          <div style={{ color: "#D4A017", fontSize: 13, fontWeight: 700, marginBottom: 4 }}>
+          <div style={{ color: "#2563EB", fontSize: 13, fontWeight: 700, marginBottom: 4 }}>
             Ücretsiz Kargo
           </div>
           <Para style={{ marginBottom: 0 }}>
-            <strong style={{ color: "#F4F4F2" }}>{s.freeShippingThreshold} TL</strong> ve üzeri
+            <strong style={{ color: "#111827" }}>{s.freeShippingThreshold} TL</strong> ve üzeri
             siparişlerde kargo ücreti alınmaz.
           </Para>
         </div>
@@ -104,7 +104,7 @@ export default async function KargoVeTasimaPage() {
         bilgisi nedeniyle yaşanan gecikmeler veya iade edilmeler tarafımızın
         sorumluluğu dışındadır.
       </Para>
-      <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
+      <ul style={{ color: "#374151", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
         <li>Teslimat adresini eksiksiz ve doğru girin (kapı no, kat, daire)</li>
         <li>Ulaşılabilir bir telefon numarası bırakın</li>
         <li>Teslimat sırasında adreste bulunmamanız halinde komşu bırakma talebi yapabilirsiniz</li>
@@ -138,18 +138,18 @@ export default async function KargoVeTasimaPage() {
         ].map((step, i) => (
           <div key={i} style={{
             display: "flex", gap: 12, alignItems: "flex-start",
-            padding: "12px 16px", background: "#111214",
-            border: "1px solid rgba(255,255,255,0.05)", borderRadius: 10,
+            padding: "12px 16px", background: "#F8F9FA",
+            border: "1px solid #E2E6EA", borderRadius: 10,
           }}>
             <span style={{
               minWidth: 24, height: 24, borderRadius: "50%",
-              background: "rgba(212,160,23,0.10)", border: "1px solid rgba(212,160,23,0.25)",
+              background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.20)",
               display: "flex", alignItems: "center", justifyContent: "center",
-              color: "#D4A017", fontSize: 11, fontWeight: 900, flexShrink: 0,
+              color: "#2563EB", fontSize: 11, fontWeight: 900, flexShrink: 0,
             }}>
               {i + 1}
             </span>
-            <span style={{ color: "#A0A0A0", fontSize: 13, lineHeight: 1.6 }}>{step}</span>
+            <span style={{ color: "#374151", fontSize: 13, lineHeight: 1.6 }}>{step}</span>
           </div>
         ))}
       </div>
@@ -174,7 +174,7 @@ export default async function KargoVeTasimaPage() {
         <H3>Kargo Sorunları için İletişim</H3>
         {waContact && (
           <Para>
-            <strong style={{ color: "#F4F4F2" }}>WhatsApp:</strong>{" "}
+            <strong style={{ color: "#111827" }}>WhatsApp:</strong>{" "}
             <a href={waContact} target="_blank" rel="noopener noreferrer" style={{ color: "#22c55e" }}>
               Hızlı Destek — WhatsApp
             </a>
@@ -182,14 +182,14 @@ export default async function KargoVeTasimaPage() {
         )}
         {validMail && (
           <Para>
-            <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
-            <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            <strong style={{ color: "#111827" }}>E-posta:</strong>{" "}
+            <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
           </Para>
         )}
         <Para style={{ marginBottom: 0 }}>
-          <strong style={{ color: "#F4F4F2" }}>Telefon:</strong>{" "}
+          <strong style={{ color: "#111827" }}>Telefon:</strong>{" "}
           {validPh
-            ? <a href={`tel:${validPh}`} style={{ color: "#D4A534" }}>{validPh}</a>
+            ? <a href={`tel:${validPh}`} style={{ color: "#2563EB" }}>{validPh}</a>
             : "iletişim sayfamızdaki numaramız"
           }
           {s.workingHours.weekdays ? ` — Her gün ${s.workingHours.weekdays}` : ""}
@@ -197,9 +197,9 @@ export default async function KargoVeTasimaPage() {
       </InfoCard>
 
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 8 }}>
-        <Link href="/teslimat-bilgileri" style={{ color: "#D4A017", fontSize: 13 }}>→ Teslimat Bilgileri</Link>
-        <Link href="/garanti-ve-iade" style={{ color: "#D4A017", fontSize: 13 }}>→ Garanti ve İade</Link>
-        <Link href="/musteri-hizmetleri" style={{ color: "#D4A017", fontSize: 13 }}>→ Müşteri Hizmetleri</Link>
+        <Link href="/teslimat-bilgileri" style={{ color: "#2563EB", fontSize: 13 }}>→ Teslimat Bilgileri</Link>
+        <Link href="/garanti-ve-iade" style={{ color: "#2563EB", fontSize: 13 }}>→ Garanti ve İade</Link>
+        <Link href="/musteri-hizmetleri" style={{ color: "#2563EB", fontSize: 13 }}>→ Müşteri Hizmetleri</Link>
       </div>
     </LegalPageShell>
   )

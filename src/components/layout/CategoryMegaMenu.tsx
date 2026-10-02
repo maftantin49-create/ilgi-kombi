@@ -52,19 +52,19 @@ export default function CategoryMegaMenu({ onClose, categories }: Props) {
       aria-label="Kombi kategorileri"
       className="absolute top-full left-0 z-50 w-[280px] overflow-hidden"
       style={{
-        background: "#101114",
-        border: "1px solid #303136",
+        background: "#FFFFFF",
+        border: "1px solid #E2E6EA",
         borderTop: "none",
         borderRadius: "0 0 12px 12px",
-        boxShadow: "6px 16px 40px -8px rgba(0,0,0,0.70), 0 4px 8px -4px rgba(0,0,0,0.50)",
+        boxShadow: "0 8px 24px -4px rgba(0,0,0,0.12), 0 4px 8px -4px rgba(0,0,0,0.06)",
       }}
     >
       {/* Header */}
       <div
         className="px-5 py-3"
-        style={{ borderBottom: "1px solid #1E1E22", background: "#151619" }}
+        style={{ borderBottom: "1px solid #E2E6EA", background: "#F8F9FA" }}
       >
-        <span className="text-[10px] font-bold text-[#D89B00] uppercase tracking-widest">
+        <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">
           Kombi Yedek Parça Kategorileri
         </span>
       </div>
@@ -72,28 +72,28 @@ export default function CategoryMegaMenu({ onClose, categories }: Props) {
       {/* Category list */}
       <ul className="max-h-[calc(100vh-220px)] overflow-y-auto overscroll-contain">
         {categories.length === 0 ? (
-          <li className="px-5 py-4 text-[13px]" style={{ color: "#555550" }}>
+          <li className="px-5 py-4 text-[13px] text-gray-400">
             Henüz kategori eklenmedi.
           </li>
         ) : categories.map(cat => {
           const CatIcon = CAT_ICONS[cat.slug] ?? Flame
           return (
-            <li key={cat.id} style={{ borderLeft: "2px solid transparent" }} className="group/item hover:[border-left-color:#D89B00]">
+            <li key={cat.id} style={{ borderLeft: "2px solid transparent" }} className="group/item hover:[border-left-color:#93C5FD]">
               <Link
                 href={`/urunler?kategori=${cat.slug}`}
                 onClick={onClose}
                 role="menuitem"
-                className="flex items-center gap-3.5 w-full px-5 py-3 text-[14px] text-[#B9B9B4] hover:bg-[#1B1C20] hover:text-[#D89B00] transition-all duration-100 group focus-visible:outline-none focus-visible:bg-[#1B1C20] focus-visible:text-[#D89B00]"
+                className="flex items-center gap-3.5 w-full px-5 py-3 text-[14px] text-gray-600 hover:bg-[#F8F9FA] hover:text-blue-700 transition-all duration-100 group focus-visible:outline-none focus-visible:bg-[#F8F9FA] focus-visible:text-blue-700"
               >
                 <CatIcon
                   size={15}
-                  className="text-[#85857F] group-hover:text-[#D89B00] shrink-0 transition-colors"
+                  className="text-gray-400 group-hover:text-blue-600 shrink-0 transition-colors"
                   aria-hidden="true"
                 />
                 <span className="flex-1">{cat.name}</span>
                 <ChevronRight
                   size={13}
-                  className="text-[#303136] group-hover:text-[#D89B00] transition-colors"
+                  className="text-gray-300 group-hover:text-blue-400 transition-colors"
                   aria-hidden="true"
                 />
               </Link>
@@ -103,11 +103,11 @@ export default function CategoryMegaMenu({ onClose, categories }: Props) {
       </ul>
 
       {/* Footer: Tüm Kategoriler */}
-      <div className="px-5 py-3" style={{ borderTop: "1px solid #303136" }}>
+      <div className="px-5 py-3" style={{ borderTop: "1px solid #E2E6EA" }}>
         <Link
           href="/kategoriler"
           onClick={onClose}
-          className="flex items-center gap-1.5 text-[14px] font-semibold text-[#D89B00] hover:underline"
+          className="flex items-center gap-1.5 text-[14px] font-semibold text-blue-700 hover:text-blue-900 hover:underline transition-colors"
         >
           Tüm Kategorileri Gör
           <ChevronRight size={13} aria-hidden="true" />
@@ -117,14 +117,14 @@ export default function CategoryMegaMenu({ onClose, categories }: Props) {
       {/* Footer: WhatsApp */}
       <div
         className="px-5 py-3"
-        style={{ borderTop: "1px solid #303136", background: "#0E0E10" }}
+        style={{ borderTop: "1px solid #E2E6EA", background: "#F8F9FA" }}
       >
         <a
           href={wa.home ?? undefined}
           target="_blank"
           rel="noopener noreferrer"
           onClick={onClose}
-          className="flex items-center gap-2 text-[14px] font-semibold text-[#85857F] hover:text-[#F4F4F2] transition-colors"
+          className="flex items-center gap-2 text-[14px] font-semibold text-gray-500 hover:text-gray-800 transition-colors"
         >
           <WaIcon />
           WhatsApp&apos;tan Sorun

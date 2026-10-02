@@ -41,7 +41,7 @@ export default async function GarantiVeIadePage() {
 
       <H3>Garanti Süresi</H3>
       <Para>
-        Ürünlerimiz <strong style={{ color: "#F4F4F2" }}>12 ay</strong> garanti
+        Ürünlerimiz <strong style={{ color: "#111827" }}>12 ay</strong> garanti
         kapsamındadır. Üreticinin sunduğu garanti süresi veya mevzuatın zorunlu
         kıldığı süre daha uzun ise bu hak saklıdır.
       </Para>
@@ -127,19 +127,19 @@ export default async function GarantiVeIadePage() {
         ].map(step => (
           <div key={step.no} style={{
             display: "flex", gap: 20, padding: "14px 18px",
-            background: "#111214", border: "1px solid rgba(255,255,255,0.05)", borderRadius: 12,
+            background: "#F8F9FA", border: "1px solid #E2E6EA", borderRadius: 12,
           }}>
             <div style={{
               minWidth: 36, height: 36, borderRadius: "50%",
-              background: "rgba(212,160,23,0.10)", border: "1px solid rgba(212,160,23,0.25)",
+              background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.20)",
               display: "flex", alignItems: "center", justifyContent: "center",
-              color: "#D4A017", fontSize: 12, fontWeight: 900, flexShrink: 0,
+              color: "#2563EB", fontSize: 12, fontWeight: 900, flexShrink: 0,
             }}>
               {step.no}
             </div>
             <div>
-              <div style={{ color: "#F4F4F2", fontSize: 14, fontWeight: 700, marginBottom: 4 }}>{step.title}</div>
-              <div style={{ color: "#888882", fontSize: 13, lineHeight: 1.7 }}>{step.desc}</div>
+              <div style={{ color: "#111827", fontSize: 14, fontWeight: 700, marginBottom: 4 }}>{step.title}</div>
+              <div style={{ color: "#374151", fontSize: 13, lineHeight: 1.7 }}>{step.desc}</div>
             </div>
           </div>
         ))}
@@ -149,12 +149,12 @@ export default async function GarantiVeIadePage() {
 
       <H3>Cayma Hakkı</H3>
       <Para>
-        Teslim tarihinden itibaren <strong style={{ color: "#F4F4F2" }}>14 takvim günü</strong>{" "}
+        Teslim tarihinden itibaren <strong style={{ color: "#111827" }}>14 takvim günü</strong>{" "}
         içinde gerekçe göstermeksizin iade hakkınız bulunmaktadır.
       </Para>
 
       <H3>İade Koşulları</H3>
-      <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
+      <ul style={{ color: "#374151", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
         <li>Ürün kullanılmamış ve orijinal ambalajında olmalıdır</li>
         <li>Tüm aksesuarlar ve belgeler eksiksiz iade edilmelidir</li>
         <li>Sipariş belgesi veya fatura numarası ibraz edilmelidir</li>
@@ -162,7 +162,7 @@ export default async function GarantiVeIadePage() {
       </ul>
 
       <H3>Cayma Hakkının Kullanılamadığı Durumlar</H3>
-      <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
+      <ul style={{ color: "#374151", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
         <li>Kişiye özel / özel sipariş üretilen ürünler</li>
         <li>Cayma süresinin (14 takvim günü) geçtiği durumlar</li>
         <li>Mevzuat kapsamındaki diğer istisnai durumlar</li>
@@ -190,19 +190,19 @@ export default async function GarantiVeIadePage() {
         ].map(step => (
           <div key={step.no} style={{
             display: "flex", gap: 20, marginBottom: 16, padding: "16px 20px",
-            background: "#111214", border: "1px solid rgba(255,255,255,0.05)", borderRadius: 12,
+            background: "#F8F9FA", border: "1px solid #E2E6EA", borderRadius: 12,
           }}>
             <div style={{
               minWidth: 40, height: 40, borderRadius: "50%",
-              background: "rgba(212,160,23,0.10)", border: "1px solid rgba(212,160,23,0.25)",
+              background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.20)",
               display: "flex", alignItems: "center", justifyContent: "center",
-              color: "#D4A017", fontSize: 13, fontWeight: 900, flexShrink: 0,
+              color: "#2563EB", fontSize: 13, fontWeight: 900, flexShrink: 0,
             }}>
               {step.no}
             </div>
             <div>
-              <div style={{ color: "#F4F4F2", fontSize: 14, fontWeight: 700, marginBottom: 6 }}>{step.title}</div>
-              <div style={{ color: "#888882", fontSize: 13, lineHeight: 1.7, whiteSpace: "pre-line" }}>{step.desc}</div>
+              <div style={{ color: "#111827", fontSize: 14, fontWeight: 700, marginBottom: 6 }}>{step.title}</div>
+              <div style={{ color: "#374151", fontSize: 13, lineHeight: 1.7, whiteSpace: "pre-line" }}>{step.desc}</div>
             </div>
           </div>
         ))}
@@ -212,9 +212,9 @@ export default async function GarantiVeIadePage() {
       <div style={{ overflowX: "auto", marginBottom: 20 }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
           <thead>
-            <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.10)" }}>
-              <th style={{ textAlign: "left", color: "#D4A017", padding: "10px 12px", fontWeight: 700, fontSize: 12 }}>Ödeme Yöntemi</th>
-              <th style={{ textAlign: "left", color: "#D4A017", padding: "10px 12px", fontWeight: 700, fontSize: 12 }}>İade Süresi</th>
+            <tr style={{ borderBottom: "1px solid #E2E6EA" }}>
+              <th style={{ textAlign: "left", color: "#1E3A8A", padding: "10px 12px", fontWeight: 700, fontSize: 12 }}>Ödeme Yöntemi</th>
+              <th style={{ textAlign: "left", color: "#1E3A8A", padding: "10px 12px", fontWeight: 700, fontSize: 12 }}>İade Süresi</th>
             </tr>
           </thead>
           <tbody>
@@ -223,9 +223,9 @@ export default async function GarantiVeIadePage() {
               ["Banka Kartı", "5–10 iş günü"],
               ["Havale / EFT", "5–7 iş günü — sipariş sırasında belirtilen IBAN'a aktarılır"],
             ].map(([method, time], i) => (
-              <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-                <td style={{ color: "#F4F4F2", padding: "10px 12px", fontWeight: 600 }}>{method}</td>
-                <td style={{ color: "#A0A0A0", padding: "10px 12px" }}>{time}</td>
+              <tr key={i} style={{ borderBottom: "1px solid #E2E6EA" }}>
+                <td style={{ color: "#111827", padding: "10px 12px", fontWeight: 600 }}>{method}</td>
+                <td style={{ color: "#374151", padding: "10px 12px" }}>{time}</td>
               </tr>
             ))}
           </tbody>
@@ -240,23 +240,23 @@ export default async function GarantiVeIadePage() {
         <H3>Garanti ve İade için İletişim</H3>
         {validMail && (
           <Para>
-            <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
-            <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            <strong style={{ color: "#111827" }}>E-posta:</strong>{" "}
+            <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
             {" "}(konu: İade Talebi / Garanti Bildirimi)
           </Para>
         )}
         {waContact && (
           <Para>
-            <strong style={{ color: "#F4F4F2" }}>WhatsApp:</strong>{" "}
+            <strong style={{ color: "#111827" }}>WhatsApp:</strong>{" "}
             <a href={waContact} target="_blank" rel="noopener noreferrer" style={{ color: "#22c55e" }}>
               Hızlı Destek — WhatsApp
             </a>
           </Para>
         )}
         <Para style={{ marginBottom: 0 }}>
-          <strong style={{ color: "#F4F4F2" }}>Telefon:</strong>{" "}
+          <strong style={{ color: "#111827" }}>Telefon:</strong>{" "}
           {validPh
-            ? <a href={`tel:${validPh}`} style={{ color: "#D4A534" }}>{validPh}</a>
+            ? <a href={`tel:${validPh}`} style={{ color: "#2563EB" }}>{validPh}</a>
             : "iletişim sayfamızdaki numaramız"
           }
           {s.workingHours.weekdays ? ` — Her gün ${s.workingHours.weekdays}` : ""}
@@ -264,9 +264,9 @@ export default async function GarantiVeIadePage() {
       </InfoCard>
 
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 8 }}>
-        <Link href="/iptal-iade" style={{ color: "#D4A017", fontSize: 13 }}>→ İptal ve İade Koşulları</Link>
-        <Link href="/teslimat-iade" style={{ color: "#D4A017", fontSize: 13 }}>→ Teslimat ve İade Bilgisi</Link>
-        <Link href="/sss" style={{ color: "#D4A017", fontSize: 13 }}>→ Sıkça Sorulan Sorular</Link>
+        <Link href="/iptal-iade" style={{ color: "#2563EB", fontSize: 13 }}>→ İptal ve İade Koşulları</Link>
+        <Link href="/teslimat-iade" style={{ color: "#2563EB", fontSize: 13 }}>→ Teslimat ve İade Bilgisi</Link>
+        <Link href="/sss" style={{ color: "#2563EB", fontSize: 13 }}>→ Sıkça Sorulan Sorular</Link>
       </div>
     </LegalPageShell>
   )

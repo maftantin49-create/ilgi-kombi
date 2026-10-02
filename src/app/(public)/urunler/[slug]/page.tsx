@@ -100,22 +100,22 @@ function yearRange(from: number | null, to: number | null): string {
 // ── Shared style objects ──────────────────────────────────────────────────────
 
 const badge: CSSProperties = {
-  background: "rgba(17,18,20,0.92)",
-  border: "1px solid rgba(255,255,255,0.10)",
+  background: "#F1F3F5",
+  border: "1px solid #E2E6EA",
   borderRadius: "20px",
   padding: "2px 10px",
   fontSize: "11px",
-  color: "#A0A0A0",
+  color: "#374151",
 }
 
 const surface: CSSProperties = {
-  background: "#111214",
-  border: "1px solid rgba(255,255,255,0.07)",
-  borderRadius: "20px",
+  background: "#FFFFFF",
+  border: "1px solid #E2E6EA",
+  borderRadius: "16px",
 }
 
 const sectionHeader: CSSProperties = {
-  borderBottom: "1px solid rgba(255,255,255,0.07)",
+  borderBottom: "1px solid #E2E6EA",
 }
 
 // ── JSON-LD builder ───────────────────────────────────────────────────────────
@@ -192,7 +192,7 @@ export default async function ProductDetailPage({
   const jsonLd = buildJsonLd(product, galleryImages[0])
 
   return (
-    <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8 bg-white min-h-screen">
       {jsonLd && (
         <script
           type="application/ld+json"
@@ -202,15 +202,14 @@ export default async function ProductDetailPage({
 
       {/* ── Breadcrumb ────────────────────────────────────────── */}
       <nav
-        className="text-[12px] mb-6 flex items-center gap-1.5 flex-wrap"
-        style={{ color: "#5A5A5A" }}
+        className="text-[12px] mb-6 flex items-center gap-1.5 flex-wrap text-gray-500"
         aria-label="Breadcrumb"
       >
-        <Link href="/" className="hover:text-[#D4A017] transition-colors">
+        <Link href="/" className="hover:text-blue-700 transition-colors">
           Ana Sayfa
         </Link>
         <span aria-hidden="true">/</span>
-        <Link href="/urunler" className="hover:text-[#D4A017] transition-colors">
+        <Link href="/urunler" className="hover:text-blue-700 transition-colors">
           Ürünler
         </Link>
         {product.category && (
@@ -218,14 +217,14 @@ export default async function ProductDetailPage({
             <span aria-hidden="true">/</span>
             <Link
               href={`/urunler?kategori=${product.category.slug}`}
-              className="hover:text-[#D4A017] transition-colors"
+              className="hover:text-blue-700 transition-colors"
             >
               {product.category.name}
             </Link>
           </>
         )}
         <span aria-hidden="true">/</span>
-        <span className="text-white truncate max-w-[200px]">{product.name}</span>
+        <span className="text-gray-800 truncate max-w-[200px]">{product.name}</span>
       </nav>
 
       {/* ── Main grid ─────────────────────────────────────────── */}
@@ -247,7 +246,7 @@ export default async function ProductDetailPage({
             {product.brand && <span style={badge}>{product.brand.name}</span>}
           </div>
 
-          <h1 className="text-[24px] font-bold text-white mb-4 leading-snug">
+          <h1 className="text-[24px] font-bold text-gray-900 mb-4 leading-snug">
             {product.name}
           </h1>
 
@@ -272,10 +271,9 @@ export default async function ProductDetailPage({
             )}
             {product.same_day_shipping && (
               <div
-                className="flex items-center gap-1.5 text-[13px] font-medium"
-                style={{ color: "#A0A0A0" }}
+                className="flex items-center gap-1.5 text-[13px] font-medium text-gray-500"
               >
-                <Truck size={14} style={{ color: "#D4A017" }} aria-hidden="true" />
+                <Truck size={14} style={{ color: "#2563EB" }} aria-hidden="true" />
                 {storeSettings.shippingCutoff
                   ? `Saat ${storeSettings.shippingCutoff}'ya kadar sipariş verin, bugün kargoya çıkar`
                   : "Aynı gün kargoya çıkar"
@@ -284,8 +282,7 @@ export default async function ProductDetailPage({
             )}
             {storeSettings.freeShippingThreshold > 0 && (
               <div
-                className="flex items-center gap-1.5 text-[13px]"
-                style={{ color: "#5A5A5A" }}
+                className="flex items-center gap-1.5 text-[13px] text-gray-400"
               >
                 <Package size={14} aria-hidden="true" />
                 {storeSettings.freeShippingThreshold} ₺ üzeri ücretsiz kargo
@@ -298,13 +295,12 @@ export default async function ProductDetailPage({
             <div
               className="rounded-[14px] p-4 mb-5"
               style={{
-                background: "rgba(212,160,23,0.06)",
-                border: "1px solid rgba(212,160,23,0.15)",
+                background: "rgba(37,99,235,0.06)",
+                border: "1px solid rgba(37,99,235,0.15)",
               }}
             >
               <h3
-                className="text-[12px] font-semibold mb-2.5"
-                style={{ color: "#A0A0A0" }}
+                className="text-[12px] font-semibold mb-2.5 text-gray-600"
               >
                 Bu parça hangi cihazlara uyar?
               </h3>
@@ -314,9 +310,9 @@ export default async function ProductDetailPage({
                     key={name}
                     className="text-[12px] font-medium px-3 py-1 rounded-[8px]"
                     style={{
-                      background: "#111214",
-                      border: "1px solid rgba(212,160,23,0.22)",
-                      color: "#E0E0DC",
+                      background: "#F1F3F5",
+                      border: "1px solid #E2E6EA",
+                      color: "#374151",
                     }}
                   >
                     {name}
@@ -344,14 +340,13 @@ export default async function ProductDetailPage({
             ].map((b, i) => (
               <div
                 key={i}
-                className="flex items-center gap-2 text-[11px] rounded-[10px] p-2.5"
+                className="flex items-center gap-2 text-[11px] rounded-[10px] p-2.5 text-gray-500"
                 style={{
-                  background: "#111214",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  color: "#A0A0A0",
+                  background: "#F8F9FA",
+                  border: "1px solid #E2E6EA",
                 }}
               >
-                <span style={{ color: "#D4A017" }} aria-hidden="true">
+                <span style={{ color: "#2563EB" }} aria-hidden="true">
                   {b.icon}
                 </span>
                 {b.text}
@@ -363,14 +358,13 @@ export default async function ProductDetailPage({
 
       {/* ── Description ───────────────────────────────────────── */}
       {product.description && (
-        <div className="mb-8 rounded-[22px] overflow-hidden" style={surface}>
+        <div className="mb-8 overflow-hidden" style={surface}>
           <div className="px-6 py-4" style={sectionHeader}>
-            <h2 className="font-bold text-[17px] text-white">Ürün Açıklaması</h2>
+            <h2 className="font-bold text-[17px] text-gray-900">Ürün Açıklaması</h2>
           </div>
           <div className="p-6">
             <p
-              className="text-[14px] leading-relaxed whitespace-pre-wrap"
-              style={{ color: "#A0A0A0" }}
+              className="text-[14px] leading-relaxed whitespace-pre-wrap text-gray-600"
             >
               {product.description}
             </p>
@@ -380,9 +374,9 @@ export default async function ProductDetailPage({
 
       {/* ── Specifications ────────────────────────────────────── */}
       {product.specifications.length > 0 && (
-        <div className="mb-8 rounded-[22px] overflow-hidden" style={surface}>
+        <div className="mb-8 overflow-hidden" style={surface}>
           <div className="px-6 py-4" style={sectionHeader}>
-            <h2 className="font-bold text-[17px] text-white">Teknik Özellikler</h2>
+            <h2 className="font-bold text-[17px] text-gray-900">Teknik Özellikler</h2>
           </div>
           <div className="p-6">
             <table
@@ -393,18 +387,17 @@ export default async function ProductDetailPage({
                 {product.specifications.map((spec) => (
                   <tr
                     key={spec.id}
-                    style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+                    style={{ borderBottom: "1px solid #E2E6EA" }}
                   >
                     <td
-                      className="py-2.5 pr-4 w-2/5 font-medium"
-                      style={{ color: "#5A5A5A" }}
+                      className="py-2.5 pr-4 w-2/5 font-medium text-gray-400"
                     >
                       {spec.spec_key}
                     </td>
-                    <td className="py-2.5" style={{ color: "#E0E0DC" }}>
+                    <td className="py-2.5 text-gray-800">
                       {spec.spec_value}
                       {spec.unit && (
-                        <span className="ml-1" style={{ color: "#5A5A5A" }}>
+                        <span className="ml-1 text-gray-400">
                           {spec.unit}
                         </span>
                       )}
@@ -416,14 +409,13 @@ export default async function ProductDetailPage({
 
             {/* Persistent installation warning */}
             <div
-              className="mt-5 p-4 rounded-[12px] text-[13px]"
+              className="mt-5 p-4 rounded-[12px] text-[13px] text-gray-600"
               style={{
-                background: "rgba(212,160,23,0.06)",
-                border: "1px solid rgba(212,160,23,0.18)",
-                color: "#A0A0A0",
+                background: "rgba(37,99,235,0.04)",
+                border: "1px solid rgba(37,99,235,0.15)",
               }}
             >
-              <strong style={{ color: "#D4A017" }}>Montaj Uyarısı:</strong>{" "}
+              <strong style={{ color: "#1E3A8A" }}>Montaj Uyarısı:</strong>{" "}
               Yedek parça değişimi yetkili servis veya deneyimli teknisyen
               tarafından yapılmalıdır. Hatalı montaj garanti kapsamını iptal eder.
             </div>
@@ -433,9 +425,9 @@ export default async function ProductDetailPage({
 
       {/* ── OEM Codes ─────────────────────────────────────────── */}
       {product.oem_codes.length > 0 && (
-        <div className="mb-8 rounded-[22px] overflow-hidden" style={surface}>
+        <div className="mb-8 overflow-hidden" style={surface}>
           <div className="px-6 py-4" style={sectionHeader}>
-            <h2 className="font-bold text-[17px] text-white">
+            <h2 className="font-bold text-[17px] text-gray-900">
               OEM / Orijinal Parça Kodları
             </h2>
           </div>
@@ -446,20 +438,18 @@ export default async function ProductDetailPage({
                   key={oem.id}
                   className="rounded-[10px] px-3 py-2"
                   style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.08)",
+                    background: "#F8F9FA",
+                    border: "1px solid #E2E6EA",
                   }}
                 >
                   <code
-                    className="text-[13px] font-mono font-semibold block"
-                    style={{ color: "#E0E0DC" }}
+                    className="text-[13px] font-mono font-semibold block text-gray-900"
                   >
                     {oem.code}
                   </code>
                   {oem.manufacturer && (
                     <span
-                      className="text-[11px] block mt-0.5"
-                      style={{ color: "#5A5A5A" }}
+                      className="text-[11px] block mt-0.5 text-gray-400"
                     >
                       {oem.manufacturer}
                     </span>
@@ -473,16 +463,16 @@ export default async function ProductDetailPage({
 
       {/* ── Compatible Devices ────────────────────────────────── */}
       {product.compatible_devices.length > 0 && (
-        <div className="mb-8 rounded-[22px] overflow-hidden" style={surface}>
+        <div className="mb-8 overflow-hidden" style={surface}>
           <div className="px-6 py-4" style={sectionHeader}>
-            <h2 className="font-bold text-[17px] text-white">Uyumlu Cihazlar</h2>
+            <h2 className="font-bold text-[17px] text-gray-900">Uyumlu Cihazlar</h2>
           </div>
           <div className="p-6 space-y-6">
             {Object.entries(devicesByBrand).map(([brandName, devices]) => (
               <div key={brandName}>
                 <h3
                   className="text-[13px] font-bold mb-3 uppercase tracking-wide"
-                  style={{ color: "#D4A017" }}
+                  style={{ color: "#1E3A8A" }}
                 >
                   {brandName}
                 </h3>
@@ -495,28 +485,25 @@ export default async function ProductDetailPage({
                         key={d.id}
                         className="rounded-[10px] px-3 py-2.5"
                         style={{
-                          background: "rgba(255,255,255,0.03)",
-                          border: "1px solid rgba(255,255,255,0.07)",
+                          background: "#F8F9FA",
+                          border: "1px solid #E2E6EA",
                         }}
                       >
                         <div
-                          className="text-[13px] font-medium"
-                          style={{ color: "#E0E0DC" }}
+                          className="text-[13px] font-medium text-gray-900"
                         >
                           {d.model}
                         </div>
                         {subtitle && (
                           <div
-                            className="text-[11px] mt-0.5"
-                            style={{ color: "#5A5A5A" }}
+                            className="text-[11px] mt-0.5 text-gray-400"
                           >
                             {subtitle}
                           </div>
                         )}
                         {yr && (
                           <div
-                            className="text-[11px] mt-0.5"
-                            style={{ color: "#5A5A5A" }}
+                            className="text-[11px] mt-0.5 text-gray-400"
                           >
                             {yr}
                           </div>
@@ -534,7 +521,7 @@ export default async function ProductDetailPage({
       {/* ── Related products ──────────────────────────────────── */}
       {related.length > 0 && (
         <section aria-label="Benzer ürünler" className="mb-10">
-          <h2 className="text-[19px] font-bold text-white mb-4">Benzer Ürünler</h2>
+          <h2 className="text-[19px] font-bold text-gray-900 mb-4">Benzer Ürünler</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {related.map((p) => (
               <StorefrontProductCard key={p.id} product={p} />
@@ -553,10 +540,10 @@ export default async function ProductDetailPage({
           }}
         >
           <div>
-            <p className="font-semibold text-white">
+            <p className="font-semibold text-gray-900">
               &quot;Bu parça cihazıma uyar mı?&quot;
             </p>
-            <p className="text-[13px] mt-0.5" style={{ color: "#A0A0A0" }}>
+            <p className="text-[13px] mt-0.5 text-gray-500">
               Cihaz modelinizi yazın, uzmanımız onaylasın.
             </p>
           </div>
@@ -587,8 +574,7 @@ export default async function ProductDetailPage({
       {/* ── Back link ─────────────────────────────────────────── */}
       <Link
         href="/urunler"
-        className="inline-flex items-center gap-1.5 text-[13px] transition-colors"
-        style={{ color: "#5A5A5A" }}
+        className="inline-flex items-center gap-1.5 text-[13px] transition-colors text-gray-500 hover:text-blue-700"
       >
         <ArrowLeft size={13} aria-hidden="true" />
         Tüm ürünlere dön

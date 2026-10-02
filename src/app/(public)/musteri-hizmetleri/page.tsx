@@ -146,18 +146,18 @@ export default async function MusteriHizmetleriPage() {
   ]
 
   return (
-    <div style={{ background: "#090A0C", minHeight: "100vh" }}>
+    <div className="bg-white min-h-screen">
 
       {/* Hero */}
-      <div style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+      <div style={{ borderBottom: "1px solid #E2E6EA" }}>
         <div className="max-w-[960px] mx-auto px-6 py-12">
-          <p style={{ color: "#D4A017", fontSize: 11, fontWeight: 700, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>
+          <p style={{ color: "#2563EB", fontSize: 11, fontWeight: 700, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>
             Destek Merkezi
           </p>
-          <h1 style={{ color: "#F4F4F2", fontSize: 30, fontWeight: 900, lineHeight: 1.2, marginBottom: 12 }}>
+          <h1 style={{ color: "#111827", fontSize: 30, fontWeight: 900, lineHeight: 1.2, marginBottom: 12 }}>
             Müşteri Hizmetleri
           </h1>
-          <p style={{ color: "#A0A0A0", fontSize: 15, lineHeight: 1.75, maxWidth: 600 }}>
+          <p style={{ color: "#6B7280", fontSize: 15, lineHeight: 1.75, maxWidth: 600 }}>
             Doğru parçayı bulmaktan siparişinizin teslim sürecine, iade talebinden teknik soruya —
             her konuda size yardımcı olmak için buradayız.
           </p>
@@ -167,7 +167,7 @@ export default async function MusteriHizmetleriPage() {
       <div className="max-w-[960px] mx-auto px-6 py-10">
 
         {/* Hızlı İletişim */}
-        <h2 style={{ color: "#F4F4F2", fontSize: 15, fontWeight: 800, marginBottom: 14 }}>
+        <h2 style={{ color: "#111827", fontSize: 15, fontWeight: 800, marginBottom: 14 }}>
           Hızlı Destek Kanalları
         </h2>
 
@@ -189,9 +189,9 @@ export default async function MusteriHizmetleriPage() {
                 <MessageCircle size={18} style={{ color: "#22c55e" }} />
               </div>
               <div>
-                <div className="font-bold text-sm" style={{ color: "#F4F4F2" }}>WhatsApp</div>
+                <div className="font-bold text-sm text-gray-900">WhatsApp</div>
                 <div className="text-xs mt-0.5" style={{ color: "#22c55e" }}>En hızlı yanıt</div>
-                <div className="text-xs mt-1" style={{ color: "#555550" }}>Uzman 5 dk&apos;da dönüş yapar</div>
+                <div className="text-xs mt-1 text-gray-400">Uzman 5 dk&apos;da dönüş yapar</div>
               </div>
             </a>
           ) : (
@@ -207,7 +207,7 @@ export default async function MusteriHizmetleriPage() {
                 <MessageCircle size={18} style={{ color: "#22c55e" }} />
               </div>
               <div>
-                <div className="font-bold text-sm" style={{ color: "#F4F4F2" }}>Canlı Destek</div>
+                <div className="font-bold text-sm text-gray-900">Canlı Destek</div>
                 <div className="text-xs mt-0.5" style={{ color: "#22c55e" }}>İletişim formunu kullanın</div>
               </div>
             </Link>
@@ -218,19 +218,19 @@ export default async function MusteriHizmetleriPage() {
             <a
               href={`tel:${validPh}`}
               className="flex flex-col gap-3 p-5 rounded-xl transition-all hover:-translate-y-0.5"
-              style={{ background: "#111214", border: "1px solid rgba(255,196,0,0.14)" }}
+              style={{ background: "#FFFFFF", border: "1px solid #E2E6EA" }}
             >
               <div
                 className="w-10 h-10 rounded-lg flex items-center justify-center"
-                style={{ background: "rgba(212,160,23,0.08)", border: "1px solid rgba(255,196,0,0.20)" }}
+                style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.12)" }}
               >
-                <Phone size={18} style={{ color: "#D4A017" }} />
+                <Phone size={18} style={{ color: "#2563EB" }} />
               </div>
               <div>
-                <div className="font-bold text-sm" style={{ color: "#F4F4F2" }}>Telefon</div>
-                <div className="text-xs mt-0.5" style={{ color: "#D4A017" }}>{validPh}</div>
+                <div className="font-bold text-sm text-gray-900">Telefon</div>
+                <div className="text-xs mt-0.5" style={{ color: "#2563EB" }}>{validPh}</div>
                 {s.workingHours.weekdays && (
-                  <div className="text-xs mt-1" style={{ color: "#555550" }}>Her gün {s.workingHours.weekdays}</div>
+                  <div className="text-xs mt-1 text-gray-400">Her gün {s.workingHours.weekdays}</div>
                 )}
               </div>
             </a>
@@ -241,18 +241,18 @@ export default async function MusteriHizmetleriPage() {
             <a
               href={`mailto:${validMail}`}
               className="flex flex-col gap-3 p-5 rounded-xl transition-all hover:-translate-y-0.5"
-              style={{ background: "#111214", border: "1px solid rgba(255,255,255,0.08)" }}
+              style={{ background: "#FFFFFF", border: "1px solid #E2E6EA" }}
             >
               <div
                 className="w-10 h-10 rounded-lg flex items-center justify-center"
-                style={{ background: "rgba(212,160,23,0.06)", border: "1px solid rgba(255,196,0,0.12)" }}
+                style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.12)" }}
               >
-                <Mail size={18} style={{ color: "#D4A017" }} />
+                <Mail size={18} style={{ color: "#2563EB" }} />
               </div>
               <div>
-                <div className="font-bold text-sm" style={{ color: "#F4F4F2" }}>E-posta</div>
-                <div className="text-xs mt-0.5 break-all" style={{ color: "#888882" }}>{validMail}</div>
-                <div className="text-xs mt-1" style={{ color: "#555550" }}>1 iş gününde yanıt</div>
+                <div className="font-bold text-sm text-gray-900">E-posta</div>
+                <div className="text-xs mt-0.5 break-all text-gray-500">{validMail}</div>
+                <div className="text-xs mt-1 text-gray-400">1 iş gününde yanıt</div>
               </div>
             </a>
           ) : null}
@@ -262,9 +262,9 @@ export default async function MusteriHizmetleriPage() {
         {(s.workingHours.weekdays || s.workingHours.saturday || s.workingHours.sunday) && (
           <div
             className="rounded-xl p-5 mb-12"
-            style={{ background: "#111214", border: "1px solid rgba(255,255,255,0.07)" }}
+            style={{ background: "#F8F9FA", border: "1px solid #E2E6EA" }}
           >
-            <p style={{ color: "#888882", fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 10 }}>
+            <p style={{ color: "#9CA3AF", fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 10 }}>
               Çalışma Saatleri
             </p>
             <div className="grid grid-cols-3 gap-4">
@@ -274,13 +274,13 @@ export default async function MusteriHizmetleriPage() {
                 { label: "Pazar",     value: s.workingHours.sunday },
               ].filter(h => h.value).map(({ label, value }) => (
                 <div key={label}>
-                  <div style={{ color: "#555550", fontSize: 12 }}>{label}</div>
-                  <div style={{ color: "#E0E0DC", fontSize: 14, fontWeight: 700, marginTop: 2 }}>{value}</div>
+                  <div style={{ color: "#9CA3AF", fontSize: 12 }}>{label}</div>
+                  <div style={{ color: "#111827", fontSize: 14, fontWeight: 700, marginTop: 2 }}>{value}</div>
                 </div>
               ))}
             </div>
             {s.shippingCutoff && (
-              <div style={{ color: "#444440", fontSize: 11, marginTop: 10, paddingTop: 10, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+              <div style={{ color: "#9CA3AF", fontSize: 11, marginTop: 10, paddingTop: 10, borderTop: "1px solid #E2E6EA" }}>
                 Hafta içi saat {s.shippingCutoff}&apos;e kadar verilen siparişler aynı gün kargoya verilir.
               </div>
             )}
@@ -288,7 +288,7 @@ export default async function MusteriHizmetleriPage() {
         )}
 
         {/* Konu Bazlı Destek */}
-        <h2 style={{ color: "#F4F4F2", fontSize: 15, fontWeight: 800, marginBottom: 14 }}>
+        <h2 style={{ color: "#111827", fontSize: 15, fontWeight: 800, marginBottom: 14 }}>
           Sipariş Öncesi ve Sipariş Sonrası Destek
         </h2>
 
@@ -296,20 +296,20 @@ export default async function MusteriHizmetleriPage() {
           {serviceTopics.map(({ icon: Icon, title, desc, links }) => (
             <div
               key={title}
-              className="flex flex-col gap-3 p-5 rounded-xl border border-[rgba(255,255,255,0.07)] hover:border-[rgba(255,196,0,0.25)] transition-colors"
-              style={{ background: "#111214" }}
+              className="flex flex-col gap-3 p-5 rounded-xl border border-[#E2E6EA] hover:border-[#93C5FD] transition-colors"
+              style={{ background: "#FFFFFF" }}
             >
               <div
                 className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
-                style={{ background: "rgba(212,160,23,0.08)", border: "1px solid rgba(255,196,0,0.14)" }}
+                style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.12)" }}
               >
-                <Icon size={16} style={{ color: "#D4A017" }} aria-hidden="true" />
+                <Icon size={16} style={{ color: "#2563EB" }} aria-hidden="true" />
               </div>
               <div className="flex-1">
-                <div className="font-semibold text-sm mb-1" style={{ color: "#C0C0BA" }}>{title}</div>
-                <div className="text-xs leading-snug" style={{ color: "#555550" }}>{desc}</div>
+                <div className="font-semibold text-sm mb-1 text-gray-900">{title}</div>
+                <div className="text-xs leading-snug text-gray-500">{desc}</div>
               </div>
-              <div className="flex flex-wrap gap-2 pt-2" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+              <div className="flex flex-wrap gap-2 pt-2" style={{ borderTop: "1px solid #E2E6EA" }}>
                 {links.map(link => (
                   "external" in link && link.external ? (
                     <a
@@ -317,8 +317,8 @@ export default async function MusteriHizmetleriPage() {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs px-2.5 py-1 rounded-md font-medium transition-colors hover:text-[#D4A017]"
-                      style={{ background: "rgba(255,255,255,0.04)", color: "#888882" }}
+                      className="text-xs px-2.5 py-1 rounded-md font-medium transition-colors hover:text-blue-700"
+                      style={{ background: "#F1F3F5", color: "#374151" }}
                     >
                       {link.label}
                     </a>
@@ -326,8 +326,8 @@ export default async function MusteriHizmetleriPage() {
                     <Link
                       key={link.href + link.label}
                       href={link.href}
-                      className="text-xs px-2.5 py-1 rounded-md font-medium transition-colors hover:text-[#D4A017]"
-                      style={{ background: "rgba(255,255,255,0.04)", color: "#888882" }}
+                      className="text-xs px-2.5 py-1 rounded-md font-medium transition-colors hover:text-blue-700"
+                      style={{ background: "#F1F3F5", color: "#374151" }}
                     >
                       {link.label}
                     </Link>
@@ -341,9 +341,9 @@ export default async function MusteriHizmetleriPage() {
         {/* Firma Bilgileri */}
         <div
           className="rounded-xl p-5 mb-12"
-          style={{ background: "#111214", border: "1px solid rgba(255,255,255,0.07)" }}
+          style={{ background: "#F8F9FA", border: "1px solid #E2E6EA" }}
         >
-          <p style={{ color: "#888882", fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 12 }}>
+          <p style={{ color: "#9CA3AF", fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 12 }}>
             Firma Bilgileri
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
@@ -356,15 +356,15 @@ export default async function MusteriHizmetleriPage() {
               { label: "E-posta", value: validMail },
             ].filter(r => r.value).map(({ label, value }) => (
               <div key={label}>
-                <div style={{ color: "#444440", fontSize: 11, marginBottom: 2 }}>{label}</div>
-                <div style={{ color: "#C0C0BA", fontSize: 13 }}>{value}</div>
+                <div style={{ color: "#9CA3AF", fontSize: 11, marginBottom: 2 }}>{label}</div>
+                <div style={{ color: "#374151", fontSize: 13 }}>{value}</div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Tüm Bilgi Sayfaları */}
-        <h2 style={{ color: "#F4F4F2", fontSize: 15, fontWeight: 800, marginBottom: 14 }}>
+        <h2 style={{ color: "#111827", fontSize: 15, fontWeight: 800, marginBottom: 14 }}>
           Tüm Bilgi Sayfaları
         </h2>
 
@@ -373,11 +373,11 @@ export default async function MusteriHizmetleriPage() {
             <Link
               key={href}
               href={href}
-              className="flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all hover:-translate-y-0.5 border border-[rgba(255,255,255,0.07)] hover:border-[rgba(255,196,0,0.30)] group"
-              style={{ background: "#111214", color: "#A0A0A0" }}
+              className="flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all hover:-translate-y-0.5 border border-[#E2E6EA] hover:border-[#93C5FD] group"
+              style={{ background: "#FFFFFF", color: "#374151" }}
             >
-              <span className="group-hover:text-[#D4A017] transition-colors">{label}</span>
-              <ArrowRight size={13} style={{ color: "#444440" }} className="group-hover:text-[#D4A017] shrink-0 transition-colors" />
+              <span className="group-hover:text-blue-700 transition-colors">{label}</span>
+              <ArrowRight size={13} className="text-gray-300 group-hover:text-blue-600 shrink-0 transition-colors" />
             </Link>
           ))}
         </div>

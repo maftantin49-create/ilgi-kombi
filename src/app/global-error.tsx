@@ -13,8 +13,8 @@ export default function GlobalError({
       <body
         style={{
           margin: 0,
-          background: "#090A0C",
-          color: "#F4F4F2",
+          background: "#FFFFFF",
+          color: "#111827",
           fontFamily: "system-ui, sans-serif",
           minHeight: "100vh",
           display: "flex",
@@ -45,7 +45,7 @@ export default function GlobalError({
               fontSize: "18px",
               fontWeight: 600,
               marginBottom: "8px",
-              color: "#F4F4F2",
+              color: "#111827",
             }}
           >
             Kritik bir hata oluştu
@@ -53,7 +53,7 @@ export default function GlobalError({
           <p
             style={{
               fontSize: "13px",
-              color: "#A5A5A5",
+              color: "#6B7280",
               marginBottom: "24px",
               lineHeight: 1.6,
             }}
@@ -66,7 +66,7 @@ export default function GlobalError({
                   fontFamily: "monospace",
                   fontSize: "11px",
                   marginTop: "8px",
-                  color: "#555",
+                  color: "#9CA3AF",
                 }}
               >
                 digest: {error.digest}
@@ -76,14 +76,15 @@ export default function GlobalError({
           <button
             onClick={reset}
             style={{
-              background: "#D4A017",
-              color: "#090A0C",
+              background: "#1E3A8A",
+              color: "#FFFFFF",
               fontWeight: 600,
               fontSize: "13px",
               padding: "10px 24px",
               borderRadius: "6px",
               border: "none",
               cursor: "pointer",
+              boxShadow: "0 2px 14px rgba(30,58,138,0.20)",
             }}
           >
             Tekrar Dene

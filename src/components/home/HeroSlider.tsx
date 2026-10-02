@@ -15,12 +15,12 @@ export default function HeroSlider({ waLink }: Props) {
     <section
       aria-label="Ana sayfa hero bölümü"
       className="relative overflow-hidden"
-      style={{ background: "#0A0B0D", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+      style={{ background: "#F1F5F9", borderBottom: "1px solid #E2E6EA" }}
     >
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse 90% 60% at 50% -5%, rgba(100,116,139,0.07) 0%, transparent 65%)",
+          background: "radial-gradient(ellipse 70% 50% at 70% 50%, rgba(37,99,235,0.04) 0%, transparent 70%)",
         }}
         aria-hidden="true"
       />
@@ -29,24 +29,18 @@ export default function HeroSlider({ waLink }: Props) {
         <div className="max-w-2xl">
 
           <div className="flex items-center gap-2.5 mb-6">
-            <div className="w-6 h-px" style={{ background: "#475569" }} aria-hidden="true" />
-            <span
-              className="text-[11px] font-bold tracking-[0.22em] uppercase"
-              style={{ color: "#64748B" }}
-            >
+            <div className="w-6 h-px bg-blue-300" aria-hidden="true" />
+            <span className="text-[11px] font-bold tracking-[0.22em] uppercase text-blue-600">
               Kombi Yedek Parça
             </span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-[56px] font-black text-white mb-5 leading-[1.06]">
+          <h1 className="text-4xl md:text-5xl lg:text-[56px] font-black text-gray-900 mb-5 leading-[1.06]">
             Doğru Parça,<br />
-            <span style={{ color: "#CBD5E1" }}>Hızlı Çözüm</span>
+            <span className="text-blue-800">Hızlı Çözüm</span>
           </h1>
 
-          <p
-            className="text-[15px] md:text-[17px] leading-relaxed mb-10 max-w-lg"
-            style={{ color: "#64748B" }}
-          >
+          <p className="text-[15px] md:text-[17px] leading-relaxed mb-10 max-w-lg text-gray-600">
             Tüm büyük kombi markalarına uygun orijinal ve uyumlu parçalar.
             Teknik destek ve güvenli teslimat.
           </p>
@@ -54,12 +48,8 @@ export default function HeroSlider({ waLink }: Props) {
           <div className="flex flex-wrap items-center gap-3">
             <Link
               href="/urunler"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-bold text-[14px] transition-all duration-150 hover:-translate-y-0.5"
-              style={{
-                background: "#E2E8F0",
-                color: "#0A0B0D",
-                boxShadow: "0 2px 16px rgba(226,232,240,0.10)",
-              }}
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-bold text-[14px] text-white transition-all duration-150 hover:-translate-y-0.5 bg-blue-800 hover:bg-blue-900"
+              style={{ boxShadow: "0 4px 14px rgba(30,58,138,0.20)" }}
             >
               Ürünleri İncele
             </Link>
@@ -69,11 +59,9 @@ export default function HeroSlider({ waLink }: Props) {
                 href={waLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl font-semibold text-[14px] transition-all duration-150 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl font-semibold text-[14px] transition-all duration-150 hover:-translate-y-0.5 text-green-700 hover:bg-green-50"
                 style={{
-                  background: "rgba(34,197,94,0.07)",
-                  border: "1px solid rgba(34,197,94,0.22)",
-                  color: "#22c55e",
+                  border: "1px solid rgba(22,163,74,0.35)",
                 }}
               >
                 <WaIcon />

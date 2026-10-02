@@ -30,32 +30,31 @@ export default function BottomInfoCards() {
     <section
       className="max-w-7xl mx-auto px-6 lg:px-8 py-10 lg:py-12"
       aria-label="Hizmetlerimiz"
-      style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {cards.map(({ icon: Icon, title, desc }) => (
           <div
             key={title}
-            className="flex gap-5 p-6 rounded-2xl"
+            className="flex gap-5 p-6 rounded-xl"
             style={{
-              background: "#151618",
-              border: "1px solid rgba(255,255,255,0.06)",
+              background: "#FFFFFF",
+              border: "1px solid #E2E6EA",
             }}
           >
             <div
               className="w-11 h-11 flex items-center justify-center rounded-xl shrink-0"
               style={{
-                background: "rgba(226,232,240,0.06)",
-                border: "1px solid rgba(226,232,240,0.10)",
+                background: "rgba(37,99,235,0.06)",
+                border: "1px solid rgba(37,99,235,0.12)",
               }}
             >
-              <Icon size={20} style={{ color: "#94A3B8" }} aria-hidden="true" />
+              <Icon size={20} className="text-blue-600" aria-hidden="true" />
             </div>
             <div>
-              <div className="font-bold text-[14px] mb-1.5" style={{ color: "#E8E8E2" }}>
+              <div className="font-bold text-[14px] mb-1.5 text-gray-900">
                 {title}
               </div>
-              <div className="text-[13px] leading-[1.65]" style={{ color: "#525250" }}>
+              <div className="text-[13px] leading-[1.65] text-gray-500">
                 {desc}
               </div>
             </div>

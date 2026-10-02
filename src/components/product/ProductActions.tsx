@@ -26,12 +26,12 @@ const WaIcon = () => (
 )
 
 const discountBadge: React.CSSProperties = {
-  background: "rgba(212,160,23,0.14)",
-  border: "1px solid rgba(212,160,23,0.35)",
+  background: "#FEF2F2",
+  border: "1px solid #FCA5A5",
   borderRadius: "20px",
   padding: "2px 10px",
   fontSize: "11px",
-  color: "#D4A017",
+  color: "#B91C1C",
   fontWeight: 700,
 }
 
@@ -68,17 +68,17 @@ export default function ProductActions({
     <div className="space-y-4">
       {/* ── Price block ── */}
       {availability === "price_on_request" ? (
-        <div className="text-[28px] font-black leading-none" style={{ color: "#A0A0A0" }}>
+        <div className="text-[28px] font-black leading-none text-gray-400">
           Fiyat Sorunuz
         </div>
       ) : (
         <div className="flex items-end gap-3">
-          <div className="text-[32px] font-black leading-none" style={{ color: "#D4A017" }}>
+          <div className="text-[32px] font-black leading-none" style={{ color: "#1E3A8A" }}>
             {(price * qty).toLocaleString("tr-TR")} ₺
           </div>
           {compare_at_price && compare_at_price > price && (
             <>
-              <div className="text-[18px] line-through pb-0.5" style={{ color: "#404040" }}>
+              <div className="text-[18px] line-through pb-0.5 text-gray-400">
                 {(compare_at_price * qty).toLocaleString("tr-TR")} ₺
               </div>
               {discount !== null && <span style={discountBadge}>%{discount} indirim</span>}
@@ -90,14 +90,14 @@ export default function ProductActions({
       {/* ── Qty stepper ── */}
       {availability !== "price_on_request" && (
         <div className="flex items-center gap-3">
-          <span className="text-[13px] font-medium" style={{ color: "#A0A0A0" }}>
+          <span className="text-[13px] font-medium text-gray-500">
             Adet:
           </span>
           <div
             className="flex items-center overflow-hidden"
             style={{
-              background: "#111214",
-              border: "1px solid rgba(255,255,255,0.10)",
+              background: "#F8F9FA",
+              border: "1px solid #E2E6EA",
               borderRadius: "10px",
             }}
           >
@@ -105,16 +105,12 @@ export default function ProductActions({
               onClick={() => setQty((q) => Math.max(1, q - 1))}
               disabled={qty <= 1}
               aria-label="Adeti azalt"
-              className="px-3 py-2 transition-colors disabled:opacity-30"
-              style={{ color: "#A0A0A0" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#D4A017")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#A0A0A0")}
+              className="px-3 py-2 transition-colors disabled:opacity-30 text-gray-400 hover:text-blue-600"
             >
               <Minus size={15} aria-hidden="true" />
             </button>
             <span
-              className="px-4 py-2 text-sm font-bold min-w-[3rem] text-center"
-              style={{ color: "#F4F4F2" }}
+              className="px-4 py-2 text-sm font-bold min-w-[3rem] text-center text-gray-900"
               aria-live="polite"
             >
               {qty}
@@ -123,10 +119,7 @@ export default function ProductActions({
               onClick={() => setQty((q) => tracked ? Math.min(stock_quantity, q + 1) : q + 1)}
               disabled={(tracked && qty >= stock_quantity) || availability === "out_of_stock"}
               aria-label="Adeti artır"
-              className="px-3 py-2 transition-colors disabled:opacity-30"
-              style={{ color: "#A0A0A0" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#D4A017")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#A0A0A0")}
+              className="px-3 py-2 transition-colors disabled:opacity-30 text-gray-400 hover:text-blue-600"
             >
               <Plus size={15} aria-hidden="true" />
             </button>
@@ -140,9 +133,9 @@ export default function ProductActions({
           <div
             className="flex-1 h-12 text-[14px] font-bold flex items-center justify-center gap-2 rounded-[12px]"
             style={{
-              background: "rgba(30,30,30,0.6)",
-              border: "1px solid rgba(255,255,255,0.06)",
-              color: "#3E3E3E",
+              background: "#F1F3F5",
+              border: "1px solid #E2E6EA",
+              color: "#9CA3AF",
             }}
             aria-label="Bu ürün stokta yok"
           >
@@ -167,7 +160,7 @@ export default function ProductActions({
           ) : (
             <div
               className="flex-1 h-12 text-[14px] font-bold flex items-center justify-center rounded-[12px]"
-              style={{ background: "rgba(30,30,30,0.5)", border: "1px solid rgba(255,255,255,0.06)", color: "#5A5A5A" }}
+              style={{ background: "#F1F3F5", border: "1px solid #E2E6EA", color: "#9CA3AF" }}
             >
               Fiyat Sorunuz
             </div>
@@ -184,9 +177,9 @@ export default function ProductActions({
                     border: "1px solid rgba(34,197,94,0.35)",
                   }
                 : {
-                    background: "#D4A017",
-                    color: "#090A0C",
-                    boxShadow: "0 2px 16px rgba(212,160,23,0.28)",
+                    background: "#1E3A8A",
+                    color: "#FFFFFF",
+                    boxShadow: "0 2px 16px rgba(30,58,138,0.20)",
                   }
             }
             aria-label={added ? "Sepete eklendi" : "Sepete ekle"}

@@ -25,20 +25,6 @@ const sortOptions = [
   { value: "yeni", label: "Önce Yeni Ürünler" },
 ]
 
-// Shared dark-theme token
-const T = {
-  bg:          "#111214",
-  surface:     "#151618",
-  border:      "rgba(255,255,255,0.08)",
-  borderGold:  "rgba(255,196,0,0.14)",
-  text:        "#C0C0BA",
-  textMuted:   "#666660",
-  textHeading: "#E8E8E2",
-  gold:        "#D4A017",
-  goldHover:   "#F2C94C",
-  activeText:  "#090A0C",
-}
-
 function FiltersContent({
   categories,
   brands,
@@ -76,26 +62,21 @@ function FiltersContent({
     <div className="space-y-5">
       {/* Sort */}
       <div>
-        <h3
-          className="font-semibold text-sm mb-2"
-          style={{ color: T.textHeading }}
-        >
+        <h3 className="font-semibold text-sm mb-2 text-gray-700">
           Sıralama
         </h3>
         <select
           value={activeSiralama ?? ""}
           onChange={(e) => updateFilter("siralama", e.target.value)}
           aria-label="Sıralama seçin"
-          className="w-full rounded-xl px-3 py-2 text-sm focus:outline-none transition-colors"
+          className="w-full rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-blue-300 transition-colors text-gray-700 bg-white"
           style={{
-            background: T.bg,
-            border: `1px solid ${T.border}`,
-            color: T.text,
+            border: "1px solid #E2E6EA",
             WebkitAppearance: "none" as const,
           }}
         >
           {sortOptions.map((o) => (
-            <option key={o.value} value={o.value} style={{ background: T.bg, color: T.text }}>
+            <option key={o.value} value={o.value}>
               {o.label}
             </option>
           ))}
@@ -104,10 +85,7 @@ function FiltersContent({
 
       {/* Category */}
       <div>
-        <h3
-          className="font-semibold text-sm mb-2"
-          style={{ color: T.textHeading }}
-        >
+        <h3 className="font-semibold text-sm mb-2 text-gray-700">
           Kategori
         </h3>
         <ul className="space-y-0.5">
@@ -117,11 +95,11 @@ function FiltersContent({
               className="w-full text-left px-3 py-2 rounded-lg text-sm transition-colors"
               style={
                 !activeKategori
-                  ? { background: T.gold, color: T.activeText, fontWeight: 700 }
-                  : { color: T.text }
+                  ? { background: "#1E3A8A", color: "#FFFFFF", fontWeight: 700 }
+                  : { color: "#374151" }
               }
               onMouseEnter={(e) => {
-                if (activeKategori) (e.currentTarget as HTMLButtonElement).style.background = "#1E1F21"
+                if (activeKategori) (e.currentTarget as HTMLButtonElement).style.background = "#F3F4F6"
               }}
               onMouseLeave={(e) => {
                 if (activeKategori) (e.currentTarget as HTMLButtonElement).style.background = "transparent"
@@ -137,12 +115,12 @@ function FiltersContent({
                 className="w-full text-left px-3 py-2 rounded-lg text-sm transition-colors"
                 style={
                   activeKategori === cat.slug
-                    ? { background: T.gold, color: T.activeText, fontWeight: 700 }
-                    : { color: T.text }
+                    ? { background: "#1E3A8A", color: "#FFFFFF", fontWeight: 700 }
+                    : { color: "#374151" }
                 }
                 onMouseEnter={(e) => {
                   if (activeKategori !== cat.slug)
-                    (e.currentTarget as HTMLButtonElement).style.background = "#1E1F21"
+                    (e.currentTarget as HTMLButtonElement).style.background = "#F3F4F6"
                 }}
                 onMouseLeave={(e) => {
                   if (activeKategori !== cat.slug)
@@ -166,10 +144,7 @@ function FiltersContent({
 
       {/* Brand */}
       <div>
-        <h3
-          className="font-semibold text-sm mb-2"
-          style={{ color: T.textHeading }}
-        >
+        <h3 className="font-semibold text-sm mb-2 text-gray-700">
           Uyumlu Marka
         </h3>
         <ul className="space-y-0.5">
@@ -182,12 +157,12 @@ function FiltersContent({
                 className="w-full text-left px-3 py-2 rounded-lg text-sm transition-colors flex items-center justify-between"
                 style={
                   activeMarka === brand.slug
-                    ? { background: T.gold, color: T.activeText, fontWeight: 700 }
-                    : { color: T.text }
+                    ? { background: "#1E3A8A", color: "#FFFFFF", fontWeight: 700 }
+                    : { color: "#374151" }
                 }
                 onMouseEnter={(e) => {
                   if (activeMarka !== brand.slug)
-                    (e.currentTarget as HTMLButtonElement).style.background = "#1E1F21"
+                    (e.currentTarget as HTMLButtonElement).style.background = "#F3F4F6"
                 }}
                 onMouseLeave={(e) => {
                   if (activeMarka !== brand.slug)
@@ -203,8 +178,7 @@ function FiltersContent({
         {brands.length > 8 && (
           <button
             onClick={() => setBrandExpanded(!brandExpanded)}
-            className="flex items-center gap-1 text-xs mt-2 hover:underline transition-colors"
-            style={{ color: T.gold }}
+            className="flex items-center gap-1 text-xs mt-2 text-blue-600 hover:text-blue-800 hover:underline transition-colors"
           >
             {brandExpanded ? (
               <><ChevronUp size={12} /> Daha az</>
@@ -217,10 +191,7 @@ function FiltersContent({
 
       {/* Stock */}
       <div>
-        <h3
-          className="font-semibold text-sm mb-2"
-          style={{ color: T.textHeading }}
-        >
+        <h3 className="font-semibold text-sm mb-2 text-gray-700">
           Stok Durumu
         </h3>
         <label className="flex items-center gap-2 cursor-pointer">
@@ -229,9 +200,9 @@ function FiltersContent({
             checked={activeStok === "var"}
             onChange={(e) => updateFilter("stok", e.target.checked ? "var" : "")}
             className="w-4 h-4"
-            style={{ accentColor: T.gold }}
+            style={{ accentColor: "#2563EB" }}
           />
-          <span className="text-sm" style={{ color: T.text }}>Sadece stokta olanlar</span>
+          <span className="text-sm text-gray-600">Sadece stokta olanlar</span>
         </label>
       </div>
 
@@ -246,7 +217,7 @@ function FiltersContent({
             background: "transparent",
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.background = "rgba(239,68,68,0.08)"
+            (e.currentTarget as HTMLButtonElement).style.background = "rgba(239,68,68,0.06)"
           }}
           onMouseLeave={(e) => {
             (e.currentTarget as HTMLButtonElement).style.background = "transparent"
@@ -264,19 +235,15 @@ function FiltersContent({
       <div className="md:hidden">
         <button
           onClick={() => setMobileOpen(true)}
-          className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors"
-          style={{
-            border: `1px solid ${T.border}`,
-            color: T.text,
-            background: T.surface,
-          }}
+          className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors text-gray-600 bg-white"
+          style={{ border: "1px solid #E2E6EA" }}
         >
           <SlidersHorizontal size={16} aria-hidden="true" />
           Filtrele &amp; Sırala
           {hasFilters && (
             <span
-              className="text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold"
-              style={{ background: T.gold, color: T.activeText }}
+              className="text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold text-white"
+              style={{ background: "#1E3A8A" }}
             >
               !
             </span>
@@ -292,47 +259,37 @@ function FiltersContent({
             aria-label="Filtreler"
           >
             <div
-              className="absolute inset-0 bg-black/60"
+              className="absolute inset-0 bg-black/40"
               onClick={() => setMobileOpen(false)}
             />
             <div
-              className="relative ml-auto w-80 h-full overflow-y-auto shadow-2xl flex flex-col"
-              style={{ background: "#111214", borderLeft: `1px solid ${T.border}` }}
+              className="relative ml-auto w-80 h-full overflow-y-auto shadow-2xl flex flex-col bg-white"
+              style={{ borderLeft: "1px solid #E2E6EA" }}
             >
               <div
-                className="flex items-center justify-between p-4 sticky top-0"
-                style={{
-                  borderBottom: `1px solid ${T.border}`,
-                  background: "#111214",
-                }}
+                className="flex items-center justify-between p-4 sticky top-0 bg-white"
+                style={{ borderBottom: "1px solid #E2E6EA" }}
               >
-                <h2 className="font-bold text-sm" style={{ color: T.textHeading }}>
+                <h2 className="font-bold text-sm text-gray-900">
                   Filtrele &amp; Sırala
                 </h2>
                 <button
                   onClick={() => setMobileOpen(false)}
                   aria-label="Kapat"
-                  className="p-1 rounded-lg transition-colors"
-                  style={{ color: T.textMuted }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.color = T.text
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.color = T.textMuted
-                  }}
+                  className="p-1 rounded-lg transition-colors text-gray-400 hover:text-gray-600"
                 >
                   <X size={20} />
                 </button>
               </div>
               <div className="p-4 flex-1">{filterContent}</div>
               <div
-                className="p-4 sticky bottom-0"
-                style={{ borderTop: `1px solid ${T.border}`, background: "#111214" }}
+                className="p-4 sticky bottom-0 bg-white"
+                style={{ borderTop: "1px solid #E2E6EA" }}
               >
                 <button
                   onClick={() => setMobileOpen(false)}
-                  className="w-full py-3 rounded-xl font-bold text-sm transition-colors"
-                  style={{ background: T.gold, color: T.activeText }}
+                  className="w-full py-3 rounded-xl font-bold text-sm transition-colors text-white hover:bg-blue-900"
+                  style={{ background: "#1E3A8A" }}
                 >
                   Uygula
                 </button>
@@ -345,16 +302,10 @@ function FiltersContent({
       {/* Desktop sidebar */}
       <aside className="hidden md:block w-56 shrink-0">
         <div
-          className="rounded-xl p-4 sticky top-24"
-          style={{
-            background: T.surface,
-            border: `1px solid ${T.border}`,
-          }}
+          className="rounded-xl p-4 sticky top-24 bg-[#F8F9FA]"
+          style={{ border: "1px solid #E2E6EA" }}
         >
-          <h2
-            className="font-semibold mb-4 text-sm uppercase tracking-wide"
-            style={{ color: T.textHeading }}
-          >
+          <h2 className="font-semibold mb-4 text-sm uppercase tracking-wide text-gray-700">
             Filtreler
           </h2>
           {filterContent}

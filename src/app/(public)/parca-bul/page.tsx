@@ -45,18 +45,18 @@ function ParcaBulContent() {
     : "/urunler"
 
   const cardStyle = {
-    background: "#151618",
-    border: "1px solid rgba(255,255,255,0.07)",
+    background: "#FFFFFF",
+    border: "1px solid #E2E6EA",
     borderRadius: "16px",
     padding: "24px",
     marginBottom: "16px",
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
+    <div className="max-w-3xl mx-auto px-4 py-10 bg-white min-h-screen">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold mb-2" style={{ color: "#F4F4F2" }}>Parça Bul</h1>
-        <p style={{ color: "#666660" }}>Cihazınızı seçin, uyumlu parçaları listeleyelim</p>
+        <h1 className="text-3xl font-bold mb-2 text-gray-900">Parça Bul</h1>
+        <p className="text-gray-500">Cihazınızı seçin, uyumlu parçaları listeleyelim</p>
       </div>
 
       {/* Steps indicator */}
@@ -69,19 +69,19 @@ function ParcaBulContent() {
                 step > i + 1
                   ? { background: "#22c55e", color: "#fff" }
                   : step === i + 1
-                  ? { background: "#D4A017", color: "#090A0C" }
-                  : { background: "#252527", color: "#555550" }
+                  ? { background: "#1E3A8A", color: "#FFFFFF" }
+                  : { background: "#F1F3F5", color: "#9CA3AF" }
               }
             >
               {step > i + 1 ? "✓" : i + 1}
             </div>
             <span
               className="text-sm hidden md:block"
-              style={{ color: step === i + 1 ? "#D4A017" : "#555550", fontWeight: step === i + 1 ? 600 : 400 }}
+              style={{ color: step === i + 1 ? "#1E3A8A" : "#9CA3AF", fontWeight: step === i + 1 ? 600 : 400 }}
             >
               {s}
             </span>
-            {i < steps.length - 1 && <ChevronRight size={14} style={{ color: "#3A3A3A" }} />}
+            {i < steps.length - 1 && <ChevronRight size={14} className="text-gray-300" />}
           </div>
         ))}
       </div>
@@ -89,7 +89,7 @@ function ParcaBulContent() {
       {/* Step 1: Brand */}
       {step >= 1 && (
         <div style={cardStyle}>
-          <h2 className="font-bold mb-4" style={{ color: "#F4F4F2" }}>
+          <h2 className="font-bold mb-4 text-gray-900">
             1. Cihazınızın markası nedir?
           </h2>
           <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
@@ -100,8 +100,8 @@ function ParcaBulContent() {
                 className="rounded-xl py-2.5 px-3 text-sm font-medium transition-all"
                 style={
                   brand === b
-                    ? { border: "1px solid #D4A017", background: "rgba(212,160,23,0.10)", color: "#D4A017" }
-                    : { border: "1px solid rgba(255,255,255,0.08)", color: "#A0A09A" }
+                    ? { border: "1px solid #93C5FD", background: "#EFF6FF", color: "#1E3A8A" }
+                    : { border: "1px solid #E2E6EA", color: "#374151" }
                 }
               >
                 {b}
@@ -114,7 +114,7 @@ function ParcaBulContent() {
       {/* Step 2: Model */}
       {step >= 2 && brand && (
         <div style={cardStyle}>
-          <h2 className="font-bold mb-4" style={{ color: "#F4F4F2" }}>
+          <h2 className="font-bold mb-4 text-gray-900">
             2. Modelinizi seçin
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
@@ -125,15 +125,15 @@ function ParcaBulContent() {
                 className="rounded-xl py-2.5 px-3 text-sm font-medium text-left transition-all"
                 style={
                   model === m
-                    ? { border: "1px solid #D4A017", background: "rgba(212,160,23,0.10)", color: "#D4A017" }
-                    : { border: "1px solid rgba(255,255,255,0.08)", color: "#A0A09A" }
+                    ? { border: "1px solid #93C5FD", background: "#EFF6FF", color: "#1E3A8A" }
+                    : { border: "1px solid #E2E6EA", color: "#374151" }
                 }
               >
                 {m}
               </button>
             ))}
           </div>
-          <p className="text-xs" style={{ color: "#555550" }}>
+          <p className="text-xs text-gray-400">
             Modelinizi bilmiyorsanız cihazın ön paneline veya teknik etiketine bakın.
           </p>
         </div>
@@ -142,7 +142,7 @@ function ParcaBulContent() {
       {/* Step 3: Symptom */}
       {step >= 3 && model && (
         <div style={cardStyle}>
-          <h2 className="font-bold mb-4" style={{ color: "#F4F4F2" }}>
+          <h2 className="font-bold mb-4 text-gray-900">
             3. Ne tür bir sorun yaşıyorsunuz?
           </h2>
           <div className="grid grid-cols-2 gap-2">
@@ -160,12 +160,12 @@ function ParcaBulContent() {
                 className="rounded-xl p-3 text-left transition-all"
                 style={
                   symptom === s.value
-                    ? { border: "1px solid #D4A017", background: "rgba(212,160,23,0.08)" }
-                    : { border: "1px solid rgba(255,255,255,0.08)" }
+                    ? { border: "1px solid #93C5FD", background: "#EFF6FF" }
+                    : { border: "1px solid #E2E6EA" }
                 }
               >
-                <div className="font-medium text-sm" style={{ color: "#E8E8E2" }}>{s.label}</div>
-                <div className="text-xs" style={{ color: "#666660" }}>{s.desc}</div>
+                <div className="font-medium text-sm text-gray-800">{s.label}</div>
+                <div className="text-xs text-gray-500">{s.desc}</div>
               </button>
             ))}
           </div>
@@ -184,10 +184,10 @@ function ParcaBulContent() {
           >
             <span className="text-2xl">✅</span>
             <div>
-              <div className="font-semibold" style={{ color: "#22c55e" }}>
+              <div className="font-semibold text-green-600">
                 {brand} {model} için uyumlu parçalar
               </div>
-              <div className="text-sm mt-1" style={{ color: "#666660" }}>
+              <div className="text-sm mt-1 text-gray-500">
                 Emin değilseniz WhatsApp&apos;tan teknik destek alabilirsiniz.
               </div>
             </div>
@@ -195,8 +195,8 @@ function ParcaBulContent() {
 
           <Link
             href={listingHref}
-            className="flex items-center justify-between gap-3 px-6 py-4 rounded-2xl font-semibold transition-colors mb-4"
-            style={{ background: "#D4A017", color: "#090A0C" }}
+            className="flex items-center justify-between gap-3 px-6 py-4 rounded-2xl font-semibold transition-colors mb-4 text-white hover:bg-blue-900"
+            style={{ background: "#1E3A8A" }}
           >
             <span>{brand} uyumlu parçaların tümünü gör</span>
             <ArrowRight size={18} aria-hidden="true" />
@@ -222,7 +222,7 @@ function ParcaBulContent() {
 
 export default function ParcaBulPage() {
   return (
-    <Suspense fallback={<div className="text-center py-20" style={{ color: "#666660" }}>Yükleniyor...</div>}>
+    <Suspense fallback={<div className="text-center py-20 text-gray-400">Yükleniyor...</div>}>
       <ParcaBulContent />
     </Suspense>
   )

@@ -21,7 +21,6 @@ import { buildWa } from "@/lib/whatsapp"
 export const revalidate = 300 // ISR: 5 dakikada bir yenile
 
 export default async function HomePage() {
-  // Stage 1: categories + non-catalog data in parallel
   const [categories, sameDayProducts, discountedProducts, featuredProducts, brands, settings] = await Promise.all([
     getStorefrontCategories(),
     getSameDayStorefrontProducts(8),
@@ -31,10 +30,8 @@ export default async function HomePage() {
     getStoreSettings(),
   ])
 
-  // Featured categories drive the product rails — admin controls which show via is_featured + sort_order
   const featuredCats = categories.filter(c => c.is_featured).slice(0, 3)
 
-  // Stage 2: product queries for each featured category
   const catProductResults = featuredCats.length > 0
     ? await Promise.all(featuredCats.map(cat =>
         getStorefrontProducts({ categorySlug: cat.slug, sort: "featured", pageSize: 8 })
@@ -61,14 +58,19 @@ export default async function HomePage() {
     <>
       <PointerTracker />
 
-      {/* ─── 1. Kategori Rail — header/search'ün hemen altı ─── */}
+      {/* ─── 1. Kategori Rail ─── */}
       <CategoryRail categories={categories} />
 
       {/* ─── 2. Hero ─── */}
       <HeroSlider waLink={wa.home} />
 
-      {/* ─── 3. Popüler Kategoriler ─── */}
-      <AnimatedSection variant="fade-up" as="div">
+      {/* ─── 3. Trust Bar ─── */}
+      <div className="bg-white border-b border-gray-100">
+        <BottomInfoCards />
+      </div>
+
+      {/* ─── 4. Popüler Kategoriler ─── */}
+      <AnimatedSection variant="fade-up" as="div" className="bg-white">
         <CategorySection />
       </AnimatedSection>
 
@@ -80,7 +82,7 @@ export default async function HomePage() {
             key={cat.id}
             variant="fade-up"
             as="div"
-            style={(idx % 2 === 0 ? { background: "#090A0C" } : { background: "#0A0B0D" }) as React.CSSProperties}
+            className={idx % 2 === 0 ? "bg-white" : "bg-[#F8F9FA]"}
           >
             <ProductSection
               eyebrow={cat.eyebrow}
@@ -93,59 +95,9 @@ export default async function HomePage() {
         )
       })}
 
-      {/* ─── 8. Uyumlu Markalar ─── */}
-      {brandNames.length > 0 && (
-        <section
-          aria-label="Uyumlu cihaz markaları"
-          style={{
-            background: "#090A0C",
-            borderTop: "1px solid rgba(255,255,255,0.06)",
-            borderBottom: "1px solid rgba(255,255,255,0.06)",
-          }}
-        >
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10">
-            <div className="flex items-center justify-center gap-2 mb-2.5">
-              <span
-                className="w-[4px] h-[4px] rounded-full"
-                style={{ background: "#D4A017", boxShadow: "0 0 5px rgba(212,160,23,0.70)" }}
-                aria-hidden="true"
-              />
-              <span
-                className="text-[10px] font-bold tracking-[0.26em] uppercase"
-                style={{ color: "#D4A017" }}
-              >
-                Desteklenen Markalar
-              </span>
-            </div>
-            <h2
-              className="text-center font-black mb-7"
-              style={{ color: "#F4F4F2", fontSize: "clamp(18px, 1.8vw, 22px)" }}
-            >
-              Uyumlu Markalar
-            </h2>
-            <div className="flex flex-wrap justify-center gap-2">
-              {brandNames.map((brand) => (
-                <Link
-                  key={brand}
-                  href={`/urunler?marka=${encodeURIComponent(brand)}`}
-                  className="px-4 py-2 text-[13px] font-medium rounded-lg transition-all duration-150 hover:-translate-y-0.5 text-[#A5A5A5] hover:text-[#D4A017]"
-                  style={{ background: "#151618", border: "1px solid rgba(255,196,0,0.12)" }}
-                >
-                  {brand}
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ─── 9. Fırsat Ürünleri (indirimli) ─── */}
+      {/* ─── 8. Fırsat Ürünleri (indirimli) ─── */}
       {discountedProducts.length > 0 && (
-        <AnimatedSection
-          variant="fade-up"
-          as="div"
-          style={{ background: "#0A0B0D" } as React.CSSProperties}
-        >
+        <AnimatedSection variant="fade-up" as="div" className="bg-[#F8F9FA]">
           <ProductSection
             eyebrow="Fırsatlar"
             title="Fırsat Ürünleri"
@@ -156,13 +108,9 @@ export default async function HomePage() {
         </AnimatedSection>
       )}
 
-      {/* ─── 9b. En Çok Satanlar (admin is_featured flag) ─── */}
+      {/* ─── 9. En Çok Satanlar ─── */}
       {featuredProducts.length > 0 && (
-        <AnimatedSection
-          variant="fade-up"
-          as="div"
-          style={{ background: "#090A0C" } as React.CSSProperties}
-        >
+        <AnimatedSection variant="fade-up" as="div" className="bg-white">
           <ProductSection
             eyebrow="Popüler"
             title="En Çok Satanlar"
@@ -175,7 +123,7 @@ export default async function HomePage() {
 
       {/* ─── 10. Aynı Gün Kargo ─── */}
       {sameDayProducts.length > 0 && (
-        <AnimatedSection variant="fade-up" as="div">
+        <AnimatedSection variant="fade-up" as="div" className="bg-[#EFF6FF]">
           <ProductSection
             eyebrow="Hızlı Teslimat"
             title="Aynı Gün Kargo"
@@ -187,10 +135,43 @@ export default async function HomePage() {
         </AnimatedSection>
       )}
 
-      {/* ─── 13. Alt 3 Kart ─── */}
-      <BottomInfoCards />
+      {/* ─── 11. Uyumlu Markalar ─── */}
+      {brandNames.length > 0 && (
+        <section
+          className="bg-[#F8F9FA]"
+          aria-label="Uyumlu cihaz markaları"
+          style={{ borderTop: "1px solid #E2E6EA", borderBottom: "1px solid #E2E6EA" }}
+        >
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10">
+            <div className="flex items-center justify-center gap-2 mb-2.5">
+              <span className="w-[4px] h-[4px] rounded-full bg-blue-600" aria-hidden="true" />
+              <span className="text-[10px] font-bold tracking-[0.26em] uppercase text-blue-600">
+                Desteklenen Markalar
+              </span>
+            </div>
+            <h2
+              className="text-center font-black mb-7 text-gray-900"
+              style={{ fontSize: "clamp(18px, 1.8vw, 22px)" }}
+            >
+              Uyumlu Markalar
+            </h2>
+            <div className="flex flex-wrap justify-center gap-2">
+              {brandNames.map((brand) => (
+                <Link
+                  key={brand}
+                  href={`/urunler?marka=${encodeURIComponent(brand)}`}
+                  className="px-4 py-2 text-[13px] font-medium rounded-lg transition-all duration-150 hover:-translate-y-0.5 text-gray-600 hover:text-blue-700 hover:border-blue-300"
+                  style={{ background: "#FFFFFF", border: "1px solid #E2E6EA" }}
+                >
+                  {brand}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
-      {/* ─── 14. WhatsApp CTA ─── */}
+      {/* ─── 12. WhatsApp CTA — tek koyu section ─── */}
       <WhatsAppCTA
         waLink={wa.home}
         phone={validPh}

@@ -56,19 +56,19 @@ export default async function KategoriPage({ params }: { params: Promise<{ slug:
   })
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="flex items-center gap-2 text-sm mb-6" style={{ color: "#666660" }}>
-        <Link href="/" className="transition-colors hover:[color:#D4A017]" style={{ color: "#888882" }}>Ana Sayfa</Link>
-        <span style={{ color: "#3A3A3A" }}>/</span>
-        <Link href="/kategoriler" className="transition-colors hover:[color:#D4A017]" style={{ color: "#888882" }}>Kategoriler</Link>
-        <span style={{ color: "#3A3A3A" }}>/</span>
-        <span className="font-medium" style={{ color: "#C0C0BA" }}>{category.name}</span>
+    <div className="max-w-7xl mx-auto px-4 py-8 bg-white min-h-screen">
+      <div className="flex items-center gap-2 text-sm mb-6 text-gray-500">
+        <Link href="/" className="transition-colors hover:text-blue-700">Ana Sayfa</Link>
+        <span className="text-gray-300">/</span>
+        <Link href="/kategoriler" className="transition-colors hover:text-blue-700">Kategoriler</Link>
+        <span className="text-gray-300">/</span>
+        <span className="font-medium text-gray-700">{category.name}</span>
       </div>
 
       <div className="flex items-center gap-3 mb-6">
         <div>
-          <h1 className="text-2xl font-bold" style={{ color: "#F4F4F2" }}>{category.name}</h1>
-          <p className="text-sm" style={{ color: "#666660" }}>{products.length} ürün</p>
+          <h1 className="text-2xl font-bold text-gray-900">{category.name}</h1>
+          <p className="text-sm text-gray-500">{products.length} ürün</p>
         </div>
       </div>
 
@@ -76,8 +76,8 @@ export default async function KategoriPage({ params }: { params: Promise<{ slug:
         <div className="flex flex-wrap gap-2 mb-6">
           <Link
             href={`/urunler?kategori=${slug}`}
-            className="px-4 py-1.5 rounded-full text-sm font-bold"
-            style={{ background: "#D4A017", color: "#090A0C" }}
+            className="px-4 py-1.5 rounded-full text-sm font-bold text-white"
+            style={{ background: "#1E3A8A" }}
           >
             Tümü
           </Link>
@@ -85,8 +85,8 @@ export default async function KategoriPage({ params }: { params: Promise<{ slug:
             <Link
               key={sub.id}
               href={`/urunler?kategori=${sub.slug}`}
-              className="px-4 py-1.5 rounded-full text-sm font-medium transition-colors border border-[rgba(255,255,255,0.08)] hover:border-[rgba(255,196,0,0.35)] hover:text-[#D4A017]"
-              style={{ background: "#151618", color: "#A0A09A" }}
+              className="px-4 py-1.5 rounded-full text-sm font-medium transition-colors text-gray-600 hover:text-blue-700 hover:border-blue-300"
+              style={{ background: "#FFFFFF", border: "1px solid #E2E6EA" }}
             >
               {sub.name}
             </Link>
@@ -102,13 +102,12 @@ export default async function KategoriPage({ params }: { params: Promise<{ slug:
         </div>
       ) : (
         <div className="text-center py-16">
-          <p className="mb-4" style={{ color: "#666660" }}>Bu kategoride henüz ürün bulunmuyor.</p>
+          <p className="mb-4 text-gray-400">Bu kategoride henüz ürün bulunmuyor.</p>
           <a
             href={wa.notFound ?? undefined}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-medium hover:underline"
-            style={{ color: "#22c55e" }}
+            className="font-medium hover:underline text-green-600"
           >
             WhatsApp&apos;tan talep oluşturun
           </a>

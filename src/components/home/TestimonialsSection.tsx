@@ -49,23 +49,19 @@ export default function TestimonialsSection() {
             transition={{ delay: i * 0.08, duration: 0.42, ease: "easeOut" }}
             whileHover={{
               y: -4,
-              boxShadow: "0 8px 28px rgba(212,160,23,0.09)",
+              boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
               transition: { type: "spring", stiffness: 340, damping: 28 },
             }}
-            className="p-6 rounded-[22px] flex flex-col gap-4 cursor-default"
-            style={{
-              background: "radial-gradient(ellipse at top left, rgba(212,160,23,0.04) 0%, #151618 55%)",
-              border: "1px solid rgba(255,196,0,0.12)",
-            }}
+            className="p-6 rounded-[22px] flex flex-col gap-4 cursor-default bg-white"
+            style={{ border: "1px solid #E2E6EA" }}
           >
             {/* Quote icon + Stars */}
             <div className="flex items-start justify-between">
               <div
-                className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[18px] font-black select-none"
+                className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[18px] font-black select-none text-blue-600"
                 style={{
-                  background: "rgba(212,160,23,0.08)",
-                  border: "1px solid rgba(212,160,23,0.20)",
-                  color: "#D4A017",
+                  background: "rgba(37,99,235,0.06)",
+                  border: "1px solid rgba(37,99,235,0.12)",
                   lineHeight: 1,
                 }}
                 aria-hidden="true"
@@ -74,21 +70,20 @@ export default function TestimonialsSection() {
               </div>
               <div className="flex gap-0.5" aria-label={`${t.rating} yıldız`}>
                 {Array.from({ length: t.rating }).map((_, j) => (
-                  <Star key={j} size={13} style={{ color: "#D4A017", fill: "#D4A017" }} aria-hidden="true" />
+                  <Star key={j} size={13} style={{ color: "#F59E0B", fill: "#F59E0B" }} aria-hidden="true" />
                 ))}
               </div>
             </div>
 
             <blockquote
-              className="text-[14px] leading-[1.72] flex-1"
-              style={{ color: "#C8C8C4" }}
+              className="text-[14px] leading-[1.72] flex-1 text-gray-600"
             >
               {t.text}
             </blockquote>
 
-            <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "14px" }}>
-              <div className="font-bold text-[13px] text-white">{t.name}</div>
-              <div className="text-[11px] mt-0.5" style={{ color: "#5A5A58" }}>{t.role}</div>
+            <div style={{ borderTop: "1px solid #E2E6EA", paddingTop: "14px" }}>
+              <div className="font-bold text-[13px] text-gray-900">{t.name}</div>
+              <div className="text-[11px] mt-0.5 text-gray-400">{t.role}</div>
             </div>
           </motion.div>
         ))}

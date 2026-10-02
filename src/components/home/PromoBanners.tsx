@@ -60,13 +60,12 @@ function PromoCard({ banner, index }: { banner: Banner; index: number }) {
       transition={{ delay: index * 0.08, duration: 0.42, ease: "easeOut" }}
       whileHover={{
         y: -5,
-        boxShadow: "0 8px 32px rgba(212,160,23,0.11)",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
         transition: { type: "spring", stiffness: 340, damping: 28 },
       }}
-      className="flex flex-col gap-5 p-6 h-full relative overflow-hidden"
+      className="flex flex-col gap-5 p-6 h-full relative overflow-hidden bg-white"
       style={{
-        background: "radial-gradient(ellipse at top left, rgba(212,160,23,0.05) 0%, #151618 55%)",
-        border: "1px solid rgba(255,196,0,0.14)",
+        border: "1px solid #E2E6EA",
         borderRadius: "22px",
       }}
     >
@@ -74,7 +73,7 @@ function PromoCard({ banner, index }: { banner: Banner; index: number }) {
       <div
         className="absolute top-0 left-6 right-6 h-px pointer-events-none"
         style={{
-          background: "linear-gradient(90deg, transparent, rgba(212,160,23,0.55), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(37,99,235,0.35), transparent)",
         }}
         aria-hidden="true"
       />
@@ -82,13 +81,11 @@ function PromoCard({ banner, index }: { banner: Banner; index: number }) {
       {/* Eyebrow */}
       <div className="flex items-center gap-2">
         <span
-          className="w-[4px] h-[4px] rounded-full shrink-0"
-          style={{ background: "#D4A017", boxShadow: "0 0 5px rgba(212,160,23,0.70)" }}
+          className="w-[4px] h-[4px] rounded-full shrink-0 bg-blue-600"
           aria-hidden="true"
         />
         <span
-          className="text-[10px] font-bold tracking-[0.22em] uppercase"
-          style={{ color: "#D4A017" }}
+          className="text-[10px] font-bold tracking-[0.22em] uppercase text-blue-600"
         >
           {banner.accentLine}
         </span>
@@ -98,28 +95,27 @@ function PromoCard({ banner, index }: { banner: Banner; index: number }) {
       <div
         className="w-11 h-11 rounded-[14px] flex items-center justify-center shrink-0"
         style={{
-          background: "rgba(212,160,23,0.08)",
-          border: "1px solid rgba(212,160,23,0.18)",
+          background: "rgba(37,99,235,0.06)",
+          border: "1px solid rgba(37,99,235,0.12)",
         }}
       >
-        <Icon size={20} style={{ color: "#D4A017" }} aria-hidden="true" />
+        <Icon size={20} className="text-blue-600" aria-hidden="true" />
       </div>
 
       {/* Text */}
       <div className="flex-1">
-        <h3 className="text-white font-bold text-[15px] leading-snug mb-2">
+        <h3 className="text-gray-900 font-bold text-[15px] leading-snug mb-2">
           {banner.title}
         </h3>
-        <p className="text-[13px] leading-[1.72]" style={{ color: "#5E5E58" }}>
+        <p className="text-[13px] leading-[1.72] text-gray-500">
           {banner.description}
         </p>
       </div>
 
       <div
-        className="inline-flex items-center gap-1.5 text-[12px] font-bold tracking-[0.07em] uppercase group/cta"
-        style={{ color: "#D4A017" }}
+        className="inline-flex items-center gap-1.5 text-[12px] font-bold tracking-[0.07em] uppercase group/cta text-blue-700 hover:text-blue-900"
       >
-        <span className="transition-colors duration-150 group-hover/cta:text-[#F2C94C]">
+        <span className="transition-colors duration-150">
           {banner.cta}
         </span>
         <span

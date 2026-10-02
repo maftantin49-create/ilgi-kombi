@@ -91,24 +91,24 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
       ref={headerRef}
       className="sticky top-0 z-50"
       style={{
-        background: "rgba(9,10,12,0.85)",
+        background: "rgba(255,255,255,0.95)",
         backdropFilter: "blur(16px)",
         WebkitBackdropFilter: "blur(16px)",
-        borderBottom: "1px solid rgba(48,49,54,0.5)",
+        borderBottom: "1px solid #E2E6EA",
       }}
     >
 
       {/* ── Top bar ──────────────────────────────────────────────────────── */}
-      <div style={{ background: "#101114", borderBottom: "1px solid #1E1E22" }}>
+      <div style={{ background: "#F8F9FA", borderBottom: "1px solid #E2E6EA" }}>
         <div className="max-w-7xl mx-auto px-6 h-9 flex items-center justify-between gap-4 text-xs">
-          <span className="text-[#85857F] tracking-wide">
+          <span className="text-gray-500 tracking-wide">
             📦 Hızlı kargo · Aynı gün sevkiyat
           </span>
           <div className="flex items-center gap-6">
             {validPh && (
               <a
                 href={`tel:${validPh}`}
-                className="flex items-center gap-1.5 font-semibold text-[#E2E8F0] hover:text-white transition-colors"
+                className="flex items-center gap-1.5 font-semibold text-gray-700 hover:text-gray-900 transition-colors"
               >
                 <Phone size={12} aria-hidden="true" />
                 {validPh}
@@ -119,7 +119,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
       </div>
 
       {/* ── Main header row ───────────────────────────────────────────────── */}
-      <div className="max-w-7xl mx-auto px-6 py-2.5 flex items-center gap-4">
+      <div className="max-w-7xl mx-auto px-6 py-2.5 flex items-center gap-4 bg-white">
 
         {/* Logo */}
         <Link
@@ -145,12 +145,12 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Parça adı, marka veya model numarası ara..."
-              className="h-10 text-[14px] pr-12 rounded-xl border border-[#303136] bg-[#151619] text-[#F4F4F2] placeholder:text-[#85857F] focus-visible:border-[#64748B] focus-visible:ring-0"
+              className="h-10 text-[14px] pr-12 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 placeholder:text-gray-400 focus-visible:border-blue-300 focus-visible:ring-0"
             />
             <button
               type="submit"
               aria-label="Ara"
-              className="absolute right-0 top-0 h-10 w-12 flex items-center justify-center rounded-r-xl bg-[#334155] text-white hover:bg-[#475569] transition-colors"
+              className="absolute right-0 top-0 h-10 w-12 flex items-center justify-center rounded-r-xl bg-blue-800 text-white hover:bg-blue-900 transition-colors"
             >
               <Search size={18} aria-hidden="true" />
             </button>
@@ -164,8 +164,8 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
           {validPh && (
             <a
               href={`tel:${validPh}`}
-              className="hidden lg:flex items-center gap-2 bg-[#334155] hover:bg-[#475569] text-white text-[13px] font-bold px-4 py-2.5 rounded-xl transition-colors"
-              style={{ boxShadow: "0 4px 14px -2px rgba(0,0,0,0.20)" }}
+              className="hidden lg:flex items-center gap-2 bg-blue-800 hover:bg-blue-900 text-white text-[13px] font-bold px-4 py-2.5 rounded-xl transition-colors"
+              style={{ boxShadow: "0 4px 14px -2px rgba(30,58,138,0.20)" }}
             >
               <Phone size={15} aria-hidden="true" />
               {validPh}
@@ -175,8 +175,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
           {/* Ayırıcı */}
           {validWa && (
             <div
-              className="hidden lg:block w-px h-8 mx-2"
-              style={{ background: "#303136" }}
+              className="hidden lg:block w-px h-8 mx-2 bg-gray-200"
               aria-hidden="true"
             />
           )}
@@ -188,7 +187,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp ile destek al"
-              className="hidden lg:flex items-center justify-center w-10 h-10 rounded-xl text-[#85857F] hover:text-white hover:bg-[#1B1C20] transition-colors"
+              className="hidden lg:flex items-center justify-center w-10 h-10 rounded-xl text-gray-400 hover:text-green-600 hover:bg-gray-50 transition-colors"
             >
               <WaIcon />
             </a>
@@ -197,15 +196,14 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
           {/* Favoriler */}
           <Link
             href="/favoriler"
-            className="relative flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-xl text-[#85857F] hover:text-white hover:bg-[#1B1C20] transition-colors"
+            className="relative flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-xl text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors"
             aria-label={`Favoriler${totalFavorites > 0 ? `, ${totalFavorites} ürün` : ""}`}
           >
             <div className="relative">
               <Heart size={22} aria-hidden="true" />
               {totalFavorites > 0 && (
                 <span
-                  className="absolute -top-1.5 -right-1.5 text-white text-[9px] rounded-full w-4 h-4 flex items-center justify-center font-bold"
-                  style={{ background: "#64748B" }}
+                  className="absolute -top-1.5 -right-1.5 text-white text-[9px] rounded-full w-4 h-4 flex items-center justify-center font-bold bg-blue-600"
                   aria-hidden="true"
                 >
                   {totalFavorites}
@@ -218,15 +216,14 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
           {/* Sepet */}
           <Link
             href="/sepet"
-            className="relative flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-xl text-[#85857F] hover:text-white hover:bg-[#1B1C20] transition-colors"
+            className="relative flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-xl text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors"
             aria-label={`Sepet${totalItems > 0 ? `, ${totalItems} ürün` : ""}`}
           >
             <div className="relative">
               <ShoppingCart size={22} aria-hidden="true" />
               {totalItems > 0 && (
                 <span
-                  className="absolute -top-1.5 -right-1.5 text-white text-[9px] rounded-full w-4 h-4 flex items-center justify-center font-bold"
-                  style={{ background: "#64748B" }}
+                  className="absolute -top-1.5 -right-1.5 text-white text-[9px] rounded-full w-4 h-4 flex items-center justify-center font-bold bg-blue-600"
                   aria-hidden="true"
                 >
                   {totalItems}
@@ -239,7 +236,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
           {/* Mobile menu */}
           <Sheet open={mobileOpen} onOpenChange={v => { setMobileOpen(v); if (!v) setMobileCatOpen(false) }}>
             <SheetTrigger
-              className="md:hidden p-2.5 rounded-xl text-[#85857F] hover:text-white hover:bg-[#1B1C20] transition-colors"
+              className="md:hidden p-2.5 rounded-xl text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors"
               aria-label="Menüyü aç"
             >
               <Menu size={24} aria-hidden="true" />
@@ -248,12 +245,12 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
             <SheetContent
               side="left"
               className="w-80 p-0 overflow-y-auto"
-              style={{ background: "#0E0E10", borderRight: "1px solid #303136" }}
+              style={{ background: "#FFFFFF", borderRight: "1px solid #E2E6EA" }}
             >
               {/* Sheet header */}
               <div
                 className="px-6 py-4 flex items-center justify-between"
-                style={{ borderBottom: "1px solid #303136", background: "#101114" }}
+                style={{ borderBottom: "1px solid #E2E6EA", background: "#F8F9FA" }}
               >
                 <SiteLogo
                   siteName={siteName}
@@ -264,14 +261,14 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                 <button
                   onClick={() => setMobileOpen(false)}
                   aria-label="Menüyü kapat"
-                  className="p-1.5 rounded-lg transition-colors text-[#85857F] hover:text-white hover:bg-[#1B1C20]"
+                  className="p-1.5 rounded-lg transition-colors text-gray-500 hover:text-gray-900 hover:bg-gray-100"
                 >
                   <X size={20} aria-hidden="true" />
                 </button>
               </div>
 
               {/* Mobile search */}
-              <div className="px-5 py-4" style={{ borderBottom: "1px solid #303136" }}>
+              <div className="px-5 py-4" style={{ borderBottom: "1px solid #E2E6EA" }}>
                 <form onSubmit={e => { handleSearch(e); setMobileOpen(false) }} role="search">
                   <div className="relative">
                     <label htmlFor="mobile-search" className="sr-only">Ürün ara</label>
@@ -280,10 +277,10 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                       value={search}
                       onChange={e => setSearch(e.target.value)}
                       placeholder="Parça ara..."
-                      className="h-11 pr-11 rounded-xl border border-[#303136] bg-[#151619] text-[#F4F4F2] placeholder:text-[#85857F] focus-visible:border-[#64748B] focus-visible:ring-0"
+                      className="h-11 pr-11 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 placeholder:text-gray-400 focus-visible:border-blue-300 focus-visible:ring-0"
                     />
                     <button type="submit" aria-label="Ara" className="absolute right-3 top-2.5">
-                      <Search size={18} className="text-[#85857F]" aria-hidden="true" />
+                      <Search size={18} className="text-gray-400" aria-hidden="true" />
                     </button>
                   </div>
                 </form>
@@ -298,26 +295,25 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                     <button
                       onClick={() => setMobileCatOpen(v => !v)}
                       aria-expanded={mobileCatOpen}
-                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl hover:bg-[#1B1C20] font-semibold text-[#F4F4F2] transition-colors text-[15px]"
+                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl hover:bg-gray-50 font-semibold text-gray-800 transition-colors text-[15px]"
                     >
                       <span className="flex items-center gap-3">
-                        <LayoutGrid size={17} className="text-[#94A3B8]" aria-hidden="true" />
+                        <LayoutGrid size={17} className="text-gray-400" aria-hidden="true" />
                         Kategoriler
                       </span>
                       <ChevronDown
                         size={16}
                         aria-hidden="true"
-                        className={`text-[#85857F] transition-transform duration-200 ${mobileCatOpen ? "rotate-180" : ""}`}
+                        className={`text-gray-400 transition-transform duration-200 ${mobileCatOpen ? "rotate-180" : ""}`}
                       />
                     </button>
 
                     {mobileCatOpen && (
                       <div
                         className="mt-1 ml-4 pl-4 space-y-4 pb-3"
-                        style={{ borderLeft: "1px solid #303136" }}
+                        style={{ borderLeft: "1px solid #E2E6EA" }}
                       >
                         {(() => {
-                          // Build groups from DB hierarchy: root cats → group headers, their children → items
                           const rootCats = categories.filter(c => !c.parent_id)
                           const groups = rootCats
                             .map(root => ({
@@ -327,7 +323,6 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                             }))
                             .filter(g => g.items.length > 0)
 
-                          // Root cats with no children show as standalone items
                           const standalone = rootCats.filter(
                             root => !categories.some(c => c.parent_id === root.id)
                           )
@@ -342,9 +337,9 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                                       <Link
                                         href={`/urunler?kategori=${cat.slug}`}
                                         onClick={() => { setMobileOpen(false); setMobileCatOpen(false) }}
-                                        className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm text-[#B9B9B4] hover:bg-[#1B1C20] hover:text-white transition-colors"
+                                        className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
                                       >
-                                        <CatIcon size={14} className="text-[#85857F] shrink-0" aria-hidden="true" />
+                                        <CatIcon size={14} className="text-gray-400 shrink-0" aria-hidden="true" />
                                         {cat.name}
                                       </Link>
                                     </li>
@@ -353,7 +348,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                               })}
                               {groups.map(group => (
                                 <div key={group.id}>
-                                  <div className="text-[10px] font-bold text-[#85857F] uppercase tracking-wider mb-1.5 px-2">
+                                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5 px-2">
                                     {group.title}
                                   </div>
                                   <ul className="space-y-0.5">
@@ -364,9 +359,9 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                                           <Link
                                             href={`/urunler?kategori=${cat.slug}`}
                                             onClick={() => { setMobileOpen(false); setMobileCatOpen(false) }}
-                                            className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm text-[#B9B9B4] hover:bg-[#1B1C20] hover:text-white transition-colors"
+                                            className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
                                           >
-                                            <CatIcon size={14} className="text-[#85857F] shrink-0" aria-hidden="true" />
+                                            <CatIcon size={14} className="text-gray-400 shrink-0" aria-hidden="true" />
                                             {cat.name}
                                           </Link>
                                         </li>
@@ -376,7 +371,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                                 </div>
                               ))}
                               {groups.length === 0 && standalone.length === 0 && (
-                                <p className="px-2 py-2 text-sm" style={{ color: "#555550" }}>Henüz kategori eklenmedi.</p>
+                                <p className="px-2 py-2 text-sm text-gray-400">Henüz kategori eklenmedi.</p>
                               )}
                             </>
                           )
@@ -385,7 +380,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                         <Link
                           href="/kategoriler"
                           onClick={() => setMobileOpen(false)}
-                          className="flex items-center gap-1.5 px-2 py-2 text-sm font-semibold text-[#94A3B8] hover:underline"
+                          className="flex items-center gap-1.5 px-2 py-2 text-sm font-semibold text-blue-700 hover:underline"
                         >
                           Tüm Kategoriler <ChevronRight size={13} aria-hidden="true" />
                         </Link>
@@ -398,7 +393,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                       <Link
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
-                        className="block px-4 py-3 rounded-xl hover:bg-[#1B1C20] font-medium text-[#B9B9B4] hover:text-white transition-colors text-[15px]"
+                        className="block px-4 py-3 rounded-xl hover:bg-gray-50 font-medium text-gray-600 hover:text-gray-900 transition-colors text-[15px]"
                       >
                         {link.label}
                       </Link>
@@ -408,14 +403,11 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
               </nav>
 
               {/* Sheet footer */}
-              <div className="px-5 pb-6 pt-3 space-y-3" style={{ borderTop: "1px solid #303136" }}>
+              <div className="px-5 pb-6 pt-3 space-y-3" style={{ borderTop: "1px solid #E2E6EA" }}>
                 {validPh && (
                   <a
                     href={`tel:${validPh}`}
-                    className="flex items-center justify-center gap-2 w-full text-white px-4 py-3.5 rounded-xl font-bold transition-colors text-[15px]"
-                    style={{ background: "#334155" }}
-                    onMouseEnter={e => (e.currentTarget.style.background = "#475569")}
-                    onMouseLeave={e => (e.currentTarget.style.background = "#334155")}
+                    className="flex items-center justify-center gap-2 w-full text-white px-4 py-3.5 rounded-xl font-bold transition-colors text-[15px] bg-blue-800 hover:bg-blue-900"
                   >
                     <Phone size={16} aria-hidden="true" />
                     {validPh}
@@ -426,8 +418,8 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                     href={wa.home}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2.5 w-full text-[#F4F4F2] px-4 py-3.5 rounded-xl font-semibold transition-colors text-[15px] hover:bg-[#1B1C20]"
-                    style={{ border: "1px solid #303136" }}
+                    className="flex items-center justify-center gap-2.5 w-full text-gray-700 px-4 py-3.5 rounded-xl font-semibold transition-colors text-[15px] hover:bg-gray-50"
+                    style={{ border: "1px solid #E2E6EA" }}
                   >
                     <WaIconSm />
                     WhatsApp ile Ulaş
@@ -442,7 +434,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
       {/* ── Desktop navigation ────────────────────────────────────────────── */}
       <div
         className="hidden md:block relative"
-        style={{ borderTop: "1px solid #1E1E22", background: "#0E0E10" }}
+        style={{ borderTop: "1px solid #E2E6EA", background: "#FFFFFF" }}
       >
         <div className="max-w-7xl mx-auto flex items-stretch">
 
@@ -453,15 +445,15 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
             aria-controls="mega-menu"
             aria-haspopup="true"
             aria-label="Kategorileri aç"
-            className={`flex items-center gap-3 shrink-0 w-[230px] lg:w-[250px] xl:w-[270px] px-6 py-4 text-[14px] font-bold tracking-tight transition-all duration-150 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#64748B] ${
+            className={`flex items-center gap-3 shrink-0 w-[230px] lg:w-[250px] xl:w-[270px] px-6 py-4 text-[14px] font-bold tracking-tight transition-all duration-150 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-300 ${
               megaOpen
-                ? "text-white"
-                : "text-[#F4F4F2] hover:bg-[#1B1C20]"
+                ? "text-white bg-blue-800"
+                : "text-gray-700 hover:bg-gray-50"
             }`}
             style={
               megaOpen
-                ? { background: "#334155" }
-                : { borderRight: "1px solid #303136", background: "#151619" }
+                ? {}
+                : { borderRight: "1px solid #E2E6EA", background: "#F8F9FA" }
             }
           >
             <LayoutGrid size={16} className="shrink-0" aria-hidden="true" />
@@ -480,7 +472,7 @@ export default function Header({ categories, siteName, phone, whatsapp }: Header
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="flex items-center h-full px-5 py-4 text-[14px] font-semibold text-[#B9B9B4] hover:text-white hover:bg-[#1B1C20] rounded-lg transition-all duration-150 focus-visible:ring-2 focus-visible:ring-[#64748B] tracking-wide"
+                    className="flex items-center h-full px-5 py-4 text-[14px] font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-150 focus-visible:ring-2 focus-visible:ring-blue-300 tracking-wide"
                   >
                     {link.label}
                   </Link>

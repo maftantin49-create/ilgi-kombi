@@ -10,7 +10,7 @@ export default function PublicLoading() {
         alignItems: "center",
         justifyContent: "center",
         gap: "16px",
-        background: "#090A0C",
+        background: "#FFFFFF",
       }}
     >
       <div
@@ -18,12 +18,12 @@ export default function PublicLoading() {
         style={{
           width: "28px",
           height: "28px",
-          border: "2px solid rgba(212,160,23,0.15)",
-          borderTopColor: "#D4A017",
+          border: "2px solid rgba(37,99,235,0.15)",
+          borderTopColor: "#2563EB",
           borderRadius: "50%",
         }}
       />
-      <p style={{ fontSize: "13px", color: "#A5A5A5" }}>Yükleniyor…</p>
+      <p style={{ fontSize: "13px", color: "#9CA3AF" }}>Yükleniyor…</p>
     </div>
   )
 }

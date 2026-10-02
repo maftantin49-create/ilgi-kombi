@@ -48,17 +48,17 @@ export default async function TeslimatBilgileriPage() {
 
       {s.shippingCutoff ? (
         <div style={{
-          background: "rgba(212,160,23,0.08)",
-          border: "1px solid rgba(255,196,0,0.22)",
+          background: "rgba(37,99,235,0.04)",
+          border: "1px solid rgba(37,99,235,0.14)",
           borderRadius: 12,
           padding: "16px 20px",
           marginBottom: 20,
         }}>
-          <div style={{ color: "#D4A017", fontSize: 13, fontWeight: 800, marginBottom: 6 }}>
-            ⏰ Kesme Saati: {s.shippingCutoff}
+          <div style={{ color: "#2563EB", fontSize: 13, fontWeight: 800, marginBottom: 6 }}>
+            Kesme Saati: {s.shippingCutoff}
           </div>
           <Para style={{ marginBottom: 0 }}>
-            Hafta içi saat <strong style={{ color: "#F4F4F2" }}>{s.shippingCutoff}</strong>&apos;e
+            Hafta içi saat <strong style={{ color: "#111827" }}>{s.shippingCutoff}</strong>&apos;e
             kadar ödeme onaylanan siparişler aynı iş günü kargoya teslim edilir.
           </Para>
         </div>
@@ -83,7 +83,7 @@ export default async function TeslimatBilgileriPage() {
       </Para>
 
       <H3>Takip için gerekenler</H3>
-      <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
+      <ul style={{ color: "#374151", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
         <li>Kargo takip numarası (bildirim SMS / e-postasında bulunur)</li>
         {legal.shippingCompany && <li>{legal.shippingCompany} web sitesi veya müşteri hattı üzerinden sorgulayın</li>}
         <li>Alternatif: tarafımızla iletişime geçerek sizi yönlendirmemizi isteyin</li>
@@ -91,7 +91,7 @@ export default async function TeslimatBilgileriPage() {
 
       <H2>Tahmini Teslimat Süresi</H2>
       <Para>
-        Kargoya verilen siparişler normal koşullarda <strong style={{ color: "#F4F4F2" }}>yaklaşık 2 iş günü</strong>{" "}
+        Kargoya verilen siparişler normal koşullarda <strong style={{ color: "#111827" }}>yaklaşık 2 iş günü</strong>{" "}
         içinde teslim edilir. Teslimat süresi adresinize ve kargo bölgenize göre değişiklik
         gösterebilir; şehir içi teslimatlar genellikle daha kısa sürer, uzak bölgeler daha
         uzun sürebilir.{legal.shippingCompany && ` Kargo firması: ${legal.shippingCompany}.`}
@@ -112,7 +112,7 @@ export default async function TeslimatBilgileriPage() {
         iletişime geçin; kargoya verildikten sonra adres değişikliği mümkün
         olmayabilir.
       </Para>
-      <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
+      <ul style={{ color: "#374151", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
         <li>Kapı numarası ve kat bilgisi dahil tam adresi girin</li>
         <li>Ulaşılabilecek bir telefon numarası bırakın</li>
         <li>Teslimatta evde olmayacaksanız komşu veya güvenlik görevlisine bırakma talimatı verebilirsiniz</li>
@@ -138,18 +138,18 @@ export default async function TeslimatBilgileriPage() {
         ].map((step, i) => (
           <div key={i} style={{
             display: "flex", gap: 12, alignItems: "flex-start",
-            padding: "12px 16px", background: "#111214",
-            border: "1px solid rgba(255,255,255,0.05)", borderRadius: 10,
+            padding: "12px 16px", background: "#F8F9FA",
+            border: "1px solid #E2E6EA", borderRadius: 10,
           }}>
             <span style={{
               minWidth: 24, height: 24, borderRadius: "50%",
-              background: "rgba(212,160,23,0.10)", border: "1px solid rgba(212,160,23,0.25)",
+              background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.20)",
               display: "flex", alignItems: "center", justifyContent: "center",
-              color: "#D4A017", fontSize: 11, fontWeight: 900, flexShrink: 0,
+              color: "#2563EB", fontSize: 11, fontWeight: 900, flexShrink: 0,
             }}>
               {i + 1}
             </span>
-            <span style={{ color: "#A0A0A0", fontSize: 13, lineHeight: 1.6 }}>{step}</span>
+            <span style={{ color: "#374151", fontSize: 13, lineHeight: 1.6 }}>{step}</span>
           </div>
         ))}
       </div>
@@ -162,11 +162,11 @@ export default async function TeslimatBilgileriPage() {
       </Para>
       {legal.fullAddress && (
         <div style={{
-          background: "rgba(212,160,23,0.06)", border: "1px solid rgba(255,196,0,0.18)",
+          background: "rgba(37,99,235,0.04)", border: "1px solid rgba(37,99,235,0.14)",
           borderRadius: 10, padding: "12px 16px", marginBottom: 16,
         }}>
-          <div style={{ color: "#D4A017", fontSize: 12, fontWeight: 700, marginBottom: 4 }}>İşyeri Adresi</div>
-          <div style={{ color: "#C0C0BA", fontSize: 13 }}>{legal.fullAddress}</div>
+          <div style={{ color: "#2563EB", fontSize: 12, fontWeight: 700, marginBottom: 4 }}>İşyeri Adresi</div>
+          <div style={{ color: "#111827", fontSize: 13 }}>{legal.fullAddress}</div>
         </div>
       )}
       <Para>
@@ -179,7 +179,7 @@ export default async function TeslimatBilgileriPage() {
         Paketinizde eksik ürün olduğunu fark ederseniz teslim tarihinden itibaren
         2 iş günü içinde sipariş numaranızı belirterek{" "}
         {validMail
-          ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+          ? <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
           : "e-posta yoluyla"
         }{" "}adresine bildirin. Eksik ürün en kısa sürede gönderilecektir.
       </Para>
@@ -188,7 +188,7 @@ export default async function TeslimatBilgileriPage() {
         <H3>Teslimat Sorunları için İletişim</H3>
         {waContact && (
           <Para>
-            <strong style={{ color: "#F4F4F2" }}>WhatsApp:</strong>{" "}
+            <strong style={{ color: "#111827" }}>WhatsApp:</strong>{" "}
             <a href={waContact} target="_blank" rel="noopener noreferrer" style={{ color: "#22c55e" }}>
               Hızlı Destek — WhatsApp
             </a>
@@ -196,14 +196,14 @@ export default async function TeslimatBilgileriPage() {
         )}
         {validMail && (
           <Para>
-            <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
-            <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            <strong style={{ color: "#111827" }}>E-posta:</strong>{" "}
+            <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
           </Para>
         )}
         <Para style={{ marginBottom: 0 }}>
-          <strong style={{ color: "#F4F4F2" }}>Telefon:</strong>{" "}
+          <strong style={{ color: "#111827" }}>Telefon:</strong>{" "}
           {validPh
-            ? <a href={`tel:${validPh}`} style={{ color: "#D4A534" }}>{validPh}</a>
+            ? <a href={`tel:${validPh}`} style={{ color: "#2563EB" }}>{validPh}</a>
             : "iletişim sayfamızdaki numaramız"
           }
           {s.workingHours.weekdays ? ` — Her gün ${s.workingHours.weekdays}` : ""}
@@ -211,9 +211,9 @@ export default async function TeslimatBilgileriPage() {
       </InfoCard>
 
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 8 }}>
-        <Link href="/kargo-ve-tasima" style={{ color: "#D4A017", fontSize: 13 }}>→ Kargo ve Taşıma Bilgileri</Link>
-        <Link href="/garanti-ve-iade" style={{ color: "#D4A017", fontSize: 13 }}>→ Garanti ve İade</Link>
-        <Link href="/sss" style={{ color: "#D4A017", fontSize: 13 }}>→ Sıkça Sorulan Sorular</Link>
+        <Link href="/kargo-ve-tasima" style={{ color: "#2563EB", fontSize: 13 }}>→ Kargo ve Taşıma Bilgileri</Link>
+        <Link href="/garanti-ve-iade" style={{ color: "#2563EB", fontSize: 13 }}>→ Garanti ve İade</Link>
+        <Link href="/sss" style={{ color: "#2563EB", fontSize: 13 }}>→ Sıkça Sorulan Sorular</Link>
       </div>
     </LegalPageShell>
   )

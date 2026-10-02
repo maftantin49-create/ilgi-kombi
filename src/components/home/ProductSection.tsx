@@ -6,8 +6,6 @@ import StorefrontProductCardComponent from "@/components/product/StorefrontProdu
 import HoverScrollRail from "@/components/home/HoverScrollRail"
 import type { StorefrontProductCard } from "@/lib/storefront/types"
 
-// Desktop kart genişliği — HoverScrollRail ile hizalı.
-// Tailwind arbitrary value olarak tutulur; değiştirmek için yalnız bu sabit.
 const CARD_WIDTH_CLASS = "w-[210px] xl:w-[220px]"
 
 interface Props {
@@ -40,26 +38,22 @@ export default function ProductSection({
           {eyebrow && (
             <div className="flex items-center gap-2 mb-2.5">
               <span
-                className="w-[4px] h-[4px] rounded-full shrink-0"
-                style={{ background: "#D4A017", boxShadow: "0 0 5px rgba(212,160,23,0.70)" }}
+                className="w-[4px] h-[4px] rounded-full shrink-0 bg-blue-600"
                 aria-hidden="true"
               />
-              <span
-                className="text-[10px] font-bold tracking-[0.26em] uppercase"
-                style={{ color: "#D4A017" }}
-              >
+              <span className="text-[10px] font-bold tracking-[0.26em] uppercase text-blue-600">
                 {eyebrow}
               </span>
             </div>
           )}
           <h2
-            className="font-black leading-[1.1]"
-            style={{ color: "#F4F4F2", fontSize: "clamp(20px, 2.2vw, 28px)" }}
+            className="font-black leading-[1.1] text-gray-900"
+            style={{ fontSize: "clamp(20px, 2.2vw, 28px)" }}
           >
             {title}
           </h2>
           {description && (
-            <p className="text-[13px] mt-1.5 leading-relaxed" style={{ color: "#666660" }}>
+            <p className="text-[13px] mt-1.5 leading-relaxed text-gray-500">
               {description}
             </p>
           )}
@@ -67,8 +61,7 @@ export default function ProductSection({
 
         <Link
           href={viewAllHref}
-          className="group/link flex items-center gap-1 text-[12px] font-bold tracking-[0.07em] uppercase shrink-0 transition-colors duration-150 hover:text-[#F2C94C]"
-          style={{ color: "#D4A017" }}
+          className="group/link flex items-center gap-1 text-[12px] font-bold tracking-[0.07em] uppercase shrink-0 text-blue-700 transition-colors duration-150 hover:text-blue-900"
         >
           {viewAllLabel}
           <ChevronRight
@@ -91,7 +84,7 @@ export default function ProductSection({
         ))}
       </div>
 
-      {/* ── Desktop: manuel yatay scroll (auto-scroll yok) ─────────────── */}
+      {/* ── Desktop: manuel yatay scroll ────────────────────────────────── */}
       <HoverScrollRail
         className="hidden md:flex gap-4"
         aria-label={`${title} ürün listesi`}

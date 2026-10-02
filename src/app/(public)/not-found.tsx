@@ -13,8 +13,7 @@ const WaIcon = () => (
 export default function NotFound() {
   return (
     <div
-      className="min-h-[72vh] flex items-center justify-center px-6"
-      style={{ background: "#090A0C" }}
+      className="min-h-[72vh] flex items-center justify-center px-6 bg-white"
     >
       <div className="text-center max-w-lg">
 
@@ -22,7 +21,7 @@ export default function NotFound() {
         <div
           className="text-[120px] sm:text-[160px] font-black leading-none mb-4 select-none"
           style={{
-            background: "linear-gradient(135deg, #D4A534 30%, rgba(212,165,52,0.25) 100%)",
+            background: "linear-gradient(135deg, #1E3A8A 30%, rgba(37,99,235,0.25) 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -35,13 +34,13 @@ export default function NotFound() {
         {/* Divider */}
         <div
           className="w-12 h-px mx-auto mb-6"
-          style={{ background: "rgba(212,165,52,0.35)" }}
+          style={{ background: "rgba(37,99,235,0.25)" }}
         />
 
-        <h1 className="text-2xl font-bold text-white mb-3">
+        <h1 className="text-2xl font-bold text-gray-900 mb-3">
           Aradığınız sayfa bulunamadı
         </h1>
-        <p className="text-[15px] leading-relaxed mb-10" style={{ color: "#A0A0A0" }}>
+        <p className="text-[15px] leading-relaxed mb-10 text-gray-500">
           Bağlantı kaldırılmış, taşınmış veya yanlış yazılmış olabilir.
           <br />
           Aşağıdan devam edebilirsiniz.
@@ -51,8 +50,8 @@ export default function NotFound() {
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             href="/"
-            className="inline-flex items-center justify-center gap-2 font-bold text-[13px] tracking-[0.08em] uppercase px-6 py-[13px] text-[#090A0C] bg-[#D4A534] hover:bg-[#F2B705] hover:-translate-y-0.5 transition-all duration-150"
-            style={{ borderRadius: "10px", boxShadow: "0 2px 14px rgba(212,165,52,0.22)" }}
+            className="inline-flex items-center justify-center gap-2 font-bold text-[13px] tracking-[0.08em] uppercase px-6 py-[13px] text-white bg-[#1E3A8A] hover:bg-[#1E40AF] hover:-translate-y-0.5 transition-all duration-150"
+            style={{ borderRadius: "10px", boxShadow: "0 2px 14px rgba(30,58,138,0.20)" }}
           >
             <Home size={15} aria-hidden="true" />
             Ana Sayfa
@@ -60,51 +59,30 @@ export default function NotFound() {
 
           <Link
             href="/urunler"
-            className="inline-flex items-center justify-center gap-2 font-bold text-[13px] tracking-[0.08em] uppercase px-6 py-[13px] transition-all duration-150 hover:-translate-y-0.5"
-            style={{
-              borderRadius: "10px",
-              border: "1px solid rgba(255,255,255,0.12)",
-              color: "#D0D0CC",
-              background: "transparent",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "rgba(212,165,52,0.50)"
-              e.currentTarget.style.color = "#D4A534"
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)"
-              e.currentTarget.style.color = "#D0D0CC"
-            }}
+            className="inline-flex items-center justify-center gap-2 font-bold text-[13px] tracking-[0.08em] uppercase px-6 py-[13px] transition-all duration-150 hover:-translate-y-0.5 text-gray-600 border border-gray-200 hover:border-blue-300 hover:text-blue-700"
+            style={{ borderRadius: "10px", background: "transparent" }}
           >
             <ShoppingBag size={15} aria-hidden="true" />
             Ürünleri İncele
           </Link>
 
-          <a
-            href={wa.notFound ?? undefined}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 font-bold text-[13px] tracking-[0.08em] uppercase px-6 py-[13px] transition-all duration-150 hover:-translate-y-0.5"
-            style={{
-              borderRadius: "10px",
-              border: "1px solid rgba(212,165,52,0.30)",
-              color: "#D4A534",
-              background: "transparent",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "#D4A534"
-              e.currentTarget.style.color = "#090A0C"
-              e.currentTarget.style.borderColor = "#D4A534"
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "transparent"
-              e.currentTarget.style.color = "#D4A534"
-              e.currentTarget.style.borderColor = "rgba(212,165,52,0.30)"
-            }}
-          >
-            <WaIcon />
-            WhatsApp Destek
-          </a>
+          {wa.notFound && (
+            <a
+              href={wa.notFound}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 font-bold text-[13px] tracking-[0.08em] uppercase px-6 py-[13px] transition-all duration-150 hover:-translate-y-0.5"
+              style={{
+                borderRadius: "10px",
+                border: "1px solid rgba(34,197,94,0.30)",
+                color: "#22c55e",
+                background: "transparent",
+              }}
+            >
+              <WaIcon />
+              WhatsApp Destek
+            </a>
+          )}
         </div>
       </div>
     </div>

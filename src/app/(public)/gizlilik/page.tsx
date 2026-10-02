@@ -27,14 +27,14 @@ export default async function GizlilikPage() {
     >
       <InfoCard>
         <Para>
-          Bu Gizlilik Politikası, <strong style={{ color: "#F4F4F2" }}>{s.siteName}</strong> olarak{" "}
-          <strong style={{ color: "#F4F4F2" }}>{siteConfig.url}</strong> adresinde sunduğumuz hizmetler kapsamında
+          Bu Gizlilik Politikası, <strong style={{ color: "#111827" }}>{s.siteName}</strong> olarak{" "}
+          <strong style={{ color: "#111827" }}>{siteConfig.url}</strong> adresinde sunduğumuz hizmetler kapsamında
           kişisel verilerinizi nasıl topladığımızı, kullandığımızı ve koruduğumuzu açıklar.
         </Para>
         {legal.tradeName && (
           <Para>
             Veri sorumlusu:{" "}
-            <strong style={{ color: "#F4F4F2" }}>{legal.tradeName}</strong>
+            <strong style={{ color: "#111827" }}>{legal.tradeName}</strong>
             {legal.fullAddress ? ` — ${legal.fullAddress}` : ""}
           </Para>
         )}
@@ -63,7 +63,7 @@ export default async function GizlilikPage() {
 
       <H2>2. Verilerin Kullanım Amaçları</H2>
       <Para>Topladığımız kişisel verileri aşağıdaki amaçlarla işliyoruz:</Para>
-      <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
+      <ul style={{ color: "#374151", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
         <li>Sipariş işleme, faturalama ve kargo gönderimleri</li>
         <li>Müşteri hizmetleri ve teknik destek</li>
         <li>Yasal yükümlülüklerin yerine getirilmesi (vergi, muhasebe)</li>
@@ -76,10 +76,10 @@ export default async function GizlilikPage() {
         Kişisel verilerinizi üçüncü kişilere satmıyoruz. Yalnızca aşağıdaki hizmet sağlayıcılarla,
         hizmetin ifası için zorunlu olan ölçüde paylaşıyoruz:
       </Para>
-      <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
+      <ul style={{ color: "#374151", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
         {legal.shippingCompany && (
           <li>
-            <strong style={{ color: "#F4F4F2" }}>{legal.shippingCompany}</strong> (kargo): Teslimat için ad, adres, telefon
+            <strong style={{ color: "#111827" }}>{legal.shippingCompany}</strong> (kargo): Teslimat için ad, adres, telefon
           </li>
         )}
         {!legal.shippingCompany && (
@@ -102,7 +102,7 @@ export default async function GizlilikPage() {
         Kişisel verileriniz HTTPS şifrelemesi, erişim kısıtlamaları ve güvenli veri tabanı altyapısı ile
         korunmaktadır. Bir güvenlik ihlali tespit etmeniz halinde lütfen derhal{" "}
         {validMail
-          ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+          ? <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
           : "e-posta yoluyla"
         }{" "}adresine bildirin.
       </Para>
@@ -119,11 +119,11 @@ export default async function GizlilikPage() {
         6698 sayılı KVKK kapsamında verilerinize erişim, düzeltme, silme, işlemenin kısıtlanması,
         itiraz ve taşınabilirlik haklarına sahipsiniz. Taleplerinizi{" "}
         {validMail
-          ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+          ? <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
           : "e-posta yoluyla"
         }{" "}adresine yazılı
         olarak iletebilirsiniz; 30 gün içinde yanıt veririz.
-        {" "}Detaylı bilgi için <a href="/kvkk" style={{ color: "#D4A534" }}>KVKK Aydınlatma Metni</a>&apos;ni inceleyin.
+        {" "}Detaylı bilgi için <a href="/kvkk" style={{ color: "#2563EB" }}>KVKK Aydınlatma Metni</a>&apos;ni inceleyin.
       </Para>
 
       <H2>8. İade Adresi</H2>
@@ -133,7 +133,7 @@ export default async function GizlilikPage() {
         <Para>
           İade ve fiziksel iletişim adresi için{" "}
           {validMail
-            ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            ? <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
             : "e-posta yoluyla"
           }{" "}adresine
           veya {s.phone || "telefon ile"} başvurun.
@@ -151,7 +151,7 @@ export default async function GizlilikPage() {
         <Para style={{ marginBottom: 0 }}>
           Gizlilik politikamıza ilişkin sorularınız için:{" "}
           {validMail
-            ? <><a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            ? <><a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
                 {s.phone ? ` — ${s.phone}` : ""}</>
             : "iletişim sayfamızı ziyaret edin."
           }

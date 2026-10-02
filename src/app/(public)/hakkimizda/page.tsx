@@ -12,32 +12,31 @@ const WaIcon = () => (
   </svg>
 )
 
-const GoldDot = () => (
+const BlueDot = () => (
   <span
-    className="w-[5px] h-[5px] rounded-full shrink-0"
-    style={{ background: "#D4A534", boxShadow: "0 0 6px rgba(212,165,52,0.70)" }}
+    className="w-[5px] h-[5px] rounded-full shrink-0 bg-blue-600"
     aria-hidden="true"
   />
 )
 
 const eyebrow = (label: string) => (
   <div className="flex items-center justify-center gap-2 mb-3">
-    <GoldDot />
-    <span className="text-[10px] font-bold tracking-[0.26em] uppercase" style={{ color: "#D4A534" }}>
+    <BlueDot />
+    <span className="text-[10px] font-bold tracking-[0.26em] uppercase text-blue-600">
       {label}
     </span>
   </div>
 )
 
 const surface: React.CSSProperties = {
-  background: "#111111",
-  border: "1px solid rgba(255,255,255,0.07)",
+  background: "#FFFFFF",
+  border: "1px solid #E2E6EA",
   borderRadius: "20px",
 }
 
-const goldSurface: React.CSSProperties = {
-  background: "rgba(212,165,52,0.06)",
-  border: "1px solid rgba(212,165,52,0.18)",
+const lightSurface: React.CSSProperties = {
+  background: "#F8F9FA",
+  border: "1px solid #E2E6EA",
   borderRadius: "20px",
 }
 
@@ -95,27 +94,27 @@ export default async function HakkimizdaPage() {
   const waHome = buildWa(validWhatsApp(s.whatsapp)).home
 
   return (
-    <div style={{ background: "#090A0C" }}>
+    <div className="bg-white">
 
       {/* Hero */}
       <section
         className="relative text-center py-20 px-6 overflow-hidden"
-        style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}
+        style={{ borderBottom: "1px solid #E2E6EA" }}
       >
         <div
           className="absolute left-1/2 top-0 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none"
           style={{
-            background: "radial-gradient(ellipse at 50% 0%, rgba(212,165,52,0.10) 0%, transparent 70%)",
+            background: "radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.06) 0%, transparent 70%)",
           }}
           aria-hidden="true"
         />
         <div className="relative max-w-2xl mx-auto">
           {eyebrow("Kurumsal")}
-          <h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
+          <h1 className="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">
             İstanbul&apos;un Güvenilir<br />
-            <span style={{ color: "#D4A534" }}>Yedek Parça</span> Adresi
+            <span style={{ color: "#1E3A8A" }}>Yedek Parça</span> Adresi
           </h1>
-          <p className="text-[16px] leading-relaxed" style={{ color: "#A0A0A0" }}>
+          <p className="text-[16px] leading-relaxed text-gray-500">
             10 yılı aşkın tecrübemizle kombi yedek parça sektöründe binlerce müşteriye ve
             teknik servise güvenilir çözümler sunuyoruz.
           </p>
@@ -127,10 +126,10 @@ export default async function HakkimizdaPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div>
             {eyebrow("Hikayemiz")}
-            <h2 className="text-3xl font-black text-white mb-5 text-center md:text-left">
+            <h2 className="text-3xl font-black text-gray-900 mb-5 text-center md:text-left">
               Uzmanlıkla Başladı,<br />Güvenle Büyüdü
             </h2>
-            <div className="space-y-4 text-[14px] leading-relaxed" style={{ color: "#A0A0A0" }}>
+            <div className="space-y-4 text-[14px] leading-relaxed text-gray-500">
               <p>
                 {s.siteName}, İstanbul&apos;da küçük bir yedek parça atölyesi olarak yola çıktı.
                 Kurucumuzun ısıtma sistemleri alanındaki derin teknik bilgisi ve müşteri odaklı yaklaşımı,
@@ -146,7 +145,7 @@ export default async function HakkimizdaPage() {
               </p>
             </div>
           </div>
-          <div className="rounded-[24px] p-8" style={goldSurface}>
+          <div className="rounded-[24px] p-8" style={lightSurface}>
             <div className="grid grid-cols-2 gap-6">
               {[
                 { value: "10+",     label: "Yıllık Tecrübe" },
@@ -155,10 +154,10 @@ export default async function HakkimizdaPage() {
                 { value: "Aynı Gün", label: "Kargo Garantisi" },
               ].map(stat => (
                 <div key={stat.label} className="text-center">
-                  <div className="text-[28px] font-black mb-0.5" style={{ color: "#D4A534" }}>
+                  <div className="text-[28px] font-black mb-0.5" style={{ color: "#1E3A8A" }}>
                     {stat.value}
                   </div>
-                  <div className="text-[12px]" style={{ color: "#A0A0A0" }}>{stat.label}</div>
+                  <div className="text-[12px] text-gray-500">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -169,20 +168,20 @@ export default async function HakkimizdaPage() {
       {/* Neden Biz */}
       <section
         className="py-16 px-6"
-        style={{ background: "#0A0B0D", borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+        style={{ background: "#F8F9FA", borderTop: "1px solid #E2E6EA", borderBottom: "1px solid #E2E6EA" }}
       >
         <div className="max-w-4xl mx-auto">
           {eyebrow("Neden Biz")}
-          <h2 className="text-3xl font-black text-white mb-10 text-center">
+          <h2 className="text-3xl font-black text-gray-900 mb-10 text-center">
             Farkımızı Yaratan Detaylar
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {whyUs.map((item, i) => (
               <div key={i} className="flex items-start gap-3 p-4 rounded-[14px]" style={surface}>
-                <span style={{ color: "#D4A534" }} className="mt-0.5 shrink-0" aria-hidden="true">
+                <span style={{ color: "#2563EB" }} className="mt-0.5 shrink-0" aria-hidden="true">
                   {item.icon}
                 </span>
-                <span className="text-[14px]" style={{ color: "#E0E0DC" }}>{item.text}</span>
+                <span className="text-[14px] text-gray-700">{item.text}</span>
               </div>
             ))}
           </div>
@@ -192,7 +191,7 @@ export default async function HakkimizdaPage() {
       {/* Değerlerimiz */}
       <section className="max-w-5xl mx-auto px-6 py-16">
         {eyebrow("Değerlerimiz")}
-        <h2 className="text-3xl font-black text-white mb-10 text-center">
+        <h2 className="text-3xl font-black text-gray-900 mb-10 text-center">
           Bizi Biz Yapan Prensipler
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -201,16 +200,16 @@ export default async function HakkimizdaPage() {
               <div
                 className="w-11 h-11 rounded-[12px] flex items-center justify-center mb-4 transition-colors duration-150"
                 style={{
-                  background: "rgba(212,165,52,0.10)",
-                  border: "1px solid rgba(212,165,52,0.20)",
-                  color: "#D4A534",
+                  background: "rgba(37,99,235,0.06)",
+                  border: "1px solid rgba(37,99,235,0.12)",
+                  color: "#2563EB",
                 }}
                 aria-hidden="true"
               >
                 {v.icon}
               </div>
-              <h3 className="font-bold text-white mb-2">{v.title}</h3>
-              <p className="text-[13px] leading-relaxed" style={{ color: "#A0A0A0" }}>{v.desc}</p>
+              <h3 className="font-bold text-gray-900 mb-2">{v.title}</h3>
+              <p className="text-[13px] leading-relaxed text-gray-500">{v.desc}</p>
             </div>
           ))}
         </div>
@@ -220,14 +219,14 @@ export default async function HakkimizdaPage() {
       <section
         className="py-16 px-6"
         style={{
-          background: "#0A0B0D",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          background: "#F8F9FA",
+          borderTop: "1px solid #E2E6EA",
+          borderBottom: "1px solid #E2E6EA",
         }}
       >
         <div className="max-w-4xl mx-auto">
           {eyebrow("Rakamlarla Biz")}
-          <h2 className="text-3xl font-black text-white mb-10 text-center">
+          <h2 className="text-3xl font-black text-gray-900 mb-10 text-center">
             Güvenin Somut Göstergeleri
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -237,16 +236,16 @@ export default async function HakkimizdaPage() {
               { icon: <Truck size={20} />,   value: "%98",     label: "Zamanında Teslimat" },
               { icon: <Users size={20} />,   value: "1.000+",  label: "Aktif Müşteri" },
             ].map((stat, i) => (
-              <div key={i} className="text-center p-6 rounded-[18px]" style={goldSurface}>
+              <div key={i} className="text-center p-6 rounded-[18px]" style={lightSurface}>
                 <div
                   className="w-10 h-10 rounded-[10px] flex items-center justify-center mx-auto mb-3"
-                  style={{ background: "rgba(212,165,52,0.12)", color: "#D4A534" }}
+                  style={{ background: "rgba(37,99,235,0.06)", color: "#2563EB" }}
                   aria-hidden="true"
                 >
                   {stat.icon}
                 </div>
-                <div className="text-[26px] font-black" style={{ color: "#D4A534" }}>{stat.value}</div>
-                <div className="text-[12px] mt-0.5" style={{ color: "#A0A0A0" }}>{stat.label}</div>
+                <div className="text-[26px] font-black" style={{ color: "#1E3A8A" }}>{stat.value}</div>
+                <div className="text-[12px] mt-0.5 text-gray-500">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -256,7 +255,7 @@ export default async function HakkimizdaPage() {
       {/* İletişim */}
       <section className="max-w-4xl mx-auto px-6 py-16">
         {eyebrow("Bize Ulaşın")}
-        <h2 className="text-3xl font-black text-white mb-8 text-center">
+        <h2 className="text-3xl font-black text-gray-900 mb-8 text-center">
           Sorularınız İçin Buradayız
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
@@ -268,23 +267,23 @@ export default async function HakkimizdaPage() {
             <div key={i} className="p-5 rounded-[18px] text-center" style={surface}>
               <div
                 className="w-9 h-9 rounded-[10px] flex items-center justify-center mx-auto mb-3"
-                style={{ background: "rgba(212,165,52,0.10)", color: "#D4A534" }}
+                style={{ background: "rgba(37,99,235,0.06)", color: "#2563EB" }}
                 aria-hidden="true"
               >
                 {c.icon}
               </div>
-              <div className="text-[11px] font-semibold mb-1 uppercase tracking-wider" style={{ color: "#5A5A5A" }}>
+              <div className="text-[11px] font-semibold mb-1 uppercase tracking-wider text-gray-400">
                 {c.label}
               </div>
               {c.href ? (
                 <a
                   href={c.href}
-                  className="text-[13px] font-medium text-white hover:text-[#D4A534] transition-colors"
+                  className="text-[13px] font-medium text-gray-900 hover:text-blue-700 transition-colors"
                 >
                   {c.value}
                 </a>
               ) : (
-                <p className="text-[13px] font-medium text-white">{c.value}</p>
+                <p className="text-[13px] font-medium text-gray-900">{c.value}</p>
               )}
             </div>
           ))}
@@ -298,9 +297,9 @@ export default async function HakkimizdaPage() {
               rel="noopener noreferrer"
               className="flex items-center gap-2.5 px-7 py-3.5 rounded-[12px] font-bold text-[14px] transition-all duration-150 hover:-translate-y-0.5"
               style={{
-                background: "rgba(34,197,94,0.10)",
-                border: "1px solid rgba(34,197,94,0.30)",
-                color: "#22c55e",
+                background: "rgba(34,197,94,0.08)",
+                border: "1px solid rgba(34,197,94,0.25)",
+                color: "#15803D",
               }}
             >
               <WaIcon />
@@ -311,9 +310,9 @@ export default async function HakkimizdaPage() {
             href="/iletisim"
             className="flex items-center gap-2 px-7 py-3.5 rounded-[12px] font-bold text-[14px] transition-all duration-150 hover:-translate-y-0.5"
             style={{
-              background: "#D4A534",
-              color: "#090A0C",
-              boxShadow: "0 2px 16px rgba(212,165,52,0.25)",
+              background: "#1E3A8A",
+              color: "#FFFFFF",
+              boxShadow: "0 2px 16px rgba(30,58,138,0.20)",
             }}
           >
             İletişim Formuna Git
@@ -323,8 +322,8 @@ export default async function HakkimizdaPage() {
             className="flex items-center gap-2 px-7 py-3.5 rounded-[12px] font-bold text-[14px] transition-all duration-150 hover:-translate-y-0.5"
             style={{
               background: "transparent",
-              border: "1px solid rgba(255,255,255,0.12)",
-              color: "#A0A0A0",
+              border: "1px solid #E2E6EA",
+              color: "#374151",
             }}
           >
             Ürünleri Keşfet
@@ -335,22 +334,22 @@ export default async function HakkimizdaPage() {
       {/* Footer strip */}
       <div
         className="py-8 px-6 text-center"
-        style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+        style={{ borderTop: "1px solid #E2E6EA" }}
       >
         <div className="flex items-center justify-center gap-2">
           <div
             className="w-9 h-9 rounded-[10px] flex items-center justify-center"
-            style={{ background: "rgba(212,165,52,0.12)", border: "1px solid rgba(212,165,52,0.25)" }}
+            style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.12)" }}
             aria-hidden="true"
           >
-            <Flame size={18} style={{ color: "#D4A534" }} />
+            <Flame size={18} style={{ color: "#2563EB" }} />
           </div>
           <div className="leading-tight">
-            <span className="font-bold text-xl text-white">{s.siteName}</span>
+            <span className="font-bold text-xl text-gray-900">{s.siteName}</span>
           </div>
         </div>
         {s.address && (
-          <p className="mt-2 text-[12px]" style={{ color: "#3A3A3A" }}>
+          <p className="mt-2 text-[12px] text-gray-400">
             {s.siteName} — {s.address}
           </p>
         )}

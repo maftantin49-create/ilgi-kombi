@@ -65,10 +65,9 @@ function CampaignCard({ c, index }: { c: Campaign; index: number }) {
       viewport={{ once: true, margin: "-40px" }}
       transition={{ delay: index * 0.08, duration: 0.45, ease: "easeOut" }}
       whileHover={{ y: -6, transition: { type: "spring", stiffness: 340, damping: 28 } }}
-      className="flex flex-col h-full p-6 relative overflow-hidden"
+      className="flex flex-col h-full p-6 relative overflow-hidden bg-white"
       style={{
-        background: "linear-gradient(148deg, #19160E 0%, #111214 60%)",
-        border: "1px solid rgba(255,196,0,0.14)",
+        border: "1px solid #E2E6EA",
         borderRadius: "24px",
       }}
     >
@@ -76,7 +75,7 @@ function CampaignCard({ c, index }: { c: Campaign; index: number }) {
       <div
         className="absolute top-0 left-8 right-8 h-px pointer-events-none"
         style={{
-          background: "linear-gradient(90deg, transparent, rgba(212,160,23,0.60), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(37,99,235,0.35), transparent)",
         }}
         aria-hidden="true"
       />
@@ -84,11 +83,10 @@ function CampaignCard({ c, index }: { c: Campaign; index: number }) {
       {/* Badge + icon row */}
       <div className="flex items-start justify-between mb-6">
         <span
-          className="text-[10px] font-bold px-2.5 py-[5px] rounded-full tracking-[0.08em] uppercase"
+          className="text-[10px] font-bold px-2.5 py-[5px] rounded-full tracking-[0.08em] uppercase text-blue-600"
           style={{
-            background: "rgba(212,160,23,0.08)",
-            border: "1px solid rgba(212,160,23,0.26)",
-            color: "#D4A017",
+            background: "rgba(37,99,235,0.06)",
+            border: "1px solid rgba(37,99,235,0.15)",
           }}
         >
           {c.badge}
@@ -97,40 +95,33 @@ function CampaignCard({ c, index }: { c: Campaign; index: number }) {
         <div
           className="w-10 h-10 rounded-[14px] flex items-center justify-center shrink-0"
           style={{
-            background: "rgba(212,160,23,0.08)",
-            border: "1px solid rgba(212,160,23,0.20)",
+            background: "rgba(37,99,235,0.06)",
+            border: "1px solid rgba(37,99,235,0.12)",
           }}
         >
-          <Icon size={18} style={{ color: "#D4A017" }} aria-hidden="true" />
+          <Icon size={18} className="text-blue-600" aria-hidden="true" />
         </div>
       </div>
 
       {/* Content */}
-      <div
-        className="text-[11px] font-semibold uppercase tracking-[0.10em] mb-[6px]"
-        style={{ color: "#5E5E58" }}
-      >
+      <div className="text-[11px] font-semibold uppercase tracking-[0.10em] mb-[6px] text-gray-400">
         {c.title}
       </div>
 
       <div
-        className="font-black leading-[1.15] mb-4"
-        style={{ color: "#F2C94C", fontSize: "clamp(22px, 2.2vw, 28px)" }}
+        className="font-black leading-[1.15] mb-4 text-[#1E3A8A]"
+        style={{ fontSize: "clamp(22px, 2.2vw, 28px)" }}
       >
         {c.highlight}
       </div>
 
-      <p
-        className="text-[13px] leading-[1.72] flex-1"
-        style={{ color: "#636360" }}
-      >
+      <p className="text-[13px] leading-[1.72] flex-1 text-gray-500">
         {c.desc}
       </p>
 
       <Link
         href={c.cta.href}
-        className="group/link mt-6 inline-flex items-center gap-2 text-[12px] font-bold tracking-[0.07em] uppercase transition-colors duration-150 hover:text-[#F2C94C]"
-        style={{ color: "#D4A017" }}
+        className="group/link mt-6 inline-flex items-center gap-2 text-[12px] font-bold tracking-[0.07em] uppercase transition-colors duration-150 text-blue-700 hover:text-blue-900"
       >
         {c.cta.label}
         <span
@@ -178,20 +169,16 @@ export default function CampaignSlider() {
         <div>
           <div className="flex items-center gap-2 mb-2">
             <span
-              className="w-[4px] h-[4px] rounded-full shrink-0"
-              style={{ background: "#D4A017", boxShadow: "0 0 6px rgba(212,160,23,0.80)" }}
+              className="w-[4px] h-[4px] rounded-full shrink-0 bg-blue-600"
               aria-hidden="true"
             />
-            <span
-              className="text-[10px] font-bold tracking-[0.26em] uppercase"
-              style={{ color: "#D4A017" }}
-            >
+            <span className="text-[10px] font-bold tracking-[0.26em] uppercase text-blue-600">
               Fırsatlar
             </span>
           </div>
           <h2
-            className="font-black leading-[1.1]"
-            style={{ color: "#F4F4F2", fontSize: "clamp(22px, 2.4vw, 30px)" }}
+            className="font-black leading-[1.1] text-gray-900"
+            style={{ fontSize: "clamp(22px, 2.4vw, 30px)" }}
           >
             Kampanyalar
           </h2>
@@ -201,24 +188,16 @@ export default function CampaignSlider() {
           <button
             onClick={() => scrollToIdx(Math.max(0, activeIdx - 1))}
             aria-label="Önceki kampanya"
-            className="w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-150"
-            style={{
-              background: "#151618",
-              border: "1px solid rgba(255,255,255,0.08)",
-              color: "#A5A5A5",
-            }}
+            className="w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-150 bg-white text-gray-500 hover:text-blue-700"
+            style={{ border: "1px solid #E2E6EA" }}
           >
             <ChevronLeft size={15} />
           </button>
           <button
             onClick={() => scrollToIdx(Math.min(campaigns.length - 1, activeIdx + 1))}
             aria-label="Sonraki kampanya"
-            className="w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-150"
-            style={{
-              background: "#151618",
-              border: "1px solid rgba(255,255,255,0.08)",
-              color: "#A5A5A5",
-            }}
+            className="w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-150 bg-white text-gray-500 hover:text-blue-700"
+            style={{ border: "1px solid #E2E6EA" }}
           >
             <ChevronRight size={15} />
           </button>
@@ -264,7 +243,7 @@ export default function CampaignSlider() {
             style={{
               width: i === activeIdx ? "20px" : "6px",
               height: "6px",
-              background: i === activeIdx ? "#D4A017" : "rgba(212,160,23,0.20)",
+              background: i === activeIdx ? "#1E3A8A" : "#E2E6EA",
             }}
           />
         ))}

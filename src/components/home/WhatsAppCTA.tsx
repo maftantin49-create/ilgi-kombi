@@ -27,9 +27,9 @@ export default function WhatsAppCTA({ waLink, phone, phoneDisplay }: Props) {
   return (
     <section
       aria-label="WhatsApp teknik destek"
+      className="bg-gray-900"
       style={{
-        background: "#111214",
-        borderTop: "1px solid rgba(255,196,0,0.14)",
+        borderTop: "1px solid rgba(255,255,255,0.06)",
         borderBottom: "1px solid rgba(255,255,255,0.06)",
       }}
     >
@@ -57,14 +57,14 @@ export default function WhatsAppCTA({ waLink, phone, phoneDisplay }: Props) {
           </div>
 
           <h2
-            className="font-black mb-3"
-            style={{ color: "#F4F4F2", fontSize: "clamp(22px, 2.4vw, 30px)" }}
+            className="font-black mb-3 text-white"
+            style={{ fontSize: "clamp(22px, 2.4vw, 30px)" }}
           >
             Parçanızı bulamadınız mı?
           </h2>
           <p
-            className="text-[15px] leading-[1.75]"
-            style={{ color: "#666660", maxWidth: "440px" }}
+            className="text-[15px] leading-[1.75] text-gray-400"
+            style={{ maxWidth: "440px" }}
           >
             WhatsApp üzerinden yazın, uzman ekibimiz parçanızı bulmanıza yardımcı olsun.
           </p>
@@ -83,11 +83,11 @@ export default function WhatsAppCTA({ waLink, phone, phoneDisplay }: Props) {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2.5 font-bold px-8 py-4 rounded-xl transition-colors duration-150 hover:bg-[#F2C94C]"
+              className="flex items-center gap-2.5 font-bold px-8 py-4 rounded-xl transition-colors duration-150 hover:bg-green-600"
               style={{
-                background: "#D4A017",
-                color: "#090A0C",
-                boxShadow: "0 4px 20px rgba(212,160,23,0.25)",
+                background: "#22c55e",
+                color: "#FFFFFF",
+                boxShadow: "0 4px 20px rgba(34,197,94,0.25)",
                 fontSize: "14px",
               }}
             >
@@ -97,11 +97,10 @@ export default function WhatsAppCTA({ waLink, phone, phoneDisplay }: Props) {
           ) : (
             <a
               href="/iletisim"
-              className="flex items-center gap-2.5 font-bold px-8 py-4 rounded-xl transition-colors duration-150 hover:bg-[#F2C94C]"
+              className="flex items-center gap-2.5 font-bold px-8 py-4 rounded-xl transition-colors duration-150 hover:bg-blue-700"
               style={{
-                background: "#D4A017",
-                color: "#090A0C",
-                boxShadow: "0 4px 20px rgba(212,160,23,0.25)",
+                background: "#1E3A8A",
+                color: "#FFFFFF",
                 fontSize: "14px",
               }}
             >
@@ -111,8 +110,7 @@ export default function WhatsAppCTA({ waLink, phone, phoneDisplay }: Props) {
           {phone && phoneDisplay && (
             <a
               href={`tel:${phone}`}
-              className="text-[12px] transition-colors duration-150 hover:text-white"
-              style={{ color: "#4A4A48" }}
+              className="text-[12px] transition-colors duration-150 text-gray-500 hover:text-gray-300"
             >
               veya arayın: {phoneDisplay}
             </a>

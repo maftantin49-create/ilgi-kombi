@@ -49,65 +49,79 @@
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   Design Tokens — Dark-first theme
+   Design Tokens — Light theme
    İlgi Kombi Yedek Parça
    ───────────────────────────────────────────────────────────────────── */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
+
+  /* Storefront design tokens */
+  --bg:             #FFFFFF;
+  --surface-1:      #F8F9FA;
+  --surface-2:      #F1F3F5;
+  --surface-hero:   #F1F5F9;
+  --border:         #E2E6EA;
+  --border-hover:   #93C5FD;
+  --primary:        #1E3A8A;
+  --primary-hover:  #1E40AF;
+  --accent:         #2563EB;
+  --text-1:         #111827;
+  --text-2:         #374151;
+  --text-3:         #6B7280;
+  --success:        #16A34A;
+  --discount-text:  #B91C1C;
+  --discount-bg:    #FEF2F2;
 
   /* Backgrounds */
-  --background:            #0F1113;
-  --foreground:            #F4F4F2;
+  --background:            #FFFFFF;
+  --foreground:            #111827;
 
   /* Card / Popover (surface) */
-  --card:                  #16181B;
-  --card-foreground:       #F4F4F2;
-  --popover:               #16181B;
-  --popover-foreground:    #F4F4F2;
+  --card:                  #FFFFFF;
+  --card-foreground:       #111827;
+  --popover:               #FFFFFF;
+  --popover-foreground:    #111827;
 
-  /* Primary — Gold */
-  --primary:               #D4A017;
-  --primary-foreground:    #0F1113;
+  /* Primary — Navy Blue */
+  --primary-foreground:    #FFFFFF;
 
-  /* Secondary — raised surface */
-  --secondary:             #1B1E22;
-  --secondary-foreground:  #F4F4F2;
+  /* Secondary */
+  --secondary:             #F1F3F5;
+  --secondary-foreground:  #111827;
 
   /* Muted */
-  --muted:                 #1B1E22;
-  --muted-foreground:      #A5A5A5;
+  --muted:                 #F8F9FA;
+  --muted-foreground:      #6B7280;
 
-  /* Accent — Gold */
-  --accent:                #D4A017;
-  --accent-foreground:     #090A0C;
+  /* Accent */
+  --accent-foreground:     #FFFFFF;
 
-  /* Destructive — only for errors/warnings */
-  --destructive:           #EF4444;
+  /* Destructive */
+  --destructive:           #DC2626;
 
   /* Border / Input / Ring */
-  --border:                rgba(255,255,255,0.06);
-  --input:                 #111214;
-  --ring:                  #D4A017;
+  --input:                 #F1F3F5;
+  --ring:                  #93C5FD;
 
   /* Radius */
   --radius: 0.625rem;
 
   /* Chart */
-  --chart-1: #D4A017;
-  --chart-2: #F2C94C;
-  --chart-3: #F4F4F2;
-  --chart-4: #A5A5A5;
-  --chart-5: #303136;
+  --chart-1: #1E3A8A;
+  --chart-2: #2563EB;
+  --chart-3: #374151;
+  --chart-4: #6B7280;
+  --chart-5: #E2E6EA;
 
-  /* Sidebar */
+  /* Sidebar — admin keeps its own dark style via .dark class */
   --sidebar:                    #101114;
   --sidebar-foreground:         #F4F4F2;
-  --sidebar-primary:            #D4A017;
-  --sidebar-primary-foreground: #090A0C;
+  --sidebar-primary:            #2563EB;
+  --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent:             #111214;
   --sidebar-accent-foreground:  #F4F4F2;
   --sidebar-border:             rgba(255,255,255,0.07);
-  --sidebar-ring:               #D4A017;
+  --sidebar-ring:               #2563EB;
 }
 
 @layer base {
@@ -116,7 +130,7 @@
   }
   html {
     @apply font-sans;
-    background: #0F1113;
+    background: #FFFFFF;
     min-height: 100%;
   }
   body {

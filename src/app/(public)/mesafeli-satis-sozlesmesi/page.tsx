@@ -93,7 +93,7 @@ export default async function MesafeliSatisSozlesmesiPage() {
       <Para>
         {s.freeShippingThreshold > 0 ? `${s.freeShippingThreshold} TL` : "Belirli bir tutar"} ve üzerindeki siparişlerde kargo ücretsizdir.
         {s.shippingCost > 0 ? ` Bu tutarın altında ${s.shippingCost} TL kargo ücreti uygulanır.` : ""}
-        {legal.shippingCompany && <> Kargo firması: <strong style={{ color: "#F4F4F2" }}>{legal.shippingCompany}</strong>.</>}
+        {legal.shippingCompany && <> Kargo firması: <strong style={{ color: "#111827" }}>{legal.shippingCompany}</strong>.</>}
       </Para>
 
       <H3>4.4 Risk Geçişi</H3>
@@ -112,7 +112,7 @@ export default async function MesafeliSatisSozlesmesiPage() {
 
       <H3>6.1 Cayma Süresi</H3>
       <Para>
-        ALICI, teslim tarihinden itibaren <strong style={{ color: "#F4F4F2" }}>14 (on dört) gün</strong> içinde
+        ALICI, teslim tarihinden itibaren <strong style={{ color: "#111827" }}>14 (on dört) gün</strong> içinde
         herhangi bir gerekçe göstermeksizin ve cezai şart ödenmeksizin sözleşmeden cayabilir.
       </Para>
 
@@ -120,15 +120,15 @@ export default async function MesafeliSatisSozlesmesiPage() {
       <Para>
         Cayma hakkını kullanmak için{" "}
         {validMail
-          ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+          ? <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
           : "iletişim kanallarımız aracılığıyla"
         }{" "}yazılı bildirim yapılmalı veya{" "}
-        <a href="/iptal-iade" style={{ color: "#D4A534" }}>İptal ve İade</a> sayfası kullanılmalıdır.
+        <a href="/iptal-iade" style={{ color: "#2563EB" }}>İptal ve İade</a> sayfası kullanılmalıdır.
       </Para>
 
       <H3>6.3 İstisnalar</H3>
       <Para>Aşağıdaki durumlarda cayma hakkı kullanılamaz (Yönetmelik m.15):</Para>
-      <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
+      <ul style={{ color: "#374151", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
         <li>ALICI özel isteğine göre üretilmiş veya kişiselleştirilmiş ürünler</li>
         <li>Fiyatı piyasa dalgalanmalarına bağlı ve SATICI kontrolünde olmayan mallar</li>
         <li>Mevzuat kapsamındaki diğer istisnai durumlar (Mesafeli Sözleşmeler Yönetmeliği m.15)</li>
@@ -138,7 +138,7 @@ export default async function MesafeliSatisSozlesmesiPage() {
       {returnAddr ? (
         <Para>
           Cayma hakkı kullanıldığında ürün ALICI tarafından{" "}
-          <strong style={{ color: "#F4F4F2" }}>{returnAddr}</strong> adresine gönderilir.
+          <strong style={{ color: "#111827" }}>{returnAddr}</strong> adresine gönderilir.
           Ürün SATICI&apos;ya ulaştıktan sonra 14 gün içinde ödeme iade edilir.
           İade kargo bedeli ALICI&apos;ya aittir (ürün ayıplı değilse).
         </Para>
@@ -146,7 +146,7 @@ export default async function MesafeliSatisSozlesmesiPage() {
         <Para>
           Cayma hakkını kullanmak için{" "}
           {validMail
-            ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            ? <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
             : "iletişim kanallarımız aracılığıyla"
           }{" "}bildirim yapın; iade adresi ve prosedürü tarafınıza iletilir.
           Ürün tarafımıza ulaştıktan sonra 14 gün içinde ödeme iade edilir.

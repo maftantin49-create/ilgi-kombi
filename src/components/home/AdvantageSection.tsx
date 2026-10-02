@@ -33,35 +33,30 @@ const advantages: Advantage[] = [
 export default function AdvantageSection() {
   return (
     <section
-      className="border-t border-b"
-      style={{ background: "#0E0F12", borderColor: "#1E1E22" }}
+      className="border-t border-b border-[#E2E6EA] bg-[#F8F9FA]"
       aria-label="Neden Biz"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-5">
         {advantages.map(({ icon: Icon, title, desc }) => (
           <div
             key={title}
-            className="flex flex-col gap-4 p-5"
-            style={{
-              background: "#151619",
-              border: "1px solid #252528",
-              borderRadius: "10px",
-            }}
+            className="flex flex-col gap-4 p-5 bg-white rounded-xl"
+            style={{ border: "1px solid #E2E6EA" }}
           >
             <div
               className="w-10 h-10 flex items-center justify-center rounded-lg shrink-0"
               style={{
-                background: "rgba(216,155,0,0.08)",
-                border: "1px solid rgba(216,155,0,0.16)",
+                background: "rgba(37,99,235,0.06)",
+                border: "1px solid rgba(37,99,235,0.12)",
               }}
             >
-              <Icon size={18} style={{ color: "#D89B00" }} aria-hidden="true" />
+              <Icon size={18} className="text-blue-600" aria-hidden="true" />
             </div>
             <div>
-              <div className="text-[13px] font-bold mb-1" style={{ color: "#E8E8E2" }}>
+              <div className="text-[13px] font-bold mb-1 text-gray-900">
                 {title}
               </div>
-              <div className="text-[12px] leading-[1.65]" style={{ color: "#525250" }}>
+              <div className="text-[12px] leading-[1.65] text-gray-500">
                 {desc}
               </div>
             </div>

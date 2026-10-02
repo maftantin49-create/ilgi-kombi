@@ -74,7 +74,7 @@ export default async function OnBilgilendirmePage() {
       <H2>3. Ürün Fiyatı ve Vergiler</H2>
 
       <Para>
-        Sitedeki tüm fiyatlar <strong style={{ color: "#F4F4F2" }}>KDV dahil</strong>{" "}
+        Sitedeki tüm fiyatlar <strong style={{ color: "#111827" }}>KDV dahil</strong>{" "}
         Türk Lirası (₺) cinsindendir. Fiyatlar önceden bildirilmeksizin değiştirilebilir;
         sipariş onaylanmadan önce checkout ekranındaki güncel fiyat geçerlidir.
         Sipariş onayı sonrası fiyat değişikliği onaylanmış siparişi etkilemez.
@@ -83,43 +83,43 @@ export default async function OnBilgilendirmePage() {
       <H2>4. Kargo ve Teslimat Masrafları</H2>
 
       <Para>
-        Normal sipariş kargo ücreti <strong style={{ color: "#F4F4F2" }}>müşteriye</strong> aittir.
+        Normal sipariş kargo ücreti <strong style={{ color: "#111827" }}>müşteriye</strong> aittir.
         Kargo ücreti, ürün ağırlığı ve boyutuna göre değişebilir; sipariş tamamlama
         ekranında hesaplanarak gösterilir.
       </Para>
 
       <div style={{
-        background: "rgba(212,160,23,0.06)", border: "1px solid rgba(255,196,0,0.18)",
+        background: "rgba(37,99,235,0.04)", border: "1px solid rgba(37,99,235,0.14)",
         borderRadius: 10, padding: "14px 18px", marginBottom: 16,
       }}>
-        <div style={{ color: "#D4A017", fontSize: 12, fontWeight: 700, marginBottom: 6 }}>
+        <div style={{ color: "#2563EB", fontSize: 12, fontWeight: 700, marginBottom: 6 }}>
           Ücretsiz Kargo Koşulu
         </div>
         <Para style={{ marginBottom: 0 }}>
           {s.freeShippingThreshold > 0
-            ? <><strong style={{ color: "#F4F4F2" }}>{s.freeShippingThreshold} TL</strong> ve üzeri siparişlerde kargo ücreti alınmaz.</>
+            ? <><strong style={{ color: "#111827" }}>{s.freeShippingThreshold} TL</strong> ve üzeri siparişlerde kargo ücreti alınmaz.</>
             : "Belirli bir sipariş tutarını aşan siparişlerde kargo ücretsiz olabilir. Geçerli eşik değeri checkout ekranında gösterilir."
           }
         </Para>
       </div>
 
       <Para>
-        Ürün <strong style={{ color: "#F4F4F2" }}>ayıplı</strong> (hasarlı veya hatalı
+        Ürün <strong style={{ color: "#111827" }}>ayıplı</strong> (hasarlı veya hatalı
         teslim) ise iade kargo ücreti satıcıya aittir.
       </Para>
 
       <H2>5. Kabul Edilen Ödeme Yöntemleri</H2>
 
-      <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2.1, paddingLeft: 20, marginBottom: 12 }}>
+      <ul style={{ color: "#374151", fontSize: 14, lineHeight: 2.1, paddingLeft: 20, marginBottom: 12 }}>
         <li>
-          <strong style={{ color: "#F4F4F2" }}>Havale / EFT</strong>{" "}
+          <strong style={{ color: "#111827" }}>Havale / EFT</strong>{" "}
           — Sipariş onayından sonra banka hesap bilgisi iletilir.
           Ödeme yapıldıktan sonra sipariş işleme alınır.
         </li>
       </ul>
 
       <Para>
-        Kapıda ödeme seçeneği <strong style={{ color: "#F4F4F2" }}>sunulmamaktadır.</strong>
+        Kapıda ödeme seçeneği <strong style={{ color: "#111827" }}>sunulmamaktadır.</strong>
       </Para>
 
       <H2>6. Teslimat Bilgileri</H2>
@@ -128,7 +128,7 @@ export default async function OnBilgilendirmePage() {
         <>
           <H3>Kargo Firması</H3>
           <Para>
-            Siparişler <strong style={{ color: "#F4F4F2" }}>{legal.shippingCompany}</strong> ile gönderilir.
+            Siparişler <strong style={{ color: "#111827" }}>{legal.shippingCompany}</strong> ile gönderilir.
             Kargoya teslim edildiğinde takip numarası SMS ve e-posta ile bildirilir.
           </Para>
         </>
@@ -138,7 +138,7 @@ export default async function OnBilgilendirmePage() {
       {s.shippingCutoff ? (
         <Para>
           Stokta bulunan ürünlerde, hafta içi saat{" "}
-          <strong style={{ color: "#F4F4F2" }}>{s.shippingCutoff}</strong>&apos;e kadar
+          <strong style={{ color: "#111827" }}>{s.shippingCutoff}</strong>&apos;e kadar
           ödeme onaylanan siparişler aynı iş günü kargoya teslim edilir.
           Bu saatten sonra verilen siparişler bir sonraki iş günü kargoya verilir.
         </Para>
@@ -151,7 +151,7 @@ export default async function OnBilgilendirmePage() {
       <H3>Tahmini Teslimat Süresi</H3>
       <Para>
         Kargoya verilen siparişler normal koşullarda{" "}
-        <strong style={{ color: "#F4F4F2" }}>yaklaşık 2 iş günü</strong> içinde teslim edilir.
+        <strong style={{ color: "#111827" }}>yaklaşık 2 iş günü</strong> içinde teslim edilir.
         Adres ve kargo bölgesine göre değişiklik gösterebilir. Stok dışı veya
         temin gerektiren ürünlerde süre farklılık gösterebilir; bu durumda
         müşteri önceden bilgilendirilir.
@@ -162,7 +162,7 @@ export default async function OnBilgilendirmePage() {
         Uygun koşullarda ürün işyerimizden elden teslim alınabilir. Elden teslim
         için sipariş öncesinde WhatsApp veya telefon ile iletişime geçilmesi gerekir.
         {legal.fullAddress && <> İşyeri adresi:{" "}
-          <strong style={{ color: "#F4F4F2" }}>{legal.fullAddress}</strong>.</>
+          <strong style={{ color: "#111827" }}>{legal.fullAddress}</strong>.</>
         }
         {s.workingHours.weekdays && ` Çalışma saatleri: Her gün ${s.workingHours.weekdays}.`}
       </Para>
@@ -179,7 +179,7 @@ export default async function OnBilgilendirmePage() {
 
       <Para>
         Tüketici, ürünü teslim aldığı tarihten itibaren{" "}
-        <strong style={{ color: "#F4F4F2" }}>14 (on dört) takvim günü</strong> içinde
+        <strong style={{ color: "#111827" }}>14 (on dört) takvim günü</strong> içinde
         herhangi bir gerekçe göstermeksizin ve cezai şart ödenmeksizin sözleşmeden
         cayma hakkına sahiptir. Bu hak 6502 sayılı Tüketici Kanunu ile güvence altındadır.
       </Para>
@@ -189,7 +189,7 @@ export default async function OnBilgilendirmePage() {
         Mesafeli Sözleşmeler Yönetmeliği m.15 kapsamında aşağıdaki durumlarda
         cayma hakkı uygulanmaz:
       </Para>
-      <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
+      <ul style={{ color: "#374151", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
         <li>Tüketicinin özel isteği doğrultusunda üretilmiş veya kişiselleştirilmiş ürünler</li>
         <li>Fiyatı piyasa dalgalanmalarına bağlı ve satıcı kontrolünde olmayan mallar</li>
         <li>Yönetmelik kapsamındaki diğer istisnai durumlar</li>
@@ -204,17 +204,17 @@ export default async function OnBilgilendirmePage() {
       <Para>
         Cayma hakkını kullanmak için 14 günlük süre içinde yazılı bildirim yapılmalıdır:
       </Para>
-      <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
+      <ul style={{ color: "#374151", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
         {validMail && (
           <li>
-            <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
-            <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            <strong style={{ color: "#111827" }}>E-posta:</strong>{" "}
+            <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
             {" "}— konu: &quot;Cayma Bildirimi — Sipariş No: XXXXX&quot;
           </li>
         )}
         {waContact && (
           <li>
-            <strong style={{ color: "#F4F4F2" }}>WhatsApp:</strong>{" "}
+            <strong style={{ color: "#111827" }}>WhatsApp:</strong>{" "}
             <a href={waContact} target="_blank" rel="noopener noreferrer" style={{ color: "#22c55e" }}>
               WhatsApp ile Bildir
             </a>
@@ -230,14 +230,14 @@ export default async function OnBilgilendirmePage() {
         Cayma bildirimi alındıktan sonra 1 iş günü içinde iade onayı ve kargo
         talimatları iletilir. Ürün{" "}
         {returnAddr
-          ? <><strong style={{ color: "#F4F4F2" }}>{returnAddr}</strong> adresine</>
+          ? <><strong style={{ color: "#111827" }}>{returnAddr}</strong> adresine</>
           : "onay e-postasında belirtilen adrese"
         }{" "}orijinal ambalajında gönderilmelidir. Cayma hakkı kapsamında iade kargo
         ücreti tüketiciye aittir (ürün ayıplı değilse).
       </Para>
       <Para>
         Ürün satıcıya ulaştıktan sonra{" "}
-        <strong style={{ color: "#F4F4F2" }}>14 gün</strong> içinde ödeme iade edilir.
+        <strong style={{ color: "#111827" }}>14 gün</strong> içinde ödeme iade edilir.
       </Para>
 
       <H2>9. İade Süreci</H2>
@@ -246,16 +246,16 @@ export default async function OnBilgilendirmePage() {
         İade ve değişim koşullarının tamamı için:
       </Para>
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
-        <Link href="/garanti-ve-iade" style={{ color: "#D4A017", fontSize: 13 }}>→ Garanti ve İade</Link>
-        <Link href="/iptal-iade" style={{ color: "#D4A017", fontSize: 13 }}>→ İptal ve İade Koşulları</Link>
-        <Link href="/teslimat-iade" style={{ color: "#D4A017", fontSize: 13 }}>→ Teslimat ve İade</Link>
+        <Link href="/garanti-ve-iade" style={{ color: "#2563EB", fontSize: 13 }}>→ Garanti ve İade</Link>
+        <Link href="/iptal-iade" style={{ color: "#2563EB", fontSize: 13 }}>→ İptal ve İade Koşulları</Link>
+        <Link href="/teslimat-iade" style={{ color: "#2563EB", fontSize: 13 }}>→ Teslimat ve İade</Link>
       </div>
 
       <H2>10. Garanti ve Ayıplı Mal Hakları</H2>
 
       <Para>
         Ürünlerimiz{" "}
-        <strong style={{ color: "#F4F4F2" }}>12 ay</strong> garanti kapsamındadır.
+        <strong style={{ color: "#111827" }}>12 ay</strong> garanti kapsamındadır.
         Üreticinin sunduğu garanti süresi veya mevzuatın zorunlu kıldığı süre daha
         uzun ise bu hak saklıdır.
       </Para>
@@ -264,12 +264,12 @@ export default async function OnBilgilendirmePage() {
         veya tanımdan farklı) ise tüketici şu haklardan birini kullanabilir:
         ücretsiz onarım, değişim, bedel indirimi veya iade. Ayıplı ürün iade kargo
         bedeli satıcıya aittir. Garanti inceleme hedefimiz{" "}
-        <strong style={{ color: "#F4F4F2" }}>48 saattir</strong>; teknik inceleme ücretsizdir.
+        <strong style={{ color: "#111827" }}>48 saattir</strong>; teknik inceleme ücretsizdir.
       </Para>
       <Para>
         Garanti talebi için sipariş numarasını, ürün kodunu ve sorunu belirterek
         WhatsApp, telefon veya e-posta ile iletişime geçin. Ayrıntılar için:{" "}
-        <Link href="/garanti-ve-iade" style={{ color: "#D4A017" }}>Garanti ve İade sayfası</Link>.
+        <Link href="/garanti-ve-iade" style={{ color: "#2563EB" }}>Garanti ve İade sayfası</Link>.
       </Para>
 
       <H2>11. İletişim ve Uyuşmazlık Çözümü</H2>
@@ -278,14 +278,14 @@ export default async function OnBilgilendirmePage() {
         <H3>Müşteri Hizmetleri</H3>
         {validPh && (
           <Para>
-            <strong style={{ color: "#F4F4F2" }}>Telefon:</strong>{" "}
-            <a href={`tel:${validPh}`} style={{ color: "#D4A534" }}>{validPh}</a>
+            <strong style={{ color: "#111827" }}>Telefon:</strong>{" "}
+            <a href={`tel:${validPh}`} style={{ color: "#2563EB" }}>{validPh}</a>
             {s.workingHours.weekdays && ` — Her gün ${s.workingHours.weekdays}`}
           </Para>
         )}
         {waContact && (
           <Para>
-            <strong style={{ color: "#F4F4F2" }}>WhatsApp:</strong>{" "}
+            <strong style={{ color: "#111827" }}>WhatsApp:</strong>{" "}
             <a href={waContact} target="_blank" rel="noopener noreferrer" style={{ color: "#22c55e" }}>
               Hızlı Destek — WhatsApp
             </a>
@@ -293,8 +293,8 @@ export default async function OnBilgilendirmePage() {
         )}
         {validMail && (
           <Para style={{ marginBottom: 0 }}>
-            <strong style={{ color: "#F4F4F2" }}>E-posta:</strong>{" "}
-            <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            <strong style={{ color: "#111827" }}>E-posta:</strong>{" "}
+            <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
           </Para>
         )}
       </InfoCard>
@@ -308,12 +308,12 @@ export default async function OnBilgilendirmePage() {
       <H2>12. İlgili Belgeler</H2>
 
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-        <Link href="/mesafeli-satis-sozlesmesi" style={{ color: "#D4A017", fontSize: 13 }}>→ Mesafeli Satış Sözleşmesi</Link>
-        <Link href="/garanti-ve-iade"           style={{ color: "#D4A017", fontSize: 13 }}>→ Garanti ve İade</Link>
-        <Link href="/iptal-iade"                style={{ color: "#D4A017", fontSize: 13 }}>→ İptal ve İade</Link>
-        <Link href="/teslimat-bilgileri"         style={{ color: "#D4A017", fontSize: 13 }}>→ Teslimat Bilgileri</Link>
-        <Link href="/sss"                        style={{ color: "#D4A017", fontSize: 13 }}>→ Sıkça Sorulan Sorular</Link>
-        <Link href="/musteri-hizmetleri"         style={{ color: "#D4A017", fontSize: 13 }}>→ Müşteri Hizmetleri</Link>
+        <Link href="/mesafeli-satis-sozlesmesi" style={{ color: "#2563EB", fontSize: 13 }}>→ Mesafeli Satış Sözleşmesi</Link>
+        <Link href="/garanti-ve-iade"           style={{ color: "#2563EB", fontSize: 13 }}>→ Garanti ve İade</Link>
+        <Link href="/iptal-iade"                style={{ color: "#2563EB", fontSize: 13 }}>→ İptal ve İade</Link>
+        <Link href="/teslimat-bilgileri"         style={{ color: "#2563EB", fontSize: 13 }}>→ Teslimat Bilgileri</Link>
+        <Link href="/sss"                        style={{ color: "#2563EB", fontSize: 13 }}>→ Sıkça Sorulan Sorular</Link>
+        <Link href="/musteri-hizmetleri"         style={{ color: "#2563EB", fontSize: 13 }}>→ Müşteri Hizmetleri</Link>
       </div>
     </LegalPageShell>
   )

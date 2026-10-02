@@ -30,22 +30,21 @@ export default async function IletisimPage() {
   const address = legal.fullAddress || s.address
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12">
+    <div className="max-w-5xl mx-auto px-6 py-12 bg-white min-h-screen">
 
       {/* Header */}
       <div className="mb-10 text-center">
         <div className="flex items-center justify-center gap-2 mb-3">
           <span
-            className="w-[5px] h-[5px] rounded-full shrink-0"
-            style={{ background: "#D4A534", boxShadow: "0 0 6px rgba(212,165,52,0.70)" }}
+            className="w-[5px] h-[5px] rounded-full bg-blue-600 shrink-0"
             aria-hidden="true"
           />
-          <span className="text-[10px] font-bold tracking-[0.26em] uppercase" style={{ color: "#D4A534" }}>
+          <span className="text-[10px] font-bold tracking-[0.26em] uppercase text-blue-600">
             İletişim
           </span>
         </div>
-        <h1 className="text-3xl font-black text-white mb-2">Size Yardımcı Olalım</h1>
-        <p className="text-[15px]" style={{ color: "#A0A0A0" }}>
+        <h1 className="text-3xl font-black text-gray-900 mb-2">Size Yardımcı Olalım</h1>
+        <p className="text-[15px] text-gray-500">
           Telefon, WhatsApp veya formu kullanarak bize ulaşabilirsiniz.
         </p>
       </div>
@@ -59,11 +58,11 @@ export default async function IletisimPage() {
           <div
             className="p-6 rounded-[20px]"
             style={{
-              background: "#111111",
-              border: "1px solid rgba(212,165,52,0.18)",
+              background: "#FFFFFF",
+              border: "1px solid #E2E6EA",
             }}
           >
-            <h2 className="font-bold text-[17px] text-white mb-5">Bize Ulaşın</h2>
+            <h2 className="font-bold text-[17px] text-gray-900 mb-5">Bize Ulaşın</h2>
 
             {/* WhatsApp */}
             {waContact ? (
@@ -80,7 +79,7 @@ export default async function IletisimPage() {
               >
                 <WaIcon />
                 <div>
-                  <div className="font-semibold text-sm text-white">WhatsApp ile Yaz</div>
+                  <div className="font-semibold text-sm text-gray-900">WhatsApp ile Yaz</div>
                   <div className="text-xs" style={{ color: "#22c55e" }}>En hızlı yanıt yöntemi</div>
                 </div>
               </a>
@@ -91,13 +90,13 @@ export default async function IletisimPage() {
               <a
                 href={`tel:${validPh}`}
                 className="flex items-center gap-3 py-3 border-b transition-opacity hover:opacity-75"
-                style={{ borderColor: "rgba(255,255,255,0.07)" }}
+                style={{ borderColor: "#E2E6EA" }}
               >
-                <Phone size={16} style={{ color: "#D4A534" }} className="shrink-0" aria-hidden="true" />
+                <Phone size={16} style={{ color: "#2563EB" }} className="shrink-0" aria-hidden="true" />
                 <div>
-                  <div className="text-sm font-medium text-white">{validPh}</div>
+                  <div className="text-sm font-medium text-gray-900">{validPh}</div>
                   {s.workingHours.weekdays && (
-                    <div className="text-xs" style={{ color: "#A0A0A0" }}>
+                    <div className="text-xs text-gray-500">
                       Hafta içi {s.workingHours.weekdays}
                     </div>
                   )}
@@ -110,18 +109,18 @@ export default async function IletisimPage() {
               <a
                 href={`mailto:${validMail}`}
                 className="flex items-center gap-3 py-3 border-b transition-opacity hover:opacity-75"
-                style={{ borderColor: "rgba(255,255,255,0.07)" }}
+                style={{ borderColor: "#E2E6EA" }}
               >
-                <Mail size={16} style={{ color: "#D4A534" }} className="shrink-0" aria-hidden="true" />
-                <span className="text-sm text-white">{validMail}</span>
+                <Mail size={16} style={{ color: "#2563EB" }} className="shrink-0" aria-hidden="true" />
+                <span className="text-sm text-gray-700">{validMail}</span>
               </a>
             )}
 
             {/* Address */}
             {address && (
               <div className="flex items-start gap-3 pt-3">
-                <MapPin size={16} style={{ color: "#D4A534" }} className="shrink-0 mt-0.5" aria-hidden="true" />
-                <span className="text-sm text-white">{address}</span>
+                <MapPin size={16} style={{ color: "#2563EB" }} className="shrink-0 mt-0.5" aria-hidden="true" />
+                <span className="text-sm text-gray-700">{address}</span>
               </div>
             )}
           </div>
@@ -131,31 +130,31 @@ export default async function IletisimPage() {
             <div
               className="p-5 rounded-[20px]"
               style={{
-                background: "#111111",
-                border: "1px solid rgba(255,255,255,0.07)",
+                background: "#FFFFFF",
+                border: "1px solid #E2E6EA",
               }}
             >
               <div className="flex items-center gap-2 mb-4">
-                <Building2 size={16} style={{ color: "#D4A534" }} aria-hidden="true" />
-                <h3 className="font-semibold text-white text-[14px]">Firma Bilgileri</h3>
+                <Building2 size={16} style={{ color: "#2563EB" }} aria-hidden="true" />
+                <h3 className="font-semibold text-gray-900 text-[14px]">Firma Bilgileri</h3>
               </div>
               <div className="space-y-2.5 text-[13px]">
                 {legal.tradeName && (
                   <div className="flex justify-between gap-4">
-                    <span style={{ color: "#5A5A5A" }}>İşletmeci</span>
-                    <span className="text-right font-medium" style={{ color: "#E0E0DC" }}>{legal.tradeName}</span>
+                    <span className="text-gray-400">İşletmeci</span>
+                    <span className="text-right font-medium text-gray-900">{legal.tradeName}</span>
                   </div>
                 )}
                 {legal.taxOffice && (
                   <div className="flex justify-between gap-4">
-                    <span style={{ color: "#5A5A5A" }}>Vergi Dairesi</span>
-                    <span className="text-right font-medium" style={{ color: "#E0E0DC" }}>{legal.taxOffice}</span>
+                    <span className="text-gray-400">Vergi Dairesi</span>
+                    <span className="text-right font-medium text-gray-900">{legal.taxOffice}</span>
                   </div>
                 )}
                 {legal.taxNumber && (
                   <div className="flex justify-between gap-4">
-                    <span style={{ color: "#5A5A5A" }}>Vergi No</span>
-                    <span className="font-mono font-medium" style={{ color: "#E0E0DC" }}>{legal.taxNumber}</span>
+                    <span className="text-gray-400">Vergi No</span>
+                    <span className="font-mono font-medium text-gray-900">{legal.taxNumber}</span>
                   </div>
                 )}
               </div>
@@ -166,26 +165,26 @@ export default async function IletisimPage() {
           <div
             className="p-5 rounded-[20px]"
             style={{
-              background: "#111111",
-              border: "1px solid rgba(255,255,255,0.07)",
+              background: "#F8F9FA",
+              border: "1px solid #E2E6EA",
             }}
           >
             <div className="flex items-center gap-2 mb-4">
-              <Clock size={16} style={{ color: "#D4A534" }} aria-hidden="true" />
-              <h3 className="font-semibold text-white text-[14px]">Çalışma Saatleri</h3>
+              <Clock size={16} style={{ color: "#2563EB" }} aria-hidden="true" />
+              <h3 className="font-semibold text-gray-900 text-[14px]">Çalışma Saatleri</h3>
             </div>
             <div className="space-y-2.5">
               {hours.filter(h => h.value).map(({ day, value }) => (
                 <div key={day} className="flex justify-between text-[13px]">
-                  <span style={{ color: "#A0A0A0" }}>{day}</span>
-                  <span className="font-medium" style={{ color: "#E0E0DC" }}>{value}</span>
+                  <span className="text-gray-500">{day}</span>
+                  <span className="font-medium text-gray-900">{value}</span>
                 </div>
               ))}
             </div>
             {s.shippingCutoff && (
               <div
-                className="mt-4 pt-3 text-[11px]"
-                style={{ borderTop: "1px solid rgba(255,255,255,0.07)", color: "#A0A0A0" }}
+                className="mt-4 pt-3 text-[11px] text-gray-500"
+                style={{ borderTop: "1px solid #E2E6EA" }}
               >
                 Saat {s.shippingCutoff}&apos;ya kadar verilen siparişler aynı gün kargoya verilir.
               </div>

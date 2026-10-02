@@ -61,7 +61,7 @@ export default function Footer({
   const hasWorkingHours = workingHours.weekdays || workingHours.saturday || workingHours.sunday
 
   return (
-    <footer style={{ background: "#090A0C", color: "#A5A5A5" }}>
+    <footer style={{ background: "#F8F9FA", color: "#6B7280", borderTop: "1px solid #E2E6EA" }}>
 
       {/* ── Main Grid ──────────────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
@@ -76,7 +76,7 @@ export default function Footer({
               className="object-contain"
             />
             <div className="leading-[1.25]">
-              <div className="font-black text-white text-[15px]">{siteName}</div>
+              <div className="font-black text-gray-900 text-[15px]">{siteName}</div>
             </div>
           </Link>
 
@@ -88,8 +88,8 @@ export default function Footer({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-150 hover:-translate-y-0.5"
-                style={{ background: "#151618", border: "1px solid rgba(255,255,255,0.08)", color: "#5A5A58" }}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-150 hover:-translate-y-0.5 text-gray-500 hover:text-gray-900"
+                style={{ background: "#FFFFFF", border: "1px solid #E2E6EA" }}
               >
                 f
               </a>
@@ -100,8 +100,8 @@ export default function Footer({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-150 hover:-translate-y-0.5"
-                style={{ background: "#151618", border: "1px solid rgba(255,255,255,0.08)", color: "#5A5A58" }}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-150 hover:-translate-y-0.5 text-gray-500 hover:text-gray-900"
+                style={{ background: "#FFFFFF", border: "1px solid #E2E6EA" }}
               >
                 ig
               </a>
@@ -114,9 +114,9 @@ export default function Footer({
                 aria-label="WhatsApp"
                 className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-150 hover:-translate-y-0.5"
                 style={{
-                  background: "rgba(34,197,94,0.08)",
-                  border: "1px solid rgba(34,197,94,0.22)",
-                  color: "#22c55e",
+                  background: "rgba(22,163,74,0.08)",
+                  border: "1px solid rgba(22,163,74,0.22)",
+                  color: "#16A34A",
                 }}
               >
                 <WaIcon />
@@ -127,7 +127,7 @@ export default function Footer({
 
         {/* Müşteri Hizmetleri */}
         <div>
-          <h4 className="font-bold text-[13px] uppercase tracking-[0.12em] mb-5" style={{ color: "#E8E8E2" }}>
+          <h4 className="font-bold text-[13px] uppercase tracking-[0.12em] mb-5 text-gray-900">
             Müşteri Hizmetleri
           </h4>
           <ul className="space-y-2.5 text-[13px]">
@@ -135,8 +135,7 @@ export default function Footer({
               <li key={l.href}>
                 <Link
                   href={l.href}
-                  className="transition-colors duration-150 hover:text-[#D4A017]"
-                  style={{ color: "#4A4A48" }}
+                  className="text-gray-600 transition-colors duration-150 hover:text-gray-900"
                 >
                   {l.label}
                 </Link>
@@ -147,7 +146,7 @@ export default function Footer({
 
         {/* Kurumsal */}
         <div>
-          <h4 className="font-bold text-[13px] uppercase tracking-[0.12em] mb-5" style={{ color: "#E8E8E2" }}>
+          <h4 className="font-bold text-[13px] uppercase tracking-[0.12em] mb-5 text-gray-900">
             Kurumsal
           </h4>
           <ul className="space-y-2.5 text-[13px]">
@@ -155,8 +154,7 @@ export default function Footer({
               <li key={l.href}>
                 <Link
                   href={l.href}
-                  className="transition-colors duration-150 hover:text-[#D4A017]"
-                  style={{ color: "#4A4A48" }}
+                  className="text-gray-600 transition-colors duration-150 hover:text-gray-900"
                 >
                   {l.label}
                 </Link>
@@ -167,7 +165,7 @@ export default function Footer({
 
         {/* İletişim */}
         <div>
-          <h4 className="font-bold text-[13px] uppercase tracking-[0.12em] mb-5" style={{ color: "#E8E8E2" }}>
+          <h4 className="font-bold text-[13px] uppercase tracking-[0.12em] mb-5 text-gray-900">
             İletişim
           </h4>
 
@@ -176,10 +174,9 @@ export default function Footer({
               <li>
                 <a
                   href={`tel:${validPh}`}
-                  className="flex items-start gap-2.5 transition-colors duration-150 hover:text-[#D4A017]"
-                  style={{ color: "#4A4A48" }}
+                  className="flex items-start gap-2.5 text-gray-600 transition-colors duration-150 hover:text-gray-900"
                 >
-                  <Phone size={13} className="mt-0.5 shrink-0" style={{ color: "#D4A017" }} aria-hidden="true" />
+                  <Phone size={13} className="mt-0.5 shrink-0 text-blue-700" aria-hidden="true" />
                   {validPh}
                 </a>
               </li>
@@ -188,52 +185,51 @@ export default function Footer({
               <li>
                 <a
                   href={`mailto:${validMail}`}
-                  className="flex items-start gap-2.5 transition-colors duration-150 hover:text-[#D4A017]"
-                  style={{ color: "#4A4A48" }}
+                  className="flex items-start gap-2.5 text-gray-600 transition-colors duration-150 hover:text-gray-900"
                 >
-                  <Mail size={13} className="mt-0.5 shrink-0" style={{ color: "#D4A017" }} aria-hidden="true" />
+                  <Mail size={13} className="mt-0.5 shrink-0 text-blue-700" aria-hidden="true" />
                   {validMail}
                 </a>
               </li>
             )}
             {address && (
-              <li className="flex items-start gap-2.5" style={{ color: "#4A4A48" }}>
-                <MapPin size={13} className="mt-0.5 shrink-0" style={{ color: "#D4A017" }} aria-hidden="true" />
+              <li className="flex items-start gap-2.5 text-gray-600">
+                <MapPin size={13} className="mt-0.5 shrink-0 text-blue-700" aria-hidden="true" />
                 {address}
               </li>
             )}
           </ul>
 
-          {/* Çalışma Saatleri — only if configured */}
+          {/* Çalışma Saatleri */}
           {hasWorkingHours && (
             <div
-              className="rounded-[14px] p-4 text-[12px]"
+              className="rounded-xl p-4 text-[12px]"
               style={{
-                background: "#111214",
-                border: "1px solid rgba(255,255,255,0.06)",
+                background: "#FFFFFF",
+                border: "1px solid #E2E6EA",
               }}
             >
-              <div className="flex items-center gap-1.5 font-semibold mb-3" style={{ color: "#A5A5A5" }}>
-                <Clock size={12} style={{ color: "#D4A017" }} aria-hidden="true" />
+              <div className="flex items-center gap-1.5 font-semibold mb-3 text-gray-700">
+                <Clock size={12} className="text-blue-700" aria-hidden="true" />
                 Çalışma Saatleri
               </div>
               <div className="space-y-1.5">
                 {workingHours.weekdays && (
                   <div className="flex justify-between">
-                    <span style={{ color: "#4A4A48" }}>Hafta içi</span>
-                    <span style={{ color: "#E0E0DC" }}>{workingHours.weekdays}</span>
+                    <span className="text-gray-500">Hafta içi</span>
+                    <span className="text-gray-800">{workingHours.weekdays}</span>
                   </div>
                 )}
                 {workingHours.saturday && (
                   <div className="flex justify-between">
-                    <span style={{ color: "#4A4A48" }}>Cumartesi</span>
-                    <span style={{ color: "#E0E0DC" }}>{workingHours.saturday}</span>
+                    <span className="text-gray-500">Cumartesi</span>
+                    <span className="text-gray-800">{workingHours.saturday}</span>
                   </div>
                 )}
                 {workingHours.sunday && (
                   <div className="flex justify-between">
-                    <span style={{ color: "#4A4A48" }}>Pazar</span>
-                    <span style={{ color: "#E0E0DC" }}>{workingHours.sunday}</span>
+                    <span className="text-gray-500">Pazar</span>
+                    <span className="text-gray-800">{workingHours.sunday}</span>
                   </div>
                 )}
               </div>
@@ -243,26 +239,25 @@ export default function Footer({
       </div>
 
       {/* ── Bottom Bar ─────────────────────────────────────────────── */}
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      <div style={{ borderTop: "1px solid #E2E6EA", background: "#F1F3F5" }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex flex-col gap-3">
           <div className="flex flex-wrap gap-x-5 gap-y-1.5">
             {navLinks.legal.map(l => (
               <Link
                 key={l.href}
                 href={l.href}
-                className="text-[11px] transition-colors duration-150 hover:text-[#D4A017]"
-                style={{ color: "#3A3A38" }}
+                className="text-[11px] text-gray-500 transition-colors duration-150 hover:text-gray-900"
               >
                 {l.label}
               </Link>
             ))}
           </div>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center text-[11px] gap-1">
-            <span style={{ color: "#3A3A38" }}>
+            <span className="text-gray-500">
               © {new Date().getFullYear()} {siteName}. Tüm hakları saklıdır.
             </span>
             {validMail && (
-              <span style={{ color: "#3A3A38" }}>{validMail}</span>
+              <span className="text-gray-500">{validMail}</span>
             )}
           </div>
         </div>

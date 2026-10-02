@@ -25,15 +25,15 @@ export default async function KullanimKosullariPage() {
     >
       <InfoCard>
         <Para>
-          Bu Kullanım Koşulları, <strong style={{ color: "#F4F4F2" }}>{siteConfig.url}</strong> adresinde
+          Bu Kullanım Koşulları, <strong style={{ color: "#111827" }}>{siteConfig.url}</strong> adresinde
           sunulan hizmetlere erişim ve kullanımına ilişkin kuralları belirler.
           Siteyi kullanarak bu koşulları kabul etmiş sayılırsınız.
         </Para>
         <Para style={{ marginBottom: 0 }}>
           İşletmeci:{" "}
           {legal.tradeName
-            ? <strong style={{ color: "#F4F4F2" }}>{legal.tradeName}</strong>
-            : <strong style={{ color: "#F4F4F2" }}>{s.siteName}</strong>
+            ? <strong style={{ color: "#111827" }}>{legal.tradeName}</strong>
+            : <strong style={{ color: "#111827" }}>{s.siteName}</strong>
           }
           {validMail ? ` — ${validMail}` : ""}{s.phone ? ` — ${s.phone}` : ""}
         </Para>
@@ -53,7 +53,7 @@ export default async function KullanimKosullariPage() {
         Hesap oluşturursanız, giriş bilgilerinizin gizliliğini korumak sizin sorumluluğunuzdadır.
         Hesabınızda yetkisiz bir işlem tespit ederseniz derhal{" "}
         {validMail
-          ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+          ? <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
           : "iletişim kanallarımız aracılığıyla"
         }{" "}bildirin.
       </Para>
@@ -83,7 +83,7 @@ export default async function KullanimKosullariPage() {
       <Para>
         Sepete ürün eklemek bir satış teklifi niteliği taşımaz. Bağlayıcı sözleşme, ödemenizin
         onaylanması ve tarafımızca sipariş onay e-postasının gönderilmesiyle kurulur.
-        Detaylar için <a href="/mesafeli-satis-sozlesmesi" style={{ color: "#D4A534" }}>Mesafeli Satış Sözleşmesi</a>&apos;ni
+        Detaylar için <a href="/mesafeli-satis-sozlesmesi" style={{ color: "#2563EB" }}>Mesafeli Satış Sözleşmesi</a>&apos;ni
         inceleyin.
       </Para>
 
@@ -95,7 +95,7 @@ export default async function KullanimKosullariPage() {
 
       <H2>6. Yasak Kullanımlar</H2>
       <Para>Aşağıdaki davranışlar kesinlikle yasaktır:</Para>
-      <ul style={{ color: "#A0A0A0", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
+      <ul style={{ color: "#374151", fontSize: 14, lineHeight: 2, paddingLeft: 20, marginBottom: 12 }}>
         <li>Sahte veya yanıltıcı bilgi girişi</li>
         <li>Otomatik araçlarla sitenin taranması (scraping)</li>
         <li>Sitenin güvenlik mekanizmalarını aşmaya çalışmak</li>
@@ -127,7 +127,7 @@ export default async function KullanimKosullariPage() {
         <H3>Sorularınız İçin</H3>
         <Para style={{ marginBottom: 0 }}>
           {validMail
-            ? <a href={`mailto:${validMail}`} style={{ color: "#D4A534" }}>{validMail}</a>
+            ? <a href={`mailto:${validMail}`} style={{ color: "#2563EB" }}>{validMail}</a>
             : "İletişim sayfamızı ziyaret edin."
           }
           {s.phone ? ` — ${s.phone}` : ""}

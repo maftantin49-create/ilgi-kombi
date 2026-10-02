@@ -11,21 +11,21 @@ interface Props {
   discount: number | null
 }
 
-const goldBadge: React.CSSProperties = {
-  background: "#D4A017",
+const newBadge: React.CSSProperties = {
+  background: "#2563EB",
   borderRadius: "20px",
   padding: "2px 10px",
   fontSize: "11px",
-  color: "#090A0C",
+  color: "#FFFFFF",
   fontWeight: 700,
 }
 const discountBadge: React.CSSProperties = {
-  background: "rgba(212,160,23,0.14)",
-  border: "1px solid rgba(212,160,23,0.35)",
+  background: "#FEF2F2",
+  border: "1px solid #FCA5A5",
   borderRadius: "20px",
   padding: "2px 10px",
   fontSize: "11px",
-  color: "#D4A017",
+  color: "#B91C1C",
   fontWeight: 700,
 }
 
@@ -37,10 +37,10 @@ export default function ProductGallery({ images, productName, isNew, discount }:
     <div>
       {/* ── Main image stage ─────────────────────────────────── */}
       <div
-        className="relative overflow-hidden rounded-[22px] min-h-[440px] md:min-h-[580px]"
+        className="relative overflow-hidden rounded-[16px] min-h-[440px] md:min-h-[580px]"
         style={{
-          background: "#090A0C",
-          border: "1px solid rgba(255,196,0,0.12)",
+          background: "#F8F9FA",
+          border: "1px solid #E2E6EA",
         }}
         aria-label={`${productName} ürün görseli`}
       >
@@ -64,7 +64,7 @@ export default function ProductGallery({ images, productName, isNew, discount }:
 
         {/* Badges */}
         <div className="absolute top-4 left-4 z-20 flex flex-col gap-1.5">
-          {isNew && <span style={goldBadge}>Yeni</span>}
+          {isNew && <span style={newBadge}>Yeni</span>}
           {discount !== null && <span style={discountBadge}>%{discount} indirim</span>}
         </div>
       </div>
@@ -81,8 +81,8 @@ export default function ProductGallery({ images, productName, isNew, discount }:
               aria-current={i === active ? "true" : undefined}
               className="shrink-0 w-[68px] h-[68px] rounded-[12px] overflow-hidden transition-all duration-150"
               style={{
-                border: `2px solid ${i === active ? "#D4A017" : "rgba(255,255,255,0.07)"}`,
-                background: "#111214",
+                border: `2px solid ${i === active ? "#3B82F6" : "#E2E6EA"}`,
+                background: "#F8F9FA",
                 outline: "none",
               }}
             >
