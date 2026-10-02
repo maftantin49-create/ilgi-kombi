@@ -21,7 +21,7 @@ export default function CategoryRail({ categories }: Props) {
         <div className="flex items-center gap-2 overflow-x-auto"
           style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" } as React.CSSProperties}
         >
-          {categories.map((cat) => (
+          {categories.slice(0, 8).map((cat) => (
             <Link
               key={cat.id}
               href={`/urunler?kategori=${cat.slug}`}
@@ -43,9 +43,9 @@ export default function CategoryRail({ categories }: Props) {
 
           <Link
             href="/kategoriler"
-            className="flex items-center gap-1 px-3 py-2 rounded-lg text-[12px] font-semibold text-blue-700 hover:text-blue-900 hover:bg-blue-50 transition-colors whitespace-nowrap shrink-0 ml-1"
+            className="flex items-center gap-1 px-3 py-2 rounded-lg text-[12px] font-semibold text-blue-700 hover:text-blue-900 hover:bg-blue-50 transition-colors whitespace-nowrap shrink-0 ml-1 border border-dashed border-blue-200"
           >
-            Tümü <ChevronRight size={13} aria-hidden="true" />
+            Tüm Kategoriler <ChevronRight size={13} aria-hidden="true" />
           </Link>
         </div>
       </div>

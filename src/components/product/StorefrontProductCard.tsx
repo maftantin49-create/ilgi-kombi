@@ -145,9 +145,9 @@ export default function StorefrontProductCardComponent({ product }: Props) {
       </Link>
 
       {/* Content */}
-      <div className="flex flex-col flex-1 p-3">
+      <div className="flex flex-col flex-1 p-4">
         {product.brand && (
-          <p className="text-[10px] mb-0.5 text-gray-400">
+          <p className="text-[10px] font-medium tracking-wide uppercase mb-1 text-gray-400">
             {product.brand.name}
           </p>
         )}
@@ -176,7 +176,7 @@ export default function StorefrontProductCardComponent({ product }: Props) {
               </div>
             ) : (
               <>
-                <div className="font-bold text-base leading-none" style={{ color: "#1E3A8A" }}>
+                <div className="font-bold text-[18px] leading-none" style={{ color: "#1E3A8A" }}>
                   {product.price.toLocaleString("tr-TR")} ₺
                 </div>
                 {product.compare_at_price && product.compare_at_price > product.price && (

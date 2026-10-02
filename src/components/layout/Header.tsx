@@ -48,9 +48,16 @@ export default function Header({ categories, brands, siteName, phone, whatsapp }
   const [megaOpen,      setMegaOpen]      = useState(false)
   const [mobileCatOpen, setMobileCatOpen] = useState(false)
   const [search,        setSearch]        = useState("")
+  const [scrolled,      setScrolled]      = useState(false)
   const router    = useRouter()
   const pathname  = usePathname()
   const headerRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   // Close mega menu on outside click
   useEffect(() => {
@@ -103,7 +110,7 @@ export default function Header({ categories, brands, siteName, phone, whatsapp }
   return (
     <header
       ref={headerRef}
-      className="sticky top-0 z-50 bg-white"
+      className={`sticky top-0 z-50 bg-white transition-shadow duration-200${scrolled ? " shadow-[0_2px_12px_rgba(0,0,0,0.07)]" : ""}`}
       style={{ borderBottom: "1px solid #E2E6EA" }}
     >
       {/* ── Satır 1: Logo | Search | Actions ─────────────────────────────── */}
@@ -515,6 +522,7 @@ export default function Header({ categories, brands, siteName, phone, whatsapp }
                 categories={categories}
                 brands={brands}
                 onClose={() => setMegaOpen(false)}
+                waLink={wa.home}
               />
             </div>
           </div>

@@ -68,7 +68,40 @@ export default async function HomePage() {
       {/* ─── 3. Hızlı Kategori Seçimi ─── */}
       <CategoryRail categories={categories} />
 
-      {/* ─── 4. Uyumlu Markalar ─── */}
+      {/* ─── 4. Fırsat Ürünleri ─── */}
+      {discountedProducts.length > 0 && (
+        <AnimatedSection variant="fade-up" as="div" className="bg-white">
+          <ProductSection
+            eyebrow="Fırsatlar"
+            title="Fırsat Ürünleri"
+            description="Özel fiyatlarla kombi yedek parçaları"
+            products={discountedProducts}
+            viewAllHref="/urunler"
+          />
+        </AnimatedSection>
+      )}
+
+      {/* ─── 5. En Çok Satanlar ─── */}
+      {featuredProducts.length > 0 && (
+        <AnimatedSection variant="fade-up" as="div" className="bg-[#F8F9FA]">
+          <ProductSection
+            eyebrow="Popüler"
+            title="En Çok Satanlar"
+            description="Müşterilerimizin en çok tercih ettiği yedek parçalar"
+            products={featuredProducts}
+            viewAllHref="/urunler"
+          />
+        </AnimatedSection>
+      )}
+
+      {/* ─── 6. WhatsApp CTA ─── */}
+      <WhatsAppCTA
+        waLink={wa.home}
+        phone={validPh}
+        phoneDisplay={validPh ? settings.phone : null}
+      />
+
+      {/* ─── 7. Uyumlu Markalar ─── */}
       {brandNames.length > 0 && (
         <section
           className="bg-[#F8F9FA]"
@@ -103,33 +136,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* ─── 5. Fırsat Ürünleri ─── */}
-      {discountedProducts.length > 0 && (
-        <AnimatedSection variant="fade-up" as="div" className="bg-white">
-          <ProductSection
-            eyebrow="Fırsatlar"
-            title="Fırsat Ürünleri"
-            description="Özel fiyatlarla kombi yedek parçaları"
-            products={discountedProducts}
-            viewAllHref="/urunler"
-          />
-        </AnimatedSection>
-      )}
-
-      {/* ─── 6. En Çok Satanlar ─── */}
-      {featuredProducts.length > 0 && (
-        <AnimatedSection variant="fade-up" as="div" className="bg-[#F8F9FA]">
-          <ProductSection
-            eyebrow="Popüler"
-            title="En Çok Satanlar"
-            description="Müşterilerimizin en çok tercih ettiği yedek parçalar"
-            products={featuredProducts}
-            viewAllHref="/urunler"
-          />
-        </AnimatedSection>
-      )}
-
-      {/* ─── 7. Kategori Bazlı Ürün Rail'leri ─── */}
+      {/* ─── 8. Kategori Bazlı Ürün Rail'leri ─── */}
       {catRailData.map((cat, idx) => {
         if (cat.products.length === 0) return null
         return (
@@ -150,7 +157,7 @@ export default async function HomePage() {
         )
       })}
 
-      {/* ─── 8. Aynı Gün Kargo ─── */}
+      {/* ─── 9. Aynı Gün Kargo ─── */}
       {sameDayProducts.length > 0 && (
         <AnimatedSection variant="fade-up" as="div" className="bg-[#EFF6FF]">
           <ProductSection
@@ -163,13 +170,6 @@ export default async function HomePage() {
           />
         </AnimatedSection>
       )}
-
-      {/* ─── 9. WhatsApp CTA — tek koyu section ─── */}
-      <WhatsAppCTA
-        waLink={wa.home}
-        phone={validPh}
-        phoneDisplay={validPh ? settings.phone : null}
-      />
     </>
   )
 }
