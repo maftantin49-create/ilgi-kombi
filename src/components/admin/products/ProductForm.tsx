@@ -11,6 +11,7 @@ import type {
   ProductSpecification,
   ProductDevice,
 } from "@/lib/admin/products"
+import { generateSeo } from "@/lib/admin/seo-generator"
 import { ImageUploadZone } from "./ImageUploadZone"
 import { GalleryGrid, type GalleryItem } from "./GalleryGrid"
 import { ProductPreviewCard } from "./ProductPreviewCard"
@@ -145,6 +146,9 @@ export default function ProductForm({
   const [pvCompare, setPvCompare] = useState(String(initialData?.compare_at_price ?? ""))
   const [pvSku, setPvSku] = useState(initialData?.sku ?? "")
   const [pvBrandId, setPvBrandId] = useState(initialData?.brand_id ?? "")
+  const [pvCategoryId, setPvCategoryId] = useState(initialData?.category_id ?? "")
+  const [seoTitle, setSeoTitle] = useState(initialData?.seo_title ?? "")
+  const [seoDescription, setSeoDescription] = useState(initialData?.seo_description ?? "")
   const [pvIsActive, setPvIsActive] = useState(initialData?.is_active ?? true)
   const [pvIsFeatured, setPvIsFeatured] = useState(initialData?.is_featured ?? false)
   const [pvIsNew, setPvIsNew] = useState(initialData?.is_new ?? false)
@@ -206,6 +210,7 @@ export default function ProductForm({
   const nameRef = useRef<HTMLInputElement>(null)
 
   const brandName = brands.find((b) => b.id === pvBrandId)?.name ?? ""
+  const categoryName = categories.find((c) => c.id === pvCategoryId)?.name ?? ""
   const fe = state.fieldErrors ?? {}
 
   return (
@@ -594,6 +599,7 @@ export default function ProductForm({
                 defaultValue={initialData?.category_id ?? ""}
                 className={INPUT}
                 style={INPUT_STYLE}
+                onChange={(e) => setPvCategoryId(e.target.value)}
               >
                 <option value="">Seçiniz</option>
                 {categories.map((c) => (
@@ -671,43 +677,158 @@ export default function ProductForm({
           className={activeTab !== "seo" ? "hidden" : "space-y-4"}
           style={CARD}
         >
+          {/* Header + generate button */}
+          <div className="flex items-center justify-between">
+            <SectionHeading>SEO Yönetimi</SectionHeading>
+            <button
+              type="button"
+              onClick={() => {
+                const currentName = pvName || (nameRef.current?.value ?? "")
+                if (!currentName.trim()) return
+                const generated = generateSeo({
+                  name: currentName,
+                  brandName: brandName || undefined,
+                  categoryName: categoryName || undefined,
+                })
+                setSeoTitle(generated.seoTitle)
+                setSeoDescription(generated.seoDescription)
+                if (slugRef.current && !slugRef.current.value) {
+                  slugRef.current.value = generated.slug
+                }
+              }}
+              className="text-xs px-3 py-1.5 rounded transition-opacity hover:opacity-80"
+              style={{
+                color: "#D4A017",
+                border: "1px solid rgba(212,160,23,0.3)",
+                background: "rgba(212,160,23,0.05)",
+              }}
+            >
+              SEO Oluştur
+            </button>
+          </div>
+
+          {/* SEO Title */}
           <div>
-            <label htmlFor="seo_title" className={LABEL} style={MUTED}>
-              SEO Başlık
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label htmlFor="seo_title" className={LABEL} style={{ ...MUTED, marginBottom: 0 }}>
+                SEO Başlık
+              </label>
+              <span
+                className="text-xs tabular-nums"
+                style={{
+                  color:
+                    seoTitle.length > 60
+                      ? "#EF4444"
+                      : seoTitle.length >= 50
+                      ? "#4ade80"
+                      : "#6B7280",
+                }}
+              >
+                {seoTitle.length}/60
+              </span>
+            </div>
             <input
               id="seo_title"
               name="seo_title"
               type="text"
-              defaultValue={initialData?.seo_title ?? ""}
+              value={seoTitle}
+              onChange={(e) => setSeoTitle(e.target.value)}
               className={INPUT}
               style={INPUT_STYLE}
               placeholder="Boş bırakılırsa ürün adı kullanılır"
               maxLength={120}
             />
-            <p className="text-xs mt-1" style={{ color: "#6B7280" }}>
-              Tarayıcı sekmesi ve arama sonuçlarında görünür. En fazla 60 karakter önerilir.
-            </p>
           </div>
 
+          {/* SEO Description */}
           <div>
-            <label htmlFor="seo_description" className={LABEL} style={MUTED}>
-              SEO Açıklama
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label htmlFor="seo_description" className={LABEL} style={{ ...MUTED, marginBottom: 0 }}>
+                SEO Açıklama
+              </label>
+              <span
+                className="text-xs tabular-nums"
+                style={{
+                  color:
+                    seoDescription.length > 160
+                      ? "#EF4444"
+                      : seoDescription.length >= 140
+                      ? "#4ade80"
+                      : "#6B7280",
+                }}
+              >
+                {seoDescription.length}/160
+              </span>
+            </div>
             <textarea
               id="seo_description"
               name="seo_description"
-              defaultValue={initialData?.seo_description ?? ""}
+              value={seoDescription}
+              onChange={(e) => setSeoDescription(e.target.value)}
               rows={3}
               className={INPUT + " resize-none"}
               style={INPUT_STYLE}
               placeholder="Arama sonuçlarında görünecek kısa açıklama"
               maxLength={300}
             />
-            <p className="text-xs mt-1" style={{ color: "#6B7280" }}>
-              En fazla 155 karakter önerilir.
-            </p>
           </div>
+
+          {/* Google preview */}
+          {(seoTitle || seoDescription || pvName) && (
+            <div
+              style={{
+                background: "#111214",
+                border: "1px solid rgba(255,255,255,0.07)",
+                borderRadius: "8px",
+                padding: "14px 16px",
+              }}
+            >
+              <p className="text-xs mb-3" style={{ color: "#6B7280", letterSpacing: "0.04em", textTransform: "uppercase" }}>
+                Google Önizleme
+              </p>
+              <div
+                style={{
+                  background: "#fff",
+                  borderRadius: "6px",
+                  padding: "12px 14px",
+                  maxWidth: "600px",
+                }}
+              >
+                <p style={{ fontSize: "12px", color: "#3c4043", marginBottom: "2px" }}>
+                  ilgikombiyedekparca.com
+                </p>
+                <p
+                  style={{
+                    fontSize: "18px",
+                    color: "#1a0dab",
+                    lineHeight: "1.3",
+                    marginBottom: "4px",
+                    overflow: "hidden",
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                  }}
+                >
+                  {seoTitle || pvName || (nameRef.current?.value ?? "")}
+                </p>
+                {seoDescription && (
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      color: "#4d5156",
+                      lineHeight: "1.5",
+                      overflow: "hidden",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                    }}
+                  >
+                    {seoDescription}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
         </section>
 
         {/* ── Footer ── */}

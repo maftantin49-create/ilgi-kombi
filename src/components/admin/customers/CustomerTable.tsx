@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import type { CustomerListItem } from "@/lib/admin/customers"
 import { formatDate, formatPrice } from "@/lib/admin/format"
