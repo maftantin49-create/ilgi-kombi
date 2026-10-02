@@ -9,7 +9,6 @@ import { getStorefrontCategories } from "@/lib/storefront/categories"
 import Link from "next/link"
 import HeroSlider from "@/components/home/HeroSlider"
 import CategoryRail from "@/components/home/CategoryRail"
-import CategorySection from "@/components/home/CategorySection"
 import ProductSection from "@/components/home/ProductSection"
 import WhatsAppCTA from "@/components/home/WhatsAppCTA"
 import BottomInfoCards from "@/components/home/BottomInfoCards"
@@ -18,7 +17,7 @@ import AnimatedSection from "@/components/experience/AnimatedSection"
 import { getStoreSettings, validWhatsApp, validPhone } from "@/lib/storefront/settings"
 import { buildWa } from "@/lib/whatsapp"
 
-export const revalidate = 300 // ISR: 5 dakikada bir yenile
+export const revalidate = 300
 
 export default async function HomePage() {
   const [categories, sameDayProducts, discountedProducts, featuredProducts, brands, settings] = await Promise.all([
@@ -58,23 +57,79 @@ export default async function HomePage() {
     <>
       <PointerTracker />
 
-      {/* ─── 1. Kategori Rail ─── */}
-      <CategoryRail categories={categories} />
-
-      {/* ─── 2. Hero ─── */}
+      {/* ─── 1. Hero ─── */}
       <HeroSlider waLink={wa.home} />
 
-      {/* ─── 3. Trust Bar ─── */}
+      {/* ─── 2. Trust Bar ─── */}
       <div className="bg-white border-b border-gray-100">
         <BottomInfoCards />
       </div>
 
-      {/* ─── 4. Popüler Kategoriler ─── */}
-      <AnimatedSection variant="fade-up" as="div" className="bg-white">
-        <CategorySection />
-      </AnimatedSection>
+      {/* ─── 3. Hızlı Kategori Seçimi ─── */}
+      <CategoryRail categories={categories} />
 
-      {/* ─── 5–7. Kategori Bazlı Ürün Rail'leri (3 adet) ─── */}
+      {/* ─── 4. Uyumlu Markalar ─── */}
+      {brandNames.length > 0 && (
+        <section
+          className="bg-[#F8F9FA]"
+          aria-label="Uyumlu cihaz markaları"
+          style={{ borderBottom: "1px solid #E2E6EA" }}
+        >
+          <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-8">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-[4px] h-[4px] rounded-full bg-blue-600" aria-hidden="true" />
+              <span className="text-[10px] font-bold tracking-[0.26em] uppercase text-blue-600">
+                Desteklenen Markalar
+              </span>
+            </div>
+            <h2
+              className="font-black mb-5 text-gray-900"
+              style={{ fontSize: "clamp(17px, 1.6vw, 20px)" }}
+            >
+              Uyumlu Markalar
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {brandNames.map((brand) => (
+                <Link
+                  key={brand}
+                  href={`/urunler?marka=${encodeURIComponent(brand)}`}
+                  className="px-3 py-1.5 text-[12px] font-medium rounded-lg transition-all duration-150 hover:-translate-y-0.5 text-gray-600 hover:text-blue-700 hover:border-blue-300 bg-white border border-[#E2E6EA]"
+                >
+                  {brand}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ─── 5. Fırsat Ürünleri ─── */}
+      {discountedProducts.length > 0 && (
+        <AnimatedSection variant="fade-up" as="div" className="bg-white">
+          <ProductSection
+            eyebrow="Fırsatlar"
+            title="Fırsat Ürünleri"
+            description="Özel fiyatlarla kombi yedek parçaları"
+            products={discountedProducts}
+            viewAllHref="/urunler"
+          />
+        </AnimatedSection>
+      )}
+
+      {/* ─── 6. En Çok Satanlar ─── */}
+      {featuredProducts.length > 0 && (
+        <AnimatedSection variant="fade-up" as="div" className="bg-[#F8F9FA]">
+          <ProductSection
+            eyebrow="Popüler"
+            title="En Çok Satanlar"
+            description="Müşterilerimizin en çok tercih ettiği yedek parçalar"
+            products={featuredProducts}
+            viewAllHref="/urunler"
+          />
+        </AnimatedSection>
+      )}
+
+      {/* ─── 7. Kategori Bazlı Ürün Rail'leri ─── */}
       {catRailData.map((cat, idx) => {
         if (cat.products.length === 0) return null
         return (
@@ -95,33 +150,7 @@ export default async function HomePage() {
         )
       })}
 
-      {/* ─── 8. Fırsat Ürünleri (indirimli) ─── */}
-      {discountedProducts.length > 0 && (
-        <AnimatedSection variant="fade-up" as="div" className="bg-[#F8F9FA]">
-          <ProductSection
-            eyebrow="Fırsatlar"
-            title="Fırsat Ürünleri"
-            description="Özel fiyatlarla kombi yedek parçaları"
-            products={discountedProducts}
-            viewAllHref="/urunler"
-          />
-        </AnimatedSection>
-      )}
-
-      {/* ─── 9. En Çok Satanlar ─── */}
-      {featuredProducts.length > 0 && (
-        <AnimatedSection variant="fade-up" as="div" className="bg-white">
-          <ProductSection
-            eyebrow="Popüler"
-            title="En Çok Satanlar"
-            description="Müşterilerimizin en çok tercih ettiği yedek parçalar"
-            products={featuredProducts}
-            viewAllHref="/urunler"
-          />
-        </AnimatedSection>
-      )}
-
-      {/* ─── 10. Aynı Gün Kargo ─── */}
+      {/* ─── 8. Aynı Gün Kargo ─── */}
       {sameDayProducts.length > 0 && (
         <AnimatedSection variant="fade-up" as="div" className="bg-[#EFF6FF]">
           <ProductSection
@@ -135,43 +164,7 @@ export default async function HomePage() {
         </AnimatedSection>
       )}
 
-      {/* ─── 11. Uyumlu Markalar ─── */}
-      {brandNames.length > 0 && (
-        <section
-          className="bg-[#F8F9FA]"
-          aria-label="Uyumlu cihaz markaları"
-          style={{ borderTop: "1px solid #E2E6EA", borderBottom: "1px solid #E2E6EA" }}
-        >
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10">
-            <div className="flex items-center justify-center gap-2 mb-2.5">
-              <span className="w-[4px] h-[4px] rounded-full bg-blue-600" aria-hidden="true" />
-              <span className="text-[10px] font-bold tracking-[0.26em] uppercase text-blue-600">
-                Desteklenen Markalar
-              </span>
-            </div>
-            <h2
-              className="text-center font-black mb-7 text-gray-900"
-              style={{ fontSize: "clamp(18px, 1.8vw, 22px)" }}
-            >
-              Uyumlu Markalar
-            </h2>
-            <div className="flex flex-wrap justify-center gap-2">
-              {brandNames.map((brand) => (
-                <Link
-                  key={brand}
-                  href={`/urunler?marka=${encodeURIComponent(brand)}`}
-                  className="px-4 py-2 text-[13px] font-medium rounded-lg transition-all duration-150 hover:-translate-y-0.5 text-gray-600 hover:text-blue-700 hover:border-blue-300"
-                  style={{ background: "#FFFFFF", border: "1px solid #E2E6EA" }}
-                >
-                  {brand}
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ─── 12. WhatsApp CTA — tek koyu section ─── */}
+      {/* ─── 9. WhatsApp CTA — tek koyu section ─── */}
       <WhatsAppCTA
         waLink={wa.home}
         phone={validPh}

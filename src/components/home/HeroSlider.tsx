@@ -35,20 +35,19 @@ export default function HeroSlider({ waLink }: Props) {
             </span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-[56px] font-black text-gray-900 mb-5 leading-[1.06]">
+          <h1 className="text-[42px] md:text-[52px] font-black text-gray-900 mb-4 leading-[1.05]">
             Doğru Parça,<br />
             <span className="text-blue-800">Hızlı Çözüm</span>
           </h1>
 
-          <p className="text-[15px] md:text-[17px] leading-relaxed mb-10 max-w-lg text-gray-600">
-            Tüm büyük kombi markalarına uygun orijinal ve uyumlu parçalar.
-            Teknik destek ve güvenli teslimat.
+          <p className="text-[15px] md:text-[17px] leading-relaxed mb-9 max-w-lg text-gray-600">
+            Türkiye&apos;nin kombi yedek parça uzmanı. Orijinal parça, hızlı gönderim.
           </p>
 
           <div className="flex flex-wrap items-center gap-3">
             <Link
               href="/urunler"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-bold text-[14px] text-white transition-all duration-150 hover:-translate-y-0.5 bg-blue-800 hover:bg-blue-900"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-bold text-[14px] text-white transition-all duration-150 hover:-translate-y-0.5 bg-[#1E3A8A] hover:bg-[#1E40AF]"
               style={{ boxShadow: "0 4px 14px rgba(30,58,138,0.20)" }}
             >
               Ürünleri İncele
@@ -60,12 +59,10 @@ export default function HeroSlider({ waLink }: Props) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl font-semibold text-[14px] transition-all duration-150 hover:-translate-y-0.5 text-green-700 hover:bg-green-50"
-                style={{
-                  border: "1px solid rgba(22,163,74,0.35)",
-                }}
+                style={{ border: "1px solid rgba(22,163,74,0.35)" }}
               >
                 <WaIcon />
-                WhatsApp
+                WhatsApp&apos;tan Sor
               </a>
             )}
           </div>

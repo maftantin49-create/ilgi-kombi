@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import SiteLogo from "@/components/layout/SiteLogo"
+
 import { Phone, Mail, MapPin, Clock } from "lucide-react"
 import { buildWa } from "@/lib/whatsapp"
 import { validPhone, validEmail, validWhatsApp, validSocial } from "@/lib/storefront/guards"
@@ -68,16 +68,9 @@ export default function Footer({
 
         {/* Brand */}
         <div>
-          <Link href="/" className="flex items-center gap-3 mb-5" aria-label={`${siteName} Ana Sayfa`}>
-            <SiteLogo
-              siteName={siteName}
-              width={38}
-              height={38}
-              className="object-contain"
-            />
-            <div className="leading-[1.25]">
-              <div className="font-black text-gray-900 text-[15px]">{siteName}</div>
-            </div>
+          <Link href="/" className="inline-block mb-5" aria-label={`${siteName} Ana Sayfa`}>
+            <span className="text-[18px] font-black text-[#1E3A8A] leading-none">İlgi Kombi</span>
+            <span className="block text-[10px] font-medium text-gray-400 leading-none tracking-wide mt-0.5">Kombi Yedek Parça</span>
           </Link>
 
           {/* Social */}
