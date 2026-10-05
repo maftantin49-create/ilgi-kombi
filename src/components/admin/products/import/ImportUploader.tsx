@@ -174,25 +174,53 @@ export function ImportUploader({ onResult }: Props) {
 }
 
 // Template download — client-side xlsx, dynamic import
+// ★ = zorunlu sütun; normalizeHeader() ★/☆ karakterlerini trim ederek eşleştirir
 function TemplateDownloadButton() {
   const download = async () => {
     const XLSX = await import("xlsx")
+
+    // ── Sheet 1: URUNLER ─────────────────────────────────────────────────────
     const headers = [
-      "ad", "slug", "sku", "açıklama", "fiyat", "karşılaştırma fiyatı",
+      "★ ad", "slug", "★ sku", "açıklama", "★ fiyat", "karşılaştırma fiyatı",
       "stok", "marka", "kategori", "uyumlu markalar",
       "görsel url", "hover görsel",
       "aktif", "öne_çıkan", "yeni", "aynı gün kargo",
     ]
     const example = [
-      "Örnek Ürün", "ornek-urun", "SKU-001", "Ürün açıklaması", 299.99, 399.99,
-      10, "Ford", "Motor Yağı", "BMW,Mercedes",
-      "https://cdn.example.com/main.webp", "https://cdn.example.com/hover.webp",
+      "Vaillant ecoTEC Fan Motoru", "vaillant-ecotec-fan-motoru", "VLT-FAN-001",
+      "Vaillant ecoTEC serisi kombi fan motoru.", 299.99, 399.99,
+      10, "Vaillant", "Fan ve Pompa", "Baymak,Ariston",
+      "", "",
       "EVET", "HAYIR", "HAYIR", "HAYIR",
     ]
-    const ws = XLSX.utils.aoa_to_sheet([headers, example])
+    const ws1 = XLSX.utils.aoa_to_sheet([headers, example])
+
+    // ── Sheet 2: ACIKLAMA ────────────────────────────────────────────────────
+    const acHeaders = ["Sütun", "Zorunlu", "Açıklama", "Kabul Edilen Değerler"]
+    const acRows = [
+      ["★ ad",                   "EVET",  "Ürün adı",                                                            "Metin, maks. 255 karakter"],
+      ["slug",                   "HAYIR", "URL dostu kısa ad. Boş bırakılırsa addan otomatik türetilir.",         "Küçük harf, rakam, tire — ör: vaillant-fan-motoru"],
+      ["★ sku",                  "EVET",  "Stok/ürün kodu. Sistemde benzersiz olmalı.",                           "Metin, maks. 100 karakter — ör: VLT-FAN-001"],
+      ["açıklama",               "HAYIR", "Ürün detay açıklaması.",                                               "Serbest metin"],
+      ["★ fiyat",                "EVET",  "Satış fiyatı (TL).",                                                   "Sayı — ör: 299.99 veya 299,99"],
+      ["karşılaştırma fiyatı",   "HAYIR", "Liste/eski fiyat (üzeri çizili). Satış fiyatından YÜKSEK olmalı.",     "Sayı — ör: 399.99"],
+      ["stok",                   "HAYIR", "Başlangıç stok adedi. Boş bırakılırsa 0 kabul edilir.",                "Tam sayı — ör: 10"],
+      ["marka",                  "HAYIR", "Sistemde tanımlı marka adı. Yanlış ise satır hata verir.",             "Ör: Vaillant / Baymak / Ariston (büyük/küçük harf fark gözetilmez)"],
+      ["kategori",               "HAYIR", "Sistemde tanımlı kategori adı. Yanlış ise satır hata verir.",          "Ör: Fan ve Pompa / Elektronik Kart (büyük/küçük harf fark gözetilmez)"],
+      ["uyumlu markalar",        "HAYIR", "Bu ürünün uyumlu olduğu marka listesi.",                               "Virgül, ; veya | ile ayrılmış — ör: Baymak,Ariston"],
+      ["görsel url",             "HAYIR", "Ana ürün görseli tam URL adresi.",                                     "https:// ile başlayan URL"],
+      ["hover görsel",           "HAYIR", "Üzerine gelinince gösterilen ikinci görsel URL.",                      "https:// ile başlayan URL"],
+      ["aktif",                  "HAYIR", "Ürün yayında mı? Varsayılan: EVET",                                    "EVET / HAYIR / 1 / 0"],
+      ["öne_çıkan",              "HAYIR", "Öne çıkan ürünlerde göster. Varsayılan: HAYIR",                        "EVET / HAYIR / 1 / 0"],
+      ["yeni",                   "HAYIR", "Yeni ürün etiketi göster. Varsayılan: HAYIR",                          "EVET / HAYIR / 1 / 0"],
+      ["aynı gün kargo",         "HAYIR", "Aynı gün kargo etiketi. Varsayılan: HAYIR",                            "EVET / HAYIR / 1 / 0"],
+    ]
+    const ws2 = XLSX.utils.aoa_to_sheet([acHeaders, ...acRows])
+
     const wb = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(wb, ws, "Şablon")
-    XLSX.writeFile(wb, "urun-import-sablonu.xlsx")
+    XLSX.utils.book_append_sheet(wb, ws1, "URUNLER")
+    XLSX.utils.book_append_sheet(wb, ws2, "ACIKLAMA")
+    XLSX.writeFile(wb, "ilgi-kombi-urun-import-sablonu.xlsx")
   }
 
   return (

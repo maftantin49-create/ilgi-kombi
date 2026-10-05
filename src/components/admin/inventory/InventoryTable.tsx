@@ -5,6 +5,10 @@ import Link from "next/link"
 import type { StockItem, StockStatus } from "@/lib/admin/inventory"
 import { ProductThumbnail } from "@/components/admin/products/ProductThumbnail"
 
+export type SortColumn = "name" | "sku" | "brand" | "stock_quantity" | "available_stock" | "status"
+export type SortDirection = "asc" | "desc"
+export type SortState = { column: SortColumn; direction: SortDirection } | null
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 const MOVEMENT_LABELS: Record<string, string> = {
@@ -41,6 +45,8 @@ export interface SelectionProps {
 interface Props {
   items: StockItem[]
   selection: SelectionProps
+  sortState?: SortState
+  onSort?: (column: SortColumn) => void
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -89,7 +95,56 @@ function StockCell({ value, status }: { value: number; status: StockStatus }) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-export function InventoryTable({ items, selection }: Props) {
+// ─────────────────────────────────────────────────────────────────────────────
+
+const COLUMN_HEADERS: { label: string; column: SortColumn | null }[] = [
+  { label: "Ürün",             column: "name"            },
+  { label: "SKU",              column: "sku"             },
+  { label: "Marka / Kategori", column: "brand"           },
+  { label: "Fiziksel",         column: "stock_quantity"  },
+  { label: "Rezerve",          column: null              },
+  { label: "Kullanılabilir",   column: "available_stock" },
+  { label: "Durum",            column: "status"          },
+  { label: "Son Hareket",      column: null              },
+  { label: "",                 column: null              },
+]
+
+function SortableHeader({
+  label,
+  column,
+  sortState,
+  onSort,
+}: {
+  label: string
+  column: SortColumn | null
+  sortState: SortState
+  onSort: (col: SortColumn) => void
+}) {
+  const isActive = column !== null && sortState?.column === column
+  const indicator = isActive ? (sortState?.direction === "asc" ? " ▲" : " ▼") : ""
+
+  return (
+    <th
+      className="text-left py-3 px-3 font-medium text-xs whitespace-nowrap"
+      style={{
+        color: isActive ? "#D4A017" : "#A5A5A5",
+        cursor: column ? "pointer" : "default",
+        userSelect: column ? "none" : undefined,
+      }}
+      onClick={column ? () => onSort(column) : undefined}
+      title={column ? `${label} sırala` : undefined}
+    >
+      {label}
+      {indicator}
+    </th>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+export function InventoryTable({ items, selection, sortState, onSort }: Props) {
+  const handleSort = onSort ?? (() => {})
+
   if (items.length === 0) {
     return (
       <div className="text-center py-16" style={{ color: "#A5A5A5" }}>
@@ -117,24 +172,14 @@ export function InventoryTable({ items, selection }: Props) {
             </th>
             {/* Thumbnail placeholder */}
             <th className="py-3 px-3 w-16" />
-            {[
-              "Ürün",
-              "SKU",
-              "Marka / Kategori",
-              "Fiziksel",
-              "Rezerve",
-              "Kullanılabilir",
-              "Durum",
-              "Son Hareket",
-              "",
-            ].map((h) => (
-              <th
-                key={h}
-                className="text-left py-3 px-3 font-medium text-xs whitespace-nowrap"
-                style={{ color: "#A5A5A5" }}
-              >
-                {h}
-              </th>
+            {COLUMN_HEADERS.map((h) => (
+              <SortableHeader
+                key={h.label}
+                label={h.label}
+                column={h.column}
+                sortState={sortState ?? null}
+                onSort={handleSort}
+              />
             ))}
           </tr>
         </thead>

@@ -1,12 +1,32 @@
 "use client"
 
-import { useState, useCallback } from "react"
-import type { StockItem } from "@/lib/admin/inventory"
-import { InventoryTable } from "./InventoryTable"
+import { useState, useCallback, useMemo } from "react"
+import type { StockItem, StockStatus } from "@/lib/admin/inventory"
+import { InventoryTable, type SortColumn, type SortState } from "./InventoryTable"
 import InventoryActionBar from "./InventoryActionBar"
 import BulkStockModal from "@/components/admin/products/BulkStockModal"
 
 type Operation = "add" | "remove" | "set"
+
+const STATUS_ORDER: Record<StockStatus, number> = {
+  in_stock: 0, low_stock: 1, critical_reservation: 2, out_of_stock: 3,
+}
+
+function sortItems(items: StockItem[], sort: SortState): StockItem[] {
+  if (!sort) return items
+  return [...items].sort((a, b) => {
+    let cmp = 0
+    switch (sort.column) {
+      case "name":            cmp = a.name.localeCompare(b.name, "tr"); break
+      case "sku":             cmp = a.sku.localeCompare(b.sku, "tr"); break
+      case "brand":           cmp = (a.brands?.name ?? "").localeCompare(b.brands?.name ?? "", "tr"); break
+      case "stock_quantity":  cmp = a.stock_quantity - b.stock_quantity; break
+      case "available_stock": cmp = a.available_stock - b.available_stock; break
+      case "status":          cmp = STATUS_ORDER[a.status] - STATUS_ORDER[b.status]; break
+    }
+    return sort.direction === "asc" ? cmp : -cmp
+  })
+}
 
 interface Props {
   items: StockItem[]
@@ -16,6 +36,22 @@ export default function InventoryBulkShell({ items }: Props) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [stockOpen, setStockOpen] = useState(false)
   const [initialOp, setInitialOp] = useState<Operation | undefined>(undefined)
+  const [sortState, setSortState] = useState<SortState>(null)
+
+  // ── Sort ───────────────────────────────────────────────────────────────────
+
+  const handleSort = useCallback((column: SortColumn) => {
+    setSortState((prev) => {
+      if (prev?.column === column) {
+        return prev.direction === "asc"
+          ? { column, direction: "desc" }
+          : null
+      }
+      return { column, direction: "asc" }
+    })
+  }, [])
+
+  const sortedItems = useMemo(() => sortItems(items, sortState), [items, sortState])
 
   // ── Selection ──────────────────────────────────────────────────────────────
 
@@ -81,7 +117,7 @@ export default function InventoryBulkShell({ items }: Props) {
   return (
     <>
       <InventoryTable
-        items={items}
+        items={sortedItems}
         selection={{
           selectedIds,
           onToggle: toggle,
@@ -89,6 +125,8 @@ export default function InventoryBulkShell({ items }: Props) {
           allSelected,
           someSelected,
         }}
+        sortState={sortState}
+        onSort={handleSort}
       />
 
       {count > 0 && <div className="h-16" />}
