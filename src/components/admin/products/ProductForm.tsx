@@ -796,6 +796,11 @@ export default function ProductForm({
               >
                 <p style={{ fontSize: "12px", color: "#3c4043", marginBottom: "2px" }}>
                   ilgikombiyedekparca.com
+                  {slugRef.current?.value
+                    ? ` › urunler › ${slugRef.current.value}`
+                    : initialData?.slug
+                    ? ` › urunler › ${initialData.slug}`
+                    : " › urunler › ..."}
                 </p>
                 <p
                   style={{

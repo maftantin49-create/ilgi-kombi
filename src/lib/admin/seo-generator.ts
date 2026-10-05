@@ -31,10 +31,11 @@ export function toSlug(text: string): string {
 export function generateSeo({ name, brandName, categoryName }: SeoInput): SeoOutput {
   const raw = name.trim()
 
-  // Title: "{name} | İlgi Kombi Yedek Parça" — truncate to 60 chars
+  // Title: include suffix when total ≤65 chars, fall back to name-only when ≤60, else truncate.
+  // 65-char soft ceiling keeps the suffix for most real product names (~35–40 chars).
   const full = raw + SITE_SUFFIX
   let seoTitle: string
-  if (full.length <= 60) {
+  if (full.length <= 65) {
     seoTitle = full
   } else if (raw.length <= 60) {
     seoTitle = raw
@@ -42,14 +43,18 @@ export function generateSeo({ name, brandName, categoryName }: SeoInput): SeoOut
     seoTitle = raw.slice(0, 57).trimEnd() + "..."
   }
 
-  // Description: compose from name + category + brand + closing phrase
-  const parts: string[] = [raw]
-  if (categoryName) parts.push(`${categoryName} sistemi için uygun`)
-  if (brandName) parts.push(`${brandName} uyumlu`)
-  parts.push("yedek parça")
-  const closing = ". Orijinal kalite, uygun fiyat ve hızlı teslimat için İlgi Kombi'yi ziyaret edin."
-  const base = parts.join(" ") + closing
-  const seoDescription = base.length > 160 ? base.slice(0, 157).trimEnd() + "..." : base
+  // Description: factual only — no unverifiable quality/price claims.
+  let desc: string
+  if (brandName && categoryName) {
+    desc = `${raw} – ${brandName} uyumlu, ${categoryName} için yedek parça. Güncel fiyat ve hızlı teslimat için İlgi Kombi'yi ziyaret edin.`
+  } else if (brandName) {
+    desc = `${raw} – ${brandName} uyumlu yedek parçayı inceleyin. Kombi tamir ve bakımı için İlgi Kombi Yedek Parça'yı ziyaret edin.`
+  } else if (categoryName) {
+    desc = `${raw} – ${categoryName} kategorisinde uygun yedek parça. Kombi tamir ve bakımı için İlgi Kombi Yedek Parça'yı ziyaret edin.`
+  } else {
+    desc = `${raw} hakkında detaylı bilgi ve güncel fiyat için İlgi Kombi Yedek Parça'yı ziyaret edin.`
+  }
+  const seoDescription = desc.length > 160 ? desc.slice(0, 157).trimEnd() + "..." : desc
 
   return { seoTitle, seoDescription, slug: toSlug(raw) }
 }
