@@ -1,15 +1,14 @@
 import type { MetadataRoute } from "next"
 import { getStorefrontProducts } from "@/lib/storefront/products"
 import { getStorefrontCategories } from "@/lib/storefront/categories"
-import { getStorefrontBrands } from "@/lib/storefront/brands"
+import { siteConfig } from "@/config/site"
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
+const BASE = siteConfig.url
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [productResult, categories, brands] = await Promise.all([
+  const [productResult, categories] = await Promise.all([
     getStorefrontProducts({ sort: "newest", pageSize: 200 }),
     getStorefrontCategories(),
-    getStorefrontBrands(),
   ])
 
   const now = new Date()
@@ -43,14 +42,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
-  const brandPages: MetadataRoute.Sitemap = brands
-    .filter((b) => b.productCount > 0)
-    .map((b) => ({
-      url: `${BASE}/urunler?marka=${encodeURIComponent(b.name)}`,
-      lastModified: now,
-      changeFrequency: "weekly" as const,
-      priority: 0.6,
-    }))
+  // Brand pages (/markalar/[slug]) not yet implemented; query-string URLs
+  // (?marka=X) are not canonical and have been removed from sitemap.
 
-  return [...staticPages, ...productPages, ...categoryPages, ...brandPages]
+  return [...staticPages, ...productPages, ...categoryPages]
 }

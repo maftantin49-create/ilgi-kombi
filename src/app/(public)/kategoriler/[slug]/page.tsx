@@ -55,8 +55,22 @@ export default async function KategoriPage({ params }: { params: Promise<{ slug:
     pageSize: 24,
   })
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Ana Sayfa",   item: siteConfig.url },
+      { "@type": "ListItem", position: 2, name: "Kategoriler", item: `${siteConfig.url}/kategoriler` },
+      { "@type": "ListItem", position: 3, name: category.name, item: `${siteConfig.url}/kategoriler/${slug}` },
+    ],
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 bg-white min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className="flex items-center gap-2 text-sm mb-6 text-gray-500">
         <Link href="/" className="transition-colors hover:text-blue-700">Ana Sayfa</Link>
         <span className="text-gray-300">/</span>

@@ -4,6 +4,7 @@ import WhatsAppFloat from "@/components/layout/WhatsAppFloat"
 import { getStorefrontCategories } from "@/lib/storefront/categories"
 import { getStorefrontBrands } from "@/lib/storefront/brands"
 import { getStoreSettings } from "@/lib/storefront/settings"
+import { legal } from "@/config/legal"
 
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
   const [categories, brands, settings] = await Promise.all([
@@ -27,7 +28,7 @@ export default async function PublicLayout({ children }: { children: React.React
         phone={settings.phone}
         whatsapp={settings.whatsapp}
         email={settings.email}
-        address={settings.address}
+        address={legal.fullAddress || settings.address}
         workingHours={settings.workingHours}
         social={settings.social}
       />

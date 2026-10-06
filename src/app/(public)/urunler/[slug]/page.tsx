@@ -118,31 +118,105 @@ const sectionHeader: CSSProperties = {
   borderBottom: "1px solid #E2E6EA",
 }
 
-// ── JSON-LD builder ───────────────────────────────────────────────────────────
+// ── JSON-LD builders ─────────────────────────────────────────────────────────
 
 function buildJsonLd(
   product: StorefrontProductDetail,
-  primaryImage: string
+  primaryImage: string,
+  productUrl: string,
+  shippingCost: number,
+  freeShippingThreshold: number,
+  siteName: string,
+  siteUrl: string
 ): object | null {
   if (product.price <= 0) return null
+
+  const desc =
+    product.seo_description ||
+    (product.description ? product.description.slice(0, 500).trim() : undefined)
+
+  // Standard shipping tier (always present)
+  const standardShipping = {
+    "@type": "OfferShippingDetails",
+    shippingRate: { "@type": "MonetaryAmount", value: shippingCost, currency: "TRY" },
+    shippingDestination: { "@type": "DefinedRegion", addressCountry: "TR" },
+  }
+
+  // Free shipping tier (only when a threshold is configured)
+  const freeShipping = freeShippingThreshold > 0
+    ? {
+        "@type": "OfferShippingDetails",
+        shippingRate: { "@type": "MonetaryAmount", value: 0, currency: "TRY" },
+        shippingDestination: { "@type": "DefinedRegion", addressCountry: "TR" },
+        eligibleTransactionVolume: {
+          "@type": "PriceSpecification",
+          minPrice: freeShippingThreshold,
+          priceCurrency: "TRY",
+        },
+      }
+    : null
+
+  const shippingDetails = freeShipping
+    ? [standardShipping, freeShipping]
+    : standardShipping
+
   return {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
     sku: product.sku,
+    url: productUrl,
+    ...(desc ? { description: desc } : {}),
     ...(primaryImage !== PRODUCT_IMAGE_PLACEHOLDER ? { image: [primaryImage] } : {}),
     ...(product.brand
       ? { brand: { "@type": "Brand", name: product.brand.name } }
       : {}),
     offers: {
       "@type": "Offer",
+      url: productUrl,
       priceCurrency: "TRY",
       price: product.price,
       availability:
         canAddToCart(product)
           ? "https://schema.org/InStock"
           : "https://schema.org/OutOfStock",
+      seller: {
+        "@type": "Organization",
+        "@id": `${siteUrl}/#organization`,
+        name: siteName,
+      },
+      shippingDetails,
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "TR",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 14,
+        returnMethod: "https://schema.org/ReturnByMail",
+        returnFees: "https://schema.org/OriginalShippingFees",
+      },
     },
+  }
+}
+
+function buildBreadcrumbJsonLd(
+  product: StorefrontProductDetail,
+  productUrl: string,
+  siteUrl: string
+): object {
+  const items: object[] = [
+    { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: siteUrl },
+    { "@type": "ListItem", position: 2, name: "Ürünler",   item: `${siteUrl}/urunler` },
+  ]
+  if (product.category) {
+    items.push({ "@type": "ListItem", position: 3, name: product.category.name, item: `${siteUrl}/kategoriler/${product.category.slug}` })
+    items.push({ "@type": "ListItem", position: 4, name: product.name, item: productUrl })
+  } else {
+    items.push({ "@type": "ListItem", position: 3, name: product.name, item: productUrl })
+  }
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items,
   }
 }
 
@@ -189,7 +263,8 @@ export default async function ProductDetailPage({
   // Unique brand names shown in right panel chips
   const compatBrandNames = Object.keys(devicesByBrand)
 
-  const jsonLd = buildJsonLd(product, galleryImages[0])
+  const jsonLd = buildJsonLd(product, galleryImages[0], productUrl, storeSettings.shippingCost, storeSettings.freeShippingThreshold, storeSettings.siteName, siteConfig.url)
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd(product, productUrl, siteConfig.url)
 
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8 bg-white min-h-screen">
@@ -199,6 +274,10 @@ export default async function ProductDetailPage({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
 
       {/* ── Breadcrumb ────────────────────────────────────────── */}
       <nav
@@ -216,7 +295,7 @@ export default async function ProductDetailPage({
           <>
             <span aria-hidden="true">/</span>
             <Link
-              href={`/urunler?kategori=${product.category.slug}`}
+              href={`/kategoriler/${product.category.slug}`}
               className="hover:text-blue-700 transition-colors"
             >
               {product.category.name}

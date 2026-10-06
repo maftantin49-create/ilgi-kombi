@@ -38,7 +38,7 @@ export default async function KategorilerPage() {
           {categories.map((cat) => (
             <Link
               key={cat.id}
-              href={`/urunler?kategori=${cat.slug}`}
+              href={`/kategoriler/${cat.slug}`}
               className="group rounded-2xl p-5 transition-all hover:-translate-y-0.5 border border-[#E2E6EA] hover:border-[#93C5FD] hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
               style={{ background: "#FFFFFF" }}
             >

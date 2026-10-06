@@ -26,7 +26,6 @@ const navLinks = {
   kurumsal: [
     { href: "/",            label: "Ana Sayfa" },
     { href: "/hakkimizda",  label: "Hakkımızda" },
-    { href: "/blog",        label: "Blog" },
     { href: "/iletisim",    label: "İletişim" },
   ],
   legal: [

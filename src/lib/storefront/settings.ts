@@ -50,8 +50,8 @@ const FALLBACK: StoreSettings = {
   address: "",
   workingHours: { weekdays: "", saturday: "", sunday: "" },
   shippingCutoff: "",
-  shippingCost: 49.9,
-  freeShippingThreshold: 500,
+  shippingCost: 200,
+  freeShippingThreshold: 5000,
   seo: { titleTemplate: "%s | İlgi Kombi Yedek Parça", defaultTitle: "İlgi Kombi Yedek Parça", description: "", keywords: [] },
   social: { instagram: "", facebook: "", youtube: "" },
   integrations: {
