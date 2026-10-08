@@ -115,7 +115,7 @@ export default function Header({ categories, brands, siteName, phone, whatsapp }
       style={{ borderBottom: "1px solid #E2E6EA" }}
     >
       {/* ── Satır 1: Logo | Search | Actions ─────────────────────────────── */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center gap-3 md:gap-4">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-2 md:py-3 flex items-center gap-2 md:gap-4">
 
         {/* Logo */}
         <Link
@@ -129,7 +129,7 @@ export default function Header({ categories, brands, siteName, phone, whatsapp }
             width={572}
             height={384}
             priority
-            style={{ height: "40px", width: "auto" }}
+            className="h-8 md:h-10 w-auto"
           />
         </Link>
 
@@ -184,7 +184,7 @@ export default function Header({ categories, brands, siteName, phone, whatsapp }
           {/* Favoriler */}
           <Link
             href="/favoriler"
-            className="relative flex items-center justify-center w-9 h-9 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+            className="relative flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors"
             aria-label={`Favoriler${totalFavorites > 0 ? `, ${totalFavorites} ürün` : ""}`}
           >
             <Heart size={21} aria-hidden="true" />
@@ -201,7 +201,7 @@ export default function Header({ categories, brands, siteName, phone, whatsapp }
           {/* Sepet */}
           <Link
             href="/sepet"
-            className="relative flex items-center justify-center w-9 h-9 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+            className="relative flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors"
             aria-label={`Sepet${totalItems > 0 ? `, ${totalItems} ürün` : ""}`}
           >
             <ShoppingCart size={21} aria-hidden="true" />
@@ -218,7 +218,7 @@ export default function Header({ categories, brands, siteName, phone, whatsapp }
           {/* Mobile hamburger */}
           <Sheet open={mobileOpen} onOpenChange={v => { setMobileOpen(v); if (!v) setMobileCatOpen(false) }}>
             <SheetTrigger
-              className="md:hidden flex items-center justify-center w-9 h-9 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+              className="md:hidden flex items-center justify-center w-8 h-8 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors"
               aria-label="Menüyü aç"
             >
               <Menu size={22} aria-hidden="true" />

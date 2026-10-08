@@ -6,7 +6,6 @@ import {
 } from "@/lib/storefront/products"
 import { getStorefrontBrands } from "@/lib/storefront/brands"
 import { getStorefrontCategories } from "@/lib/storefront/categories"
-import Link from "next/link"
 import HeroSlider from "@/components/home/HeroSlider"
 import CategoryRail from "@/components/home/CategoryRail"
 import PopularCategories from "@/components/home/PopularCategories"
@@ -14,6 +13,7 @@ import CategoryGrid from "@/components/home/CategoryGrid"
 import ProductSection from "@/components/home/ProductSection"
 import WhatsAppCTA from "@/components/home/WhatsAppCTA"
 import BottomInfoCards from "@/components/home/BottomInfoCards"
+import BrandChips from "@/components/home/BrandChips"
 import PointerTracker from "@/components/experience/PointerTracker"
 import AnimatedSection from "@/components/experience/AnimatedSection"
 import { getStoreSettings, validWhatsApp, validPhone } from "@/lib/storefront/settings"
@@ -129,17 +129,7 @@ export default async function HomePage() {
             >
               Uyumlu Markalar
             </h2>
-            <div className="flex flex-wrap gap-2">
-              {brandNames.map((brand) => (
-                <Link
-                  key={brand}
-                  href={`/urunler?marka=${encodeURIComponent(brand)}`}
-                  className="px-3 py-1.5 text-[12px] font-medium rounded-lg transition-all duration-150 hover:-translate-y-0.5 text-gray-600 hover:text-blue-700 hover:border-blue-300 bg-white border border-[#E2E6EA]"
-                >
-                  {brand}
-                </Link>
-              ))}
-            </div>
+            <BrandChips brands={brandNames} />
           </div>
         </section>
       )}

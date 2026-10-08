@@ -1,11 +1,13 @@
+"use client"
+
+import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, ChevronDown } from "lucide-react"
 import { CAT_ICONS } from "@/components/layout/CategoryMegaMenu"
 import type { StorefrontCategoryWithCount } from "@/lib/storefront/categories"
 
 const LOCAL_THUMBS: Record<string, string> = {
-  // DB slugs → local thumb images
   "kombi-sirkulasyon-pompalari":          "/categories/thumbs/pompalar-thumb.png",
   "kombi-plaka-esanjorleri":              "/categories/thumbs/esanjorler-thumb.png",
   "yogusmali-kombi-esanjorleri":          "/categories/thumbs/esanjorler-thumb.png",
@@ -28,12 +30,18 @@ const LOCAL_THUMBS: Record<string, string> = {
   "3-yollu-gruplar":                      "/categories/thumbs/uc-yollu-vanalar-thumb.png",
 }
 
+const MOBILE_INITIAL = 8
+
 interface Props {
   categories: StorefrontCategoryWithCount[]
 }
 
 export default function CategoryGrid({ categories }: Props) {
+  const [expanded, setExpanded] = useState(false)
+
   if (categories.length === 0) return null
+
+  const hasMore = categories.length > MOBILE_INITIAL
 
   return (
     <section
@@ -41,11 +49,11 @@ export default function CategoryGrid({ categories }: Props) {
       aria-label="Tüm parça grupları"
       style={{ borderBottom: "1px solid #E2E6EA" }}
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-5 md:py-8 lg:py-10">
 
         {/* Başlık */}
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="text-[17px] font-black text-gray-900">
+        <div className="flex items-center justify-between mb-3 md:mb-5">
+          <h2 className="text-[15px] md:text-[17px] font-black text-gray-900">
             Tüm Parça Grupları
           </h2>
           <Link
@@ -57,21 +65,22 @@ export default function CategoryGrid({ categories }: Props) {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
-          {categories.map((cat) => {
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+          {categories.map((cat, index) => {
             const imgSrc = cat.image_url ?? LOCAL_THUMBS[cat.slug] ?? null
             const FallbackIcon = CAT_ICONS[cat.slug]
+            const hiddenOnMobile = index >= MOBILE_INITIAL && !expanded
 
             return (
               <Link
                 key={cat.id}
                 href={`/urunler?kategori=${cat.slug}`}
-                className="flex items-center gap-3 p-3 bg-white rounded-xl group transition-all duration-150 hover:shadow-sm"
+                className={`flex items-center gap-2.5 p-2.5 bg-white rounded-xl group transition-all duration-150 hover:shadow-sm ${hiddenOnMobile ? "hidden md:flex" : "flex"}`}
                 style={{ border: "1px solid #E2E6EA" }}
               >
                 {/* Küçük kare görsel */}
                 <div
-                  className="w-9 h-9 rounded-lg overflow-hidden relative shrink-0 flex items-center justify-center"
+                  className="w-8 h-8 rounded-lg overflow-hidden relative shrink-0 flex items-center justify-center"
                   style={{ background: "#F4F4F4", border: "1px solid #EBEBEB" }}
                 >
                   {imgSrc ? (
@@ -80,12 +89,12 @@ export default function CategoryGrid({ categories }: Props) {
                       alt={cat.name}
                       fill
                       className="object-cover"
-                      sizes="36px"
+                      sizes="32px"
                     />
                   ) : FallbackIcon ? (
-                    <FallbackIcon size={16} className="text-gray-500" aria-hidden="true" />
+                    <FallbackIcon size={14} className="text-gray-500" aria-hidden="true" />
                   ) : (
-                    <span className="text-gray-500 text-sm font-bold">
+                    <span className="text-gray-500 text-xs font-bold">
                       {cat.name.charAt(0)}
                     </span>
                   )}
@@ -93,16 +102,16 @@ export default function CategoryGrid({ categories }: Props) {
 
                 {/* Metin */}
                 <div className="flex-1 min-w-0">
-                  <div className="text-[12.5px] font-semibold text-gray-800 group-hover:text-gray-900 transition-colors line-clamp-1 leading-tight">
+                  <div className="text-[12px] font-semibold text-gray-800 group-hover:text-gray-900 transition-colors line-clamp-1 leading-tight">
                     {cat.name}
                   </div>
-                  <div className="text-[11px] text-gray-400 mt-0.5">
+                  <div className="text-[10.5px] text-gray-400 mt-0.5">
                     {cat.productCount} ürün
                   </div>
                 </div>
 
                 <ChevronRight
-                  size={12}
+                  size={11}
                   className="text-gray-300 group-hover:text-gray-500 transition-colors shrink-0"
                   aria-hidden="true"
                 />
@@ -110,6 +119,18 @@ export default function CategoryGrid({ categories }: Props) {
             )
           })}
         </div>
+
+        {/* Mobil expand butonu */}
+        {hasMore && !expanded && (
+          <button
+            onClick={() => setExpanded(true)}
+            className="md:hidden mt-3 w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-[13px] font-semibold text-blue-700 transition-colors hover:bg-blue-50"
+            style={{ border: "1px solid rgba(37,99,235,0.20)" }}
+          >
+            <ChevronDown size={14} aria-hidden="true" />
+            {categories.length - MOBILE_INITIAL} kategori daha gör
+          </button>
+        )}
 
       </div>
     </section>

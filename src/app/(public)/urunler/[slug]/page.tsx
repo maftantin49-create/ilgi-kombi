@@ -18,6 +18,7 @@ import {
   type StorefrontProductDetail,
 } from "@/lib/storefront/types"
 import StorefrontProductCard from "@/components/product/StorefrontProductCard"
+import ExpandableDescription from "@/components/product/ExpandableDescription"
 import ProductGallery from "@/components/product/ProductGallery"
 import ProductActions from "@/components/product/ProductActions"
 import { siteConfig } from "@/config/site"
@@ -267,7 +268,7 @@ export default async function ProductDetailPage({
   const breadcrumbJsonLd = buildBreadcrumbJsonLd(product, productUrl, siteConfig.url)
 
   return (
-    <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8 bg-white min-h-screen">
+    <div className="max-w-7xl mx-auto px-4 lg:px-8 py-6 md:py-8 bg-white min-h-screen">
       {jsonLd && (
         <script
           type="application/ld+json"
@@ -442,11 +443,7 @@ export default async function ProductDetailPage({
             <h2 className="font-bold text-[17px] text-gray-900">Ürün Açıklaması</h2>
           </div>
           <div className="p-6">
-            <p
-              className="text-[14px] leading-relaxed whitespace-pre-wrap text-gray-600"
-            >
-              {product.description}
-            </p>
+            <ExpandableDescription text={product.description} maxLines={4} />
           </div>
         </div>
       )}

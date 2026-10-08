@@ -33,7 +33,7 @@ export default function HeroSlider({ waLink }: Props) {
         aria-hidden="true"
       />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-14 md:py-20 lg:py-24">
+      <div className="relative max-w-7xl mx-auto px-4 lg:px-8 py-8 md:py-16 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10 lg:gap-16 items-center">
 
           {/* ─── Left: text content ─── */}
@@ -45,19 +45,19 @@ export default function HeroSlider({ waLink }: Props) {
               </span>
             </div>
 
-            <h1 className="text-[42px] md:text-[52px] font-black text-gray-900 mb-4 leading-[1.05]">
+            <h1 className="text-[32px] md:text-[42px] lg:text-[52px] font-black text-gray-900 mb-4 leading-[1.05]">
               Doğru Parça,<br />
               <span className="text-blue-800">Hızlı Çözüm</span>
             </h1>
 
-            <p className="text-[15px] md:text-[17px] leading-relaxed mb-9 max-w-lg text-gray-600">
+            <p className="text-[14px] md:text-[17px] leading-relaxed mb-6 md:mb-9 max-w-lg text-gray-600">
               Türkiye&apos;nin kombi yedek parça uzmanı. Orijinal parça, hızlı gönderim.
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 href="/urunler"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-bold text-[14px] text-white transition-all duration-150 hover:-translate-y-0.5 bg-[#1E3A8A] hover:bg-[#1E40AF]"
+                className="inline-flex items-center gap-2 px-5 py-3 md:px-7 md:py-3.5 rounded-xl font-bold text-[14px] text-white transition-all duration-150 hover:-translate-y-0.5 bg-[#1E3A8A] hover:bg-[#1E40AF]"
                 style={{ boxShadow: "0 4px 14px rgba(30,58,138,0.20)" }}
               >
                 Ürünleri İncele
@@ -68,7 +68,7 @@ export default function HeroSlider({ waLink }: Props) {
                   href={waLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl font-semibold text-[14px] transition-all duration-150 hover:-translate-y-0.5 text-green-700 hover:bg-green-50"
+                  className="inline-flex items-center gap-2.5 px-5 py-3 md:px-7 md:py-3.5 rounded-xl font-semibold text-[14px] transition-all duration-150 hover:-translate-y-0.5 text-green-700 hover:bg-green-50"
                   style={{ border: "1px solid rgba(22,163,74,0.35)" }}
                 >
                   <WaIcon />

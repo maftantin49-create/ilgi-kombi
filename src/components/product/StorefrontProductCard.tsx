@@ -84,7 +84,7 @@ export default function StorefrontProductCardComponent({ product }: Props) {
           src={imageUrl}
           alt={product.name}
           fill
-          className={`object-contain p-2 transition-all duration-350 ${
+          className={`object-contain p-1 md:p-2 transition-all duration-350 ${
             hoverImageUrl
               ? imgHovered
                 ? "opacity-0 scale-105"
@@ -100,7 +100,7 @@ export default function StorefrontProductCardComponent({ product }: Props) {
             src={hoverImageUrl}
             alt={`${product.name} ikinci görünüm`}
             fill
-            className={`object-contain p-2 transition-all duration-350 ${
+            className={`object-contain p-1 md:p-2 transition-all duration-350 ${
               imgHovered ? "opacity-100 scale-100" : "opacity-0 scale-95"
             }`}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -148,7 +148,7 @@ export default function StorefrontProductCardComponent({ product }: Props) {
       </Link>
 
       {/* Content */}
-      <div className="flex flex-col flex-1 p-4">
+      <div className="flex flex-col flex-1 p-3 md:p-4">
         {product.brand && (
           <p className="text-[10px] font-medium tracking-wide uppercase mb-1 text-gray-400">
             {product.brand.name}
@@ -179,7 +179,7 @@ export default function StorefrontProductCardComponent({ product }: Props) {
               </div>
             ) : (
               <>
-                <div className="font-bold text-[18px] leading-none" style={{ color: "#1E3A8A" }}>
+                <div className="font-bold text-[16px] md:text-[18px] leading-none" style={{ color: "#1E3A8A" }}>
                   {product.price.toLocaleString("tr-TR")} ₺
                 </div>
                 {product.compare_at_price && product.compare_at_price > product.price && (
@@ -206,7 +206,7 @@ export default function StorefrontProductCardComponent({ product }: Props) {
         {/* CTA */}
         {availability === "out_of_stock" ? (
           <div
-            className="w-full h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5"
+            className="w-full h-[30px] md:h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5"
             style={{
               background: "#F8F9FA",
               border: "1px solid #E2E6EA",
@@ -223,14 +223,14 @@ export default function StorefrontProductCardComponent({ product }: Props) {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5 transition-all duration-150 hover:bg-green-500 hover:text-white hover:border-green-500 text-green-700"
+              className="w-full h-[30px] md:h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5 transition-all duration-150 hover:bg-green-500 hover:text-white hover:border-green-500 text-green-700"
               style={{ background: "transparent", border: "1px solid rgba(34,197,94,0.40)" }}
             >
               WhatsApp&apos;tan Fiyat Al
             </a>
           ) : (
             <div
-              className="w-full h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5"
+              className="w-full h-[30px] md:h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5"
               style={{ background: "#F8F9FA", border: "1px solid #E2E6EA", color: "#9CA3AF" }}
             >
               Fiyat Sorunuz
@@ -240,7 +240,7 @@ export default function StorefrontProductCardComponent({ product }: Props) {
           <motion.button
             onClick={handleAdd}
             whileTap={{ scale: 0.96 }}
-            className={`w-full h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5 transition-all duration-150 ${
+            className={`w-full h-[30px] md:h-[34px] text-[11px] font-bold tracking-[0.07em] uppercase rounded-[10px] flex items-center justify-center gap-1.5 transition-all duration-150 ${
               added
                 ? "text-green-700"
                 : "hover:bg-blue-800 hover:text-white hover:border-blue-800 text-blue-800"

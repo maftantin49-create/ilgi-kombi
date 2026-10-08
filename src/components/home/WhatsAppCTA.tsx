@@ -33,7 +33,7 @@ export default function WhatsAppCTA({ waLink, phone, phoneDisplay }: Props) {
         borderBottom: "1px solid rgba(255,255,255,0.06)",
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 lg:py-16 flex flex-col lg:flex-row items-center justify-between gap-8">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 md:py-12 lg:py-16 flex flex-col lg:flex-row items-center justify-between gap-6 md:gap-8">
 
         {/* Left */}
         <motion.div
@@ -43,9 +43,9 @@ export default function WhatsAppCTA({ waLink, phone, phoneDisplay }: Props) {
           transition={{ duration: 0.48, ease: "easeOut" }}
           className="text-center lg:text-left"
         >
-          <div className="flex justify-center lg:justify-start mb-5">
+          <div className="flex justify-center lg:justify-start mb-3 md:mb-5">
             <div
-              className="w-14 h-14 rounded-full flex items-center justify-center"
+              className="w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center"
               style={{
                 background: "rgba(34,197,94,0.08)",
                 border: "1px solid rgba(34,197,94,0.22)",
@@ -58,7 +58,7 @@ export default function WhatsAppCTA({ waLink, phone, phoneDisplay }: Props) {
 
           <h2
             className="font-black mb-3 text-white"
-            style={{ fontSize: "clamp(22px, 2.4vw, 30px)" }}
+            style={{ fontSize: "clamp(20px, 2.4vw, 30px)" }}
           >
             Parçanızı bulamadınız mı?
           </h2>

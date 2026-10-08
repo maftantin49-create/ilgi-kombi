@@ -30,7 +30,7 @@ export default function ProductSection({
   if (products.length === 0) return null
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-10 lg:py-12" aria-label={title}>
+    <section className="max-w-7xl mx-auto px-4 py-6 md:py-10 lg:py-12" aria-label={title}>
 
       {/* ── Başlık + Tümünü Gör ─────────────────────────────────────────── */}
       <div className="flex items-end justify-between mb-6 lg:mb-8">
@@ -78,7 +78,7 @@ export default function ProductSection({
         style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" } as React.CSSProperties}
       >
         {products.map((p) => (
-          <div key={p.id} className="w-[160px] shrink-0">
+          <div key={p.id} className="w-[145px] shrink-0">
             <StorefrontProductCardComponent product={p} />
           </div>
         ))}

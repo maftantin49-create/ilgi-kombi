@@ -43,10 +43,10 @@ export default function PopularCategories({ categories }: Props) {
       aria-label="Popüler kategoriler"
       style={{ borderBottom: "1px solid #E2E6EA" }}
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-8 pb-6">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-5 pb-4 md:pt-8 md:pb-6">
 
         {/* Başlık */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-4 md:mb-6">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="w-[4px] h-[4px] rounded-full bg-gray-900" aria-hidden="true" />
@@ -66,10 +66,10 @@ export default function PopularCategories({ categories }: Props) {
           </Link>
         </div>
 
-        {/* Tile Satırı — mobilde native scroll, desktop wrap */}
+        {/* Tile Satırı — mobilde snap scroll, desktop wrap */}
         <div
-          className="flex gap-5 md:gap-6 overflow-x-auto pb-2"
-          style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" } as React.CSSProperties}
+          className="flex gap-3 md:gap-6 overflow-x-auto pb-2"
+          style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch", scrollSnapType: "x mandatory" } as React.CSSProperties}
         >
           {display.map((cat) => {
             const imgSrc = cat.image_url ?? LOCAL_THUMBS[cat.slug] ?? null
@@ -79,12 +79,12 @@ export default function PopularCategories({ categories }: Props) {
               <Link
                 key={cat.id}
                 href={`/urunler?kategori=${cat.slug}`}
-                className="flex flex-col items-center gap-3 shrink-0 group"
-                style={{ width: "88px" }}
+                className="flex flex-col items-center gap-2 md:gap-3 shrink-0 group"
+                style={{ width: "72px", scrollSnapAlign: "start" } as React.CSSProperties}
               >
                 {/* Yuvarlak görsel alan */}
                 <div
-                  className="w-[72px] h-[72px] md:w-[80px] md:h-[80px] rounded-full overflow-hidden relative transition-all duration-200 group-hover:shadow-md"
+                  className="w-[58px] h-[58px] md:w-[72px] md:h-[72px] rounded-full overflow-hidden relative transition-all duration-200 group-hover:shadow-md"
                   style={{
                     background: "#F4F4F4",
                     border: "2px solid #E8E8E8",
@@ -113,7 +113,7 @@ export default function PopularCategories({ categories }: Props) {
                 </div>
 
                 {/* Kategori adı */}
-                <span className="text-[11.5px] font-medium text-gray-700 text-center leading-tight group-hover:text-gray-900 transition-colors line-clamp-2 w-full">
+                <span className="text-[11px] md:text-[11.5px] font-medium text-gray-700 text-center leading-tight group-hover:text-gray-900 transition-colors line-clamp-2 w-full">
                   {cat.name}
                 </span>
               </Link>
@@ -123,11 +123,11 @@ export default function PopularCategories({ categories }: Props) {
           {/* Tümünü Gör tile */}
           <Link
             href="/kategoriler"
-            className="flex flex-col items-center gap-3 shrink-0 group"
-            style={{ width: "88px" }}
+            className="flex flex-col items-center gap-2 md:gap-3 shrink-0 group"
+            style={{ width: "72px", scrollSnapAlign: "start" } as React.CSSProperties}
           >
             <div
-              className="w-[72px] h-[72px] md:w-[80px] md:h-[80px] rounded-full flex items-center justify-center transition-all duration-200 group-hover:shadow-md"
+              className="w-[58px] h-[58px] md:w-[72px] md:h-[72px] rounded-full flex items-center justify-center transition-all duration-200 group-hover:shadow-md"
               style={{
                 background: "#F4F4F4",
                 border: "2px dashed #D1D5DB",
@@ -135,7 +135,7 @@ export default function PopularCategories({ categories }: Props) {
             >
               <ChevronRight size={22} className="text-gray-400 group-hover:text-gray-700 transition-colors" aria-hidden="true" />
             </div>
-            <span className="text-[11.5px] font-medium text-gray-500 text-center leading-tight group-hover:text-gray-700 transition-colors">
+            <span className="text-[11px] md:text-[11.5px] font-medium text-gray-500 text-center leading-tight group-hover:text-gray-700 transition-colors">
               Tümünü Gör
             </span>
           </Link>
