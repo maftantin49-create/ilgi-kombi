@@ -5,7 +5,8 @@ import Link from "next/link"
 import { getStorefrontCategories, getCategoryDescendantIds } from "@/lib/storefront/categories"
 import { getStorefrontProducts } from "@/lib/storefront/products"
 import StorefrontProductCardComponent from "@/components/product/StorefrontProductCard"
-import { wa } from "@/lib/whatsapp"
+import { buildWa } from "@/lib/whatsapp"
+import { getStoreSettings, validWhatsApp } from "@/lib/storefront/settings"
 import { siteConfig } from "@/config/site"
 
 const getCachedCategories = cache(getStorefrontCategories)
@@ -49,11 +50,11 @@ export default async function KategoriPage({ params }: { params: Promise<{ slug:
   const descendantIds = getCategoryDescendantIds(slug, allCategories)
   const subcategories = allCategories.filter((c) => c.parent_id === category.id)
 
-  const { items: products } = await getStorefrontProducts({
-    categoryIds: descendantIds,
-    sort: "featured",
-    pageSize: 24,
-  })
+  const [{ items: products }, settings] = await Promise.all([
+    getStorefrontProducts({ categoryIds: descendantIds, sort: "featured", pageSize: 24 }),
+    getStoreSettings(),
+  ])
+  const wa = buildWa(validWhatsApp(settings.whatsapp))
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",

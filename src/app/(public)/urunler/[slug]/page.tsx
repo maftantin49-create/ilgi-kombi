@@ -243,7 +243,7 @@ export default async function ProductDetailPage({
   const availability = getProductAvailability(product)
   const galleryImages = buildGalleryImages(product)
   const productUrl = `${siteConfig.url}/urunler/${product.slug}`
-  const waCompat = buildWa(validWhatsApp(storeSettings.whatsapp)).productCompat(product.name)
+  const waCompat = buildWa(validWhatsApp(storeSettings.whatsapp)).productCompat(product.name, productUrl)
 
   const discount =
     product.compare_at_price && product.compare_at_price > product.price

@@ -30,6 +30,7 @@ export type SocialSettings = {
   youtube: string
   twitter: string
   linkedin: string
+  tiktok: string
 }
 
 export type MailSettings = {
@@ -101,7 +102,7 @@ const DEFAULT_SEO: SeoSettings = {
 }
 
 const DEFAULT_SOCIAL: SocialSettings = {
-  instagram: "", facebook: "", youtube: "", twitter: "", linkedin: "",
+  instagram: "", facebook: "", youtube: "", twitter: "", linkedin: "", tiktok: "",
 }
 
 const DEFAULT_MAIL: MailSettings = {

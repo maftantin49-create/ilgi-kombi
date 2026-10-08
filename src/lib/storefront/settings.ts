@@ -31,6 +31,7 @@ export type StoreSettings = {
     instagram: string
     facebook: string
     youtube: string
+    tiktok: string
   }
   integrations: Pick<
     IntegrationsSettings,
@@ -53,7 +54,7 @@ const FALLBACK: StoreSettings = {
   shippingCost: 200,
   freeShippingThreshold: 5000,
   seo: { titleTemplate: "%s | İlgi Kombi Yedek Parça", defaultTitle: "İlgi Kombi Yedek Parça", description: "", keywords: [] },
-  social: { instagram: "", facebook: "", youtube: "" },
+  social: { instagram: "", facebook: "", youtube: "", tiktok: "" },
   integrations: {
     whatsapp_order_enabled: false,
     bank_transfer_enabled: false,
@@ -102,6 +103,7 @@ export const getStoreSettings = cache(async (): Promise<StoreSettings> => {
         instagram: social.instagram ?? "",
         facebook:  social.facebook  ?? "",
         youtube:   social.youtube   ?? "",
+        tiktok:    social.tiktok    ?? "",
       },
       integrations: {
         whatsapp_order_enabled:  integ.whatsapp_order_enabled  ?? false,

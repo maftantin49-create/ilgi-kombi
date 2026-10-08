@@ -71,6 +71,7 @@ export const socialSettingsSchema = z.object({
   youtube:   optionalUrl,
   twitter:   optionalUrl,
   linkedin:  optionalUrl,
+  tiktok:    optionalUrl,
 })
 
 export const mailSettingsSchema = z.object({

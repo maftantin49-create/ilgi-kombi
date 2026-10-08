@@ -5,7 +5,9 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import ProductImage from "@/components/product/ProductImage"
 import { Truck, MessageCircle, ShoppingCart, CheckCircle } from "lucide-react"
-import { wa } from "@/lib/whatsapp"
+import { buildWa } from "@/lib/whatsapp"
+import { validWhatsApp } from "@/lib/storefront/guards"
+import { useWaNumber } from "@/lib/wa-context"
 import { siteConfig } from "@/config/site"
 import {
   type StorefrontProductCard,
@@ -32,8 +34,9 @@ export default function StorefrontProductCardComponent({ product }: Props) {
       ? Math.round((1 - product.price / product.compare_at_price) * 100)
       : null
 
+  const waNumber = useWaNumber()
   const productUrl = `${siteConfig.url}/urunler/${product.slug}`
-  const waLink = wa.product(product.name, product.sku, productUrl)
+  const waLink = buildWa(validWhatsApp(waNumber ?? "")).product(product.name, product.sku, productUrl)
   const imageUrl = getProductImageUrl(product.image_url)
   const hoverImageUrl = product.hover_image_url ?? null
 

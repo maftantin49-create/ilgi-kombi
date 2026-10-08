@@ -15,6 +15,7 @@ interface Props {
 
 const PLATFORMS = [
   { key: "instagram", label: "Instagram", placeholder: "https://instagram.com/kullanici" },
+  { key: "tiktok",    label: "TikTok",    placeholder: "https://tiktok.com/@kullanici" },
   { key: "facebook",  label: "Facebook",  placeholder: "https://facebook.com/sayfa" },
   { key: "youtube",   label: "YouTube",   placeholder: "https://youtube.com/kanal" },
   { key: "twitter",   label: "X (Twitter)", placeholder: "https://x.com/kullanici" },

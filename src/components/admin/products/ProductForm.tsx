@@ -147,6 +147,7 @@ export default function ProductForm({
   const [pvSku, setPvSku] = useState(initialData?.sku ?? "")
   const [pvBrandId, setPvBrandId] = useState(initialData?.brand_id ?? "")
   const [pvCategoryId, setPvCategoryId] = useState(initialData?.category_id ?? "")
+  const [pvSlug, setPvSlug] = useState(initialData?.slug ?? "")
   const [seoTitle, setSeoTitle] = useState(initialData?.seo_title ?? "")
   const [seoDescription, setSeoDescription] = useState(initialData?.seo_description ?? "")
   const [pvIsActive, setPvIsActive] = useState(initialData?.is_active ?? true)
@@ -335,7 +336,9 @@ export default function ProductForm({
                   type="button"
                   onClick={() => {
                     const name = nameRef.current?.value ?? ""
-                    if (slugRef.current) slugRef.current.value = generateSlug(name)
+                    const generated = generateSlug(name)
+                    if (slugRef.current) slugRef.current.value = generated
+                    setPvSlug(generated)
                   }}
                   className="text-xs px-2 py-0.5 rounded transition-opacity hover:opacity-80"
                   style={{ color: "#D4A017", border: "1px solid rgba(212,160,23,0.3)" }}
@@ -354,6 +357,7 @@ export default function ProductForm({
               placeholder="kombi-brinsa-su-pompasi"
               className={INPUT}
               style={INPUT_STYLE}
+              onChange={(e) => setPvSlug(e.target.value)}
             />
             <FieldError msgs={fe.slug} />
           </div>
@@ -796,11 +800,7 @@ export default function ProductForm({
               >
                 <p style={{ fontSize: "12px", color: "#3c4043", marginBottom: "2px" }}>
                   ilgikombiyedekparca.com
-                  {slugRef.current?.value
-                    ? ` › urunler › ${slugRef.current.value}`
-                    : initialData?.slug
-                    ? ` › urunler › ${initialData.slug}`
-                    : " › urunler › ..."}
+                  {pvSlug ? ` › urunler › ${pvSlug}` : " › urunler › ..."}
                 </p>
                 <p
                   style={{
@@ -814,7 +814,7 @@ export default function ProductForm({
                     WebkitBoxOrient: "vertical",
                   }}
                 >
-                  {seoTitle || pvName || (nameRef.current?.value ?? "")}
+                  {seoTitle || pvName}
                 </p>
                 {seoDescription && (
                   <p

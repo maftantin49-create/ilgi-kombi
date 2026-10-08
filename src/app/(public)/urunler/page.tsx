@@ -6,7 +6,8 @@ import StorefrontProductCard from "@/components/product/StorefrontProductCard"
 import UrunlerFilters from "@/components/product/UrunlerFilters"
 import UrunlerPagination from "@/components/product/UrunlerPagination"
 import Link from "next/link"
-import { wa } from "@/lib/whatsapp"
+import { buildWa } from "@/lib/whatsapp"
+import { getStoreSettings, validWhatsApp } from "@/lib/storefront/settings"
 
 interface Props {
   searchParams: Promise<{
@@ -55,10 +56,12 @@ export default async function UrunlerPage({ searchParams }: Props) {
 
   const page = Math.max(1, parseInt(sayfa ?? "1") || 1)
 
-  const [allCategories, allBrands] = await Promise.all([
+  const [allCategories, allBrands, settings] = await Promise.all([
     getStorefrontCategories(),
     getStorefrontBrands(),
+    getStoreSettings(),
   ])
+  const wa = buildWa(validWhatsApp(settings.whatsapp))
 
   const categoryIds = kategori
     ? getCategoryDescendantIds(kategori, allCategories)

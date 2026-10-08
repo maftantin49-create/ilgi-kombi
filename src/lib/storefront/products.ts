@@ -133,6 +133,7 @@ export async function getStorefrontProducts(
 
   // ── Pre-resolve queries — run in parallel ────────────────────────────────────
   // brandSearchResult: IDs of brands whose name matches the search term (R2).
+  // catSearchResult:   IDs of categories whose name matches the search term.
   // brandSlugResult:   ID of the brand whose slug matches the filter.
   // catSlugResult:     ID of the category whose slug matches the filter.
   type IdRow = { id: string }
@@ -142,10 +143,13 @@ export async function getStorefrontProducts(
   const fallbackRows: MaybeRows = { data: null, error: null }
   const fallbackRow: MaybeRow = { data: null, error: null }
 
-  const [brandSearchResult, brandSlugResult, catSlugResult]: [MaybeRows, MaybeRow, MaybeRow] =
+  const [brandSearchResult, catSearchResult, brandSlugResult, catSlugResult]: [MaybeRows, MaybeRows, MaybeRow, MaybeRow] =
     await Promise.all([
       hasSearch
         ? (db.from("brands").select("id").eq("is_active", true).ilike("name", `%${searchTerm}%`) as unknown as Promise<MaybeRows>)
+        : Promise.resolve(fallbackRows),
+      hasSearch
+        ? (db.from("categories").select("id").eq("is_active", true).ilike("name", `%${searchTerm}%`) as unknown as Promise<MaybeRows>)
         : Promise.resolve(fallbackRows),
       needsBrandSlugResolve
         ? (db.from("brands").select("id").eq("slug", filters.brandSlug!).eq("is_active", true).single() as unknown as Promise<MaybeRow>)
@@ -156,6 +160,7 @@ export async function getStorefrontProducts(
     ])
 
   const searchBrandIds = (brandSearchResult.data ?? []).map((b) => b.id)
+  const searchCatIds   = (catSearchResult.data  ?? []).map((c) => c.id)
   const resolvedBrandId = brandSlugResult.data?.id ?? null
   const resolvedCatId = catSlugResult.data?.id ?? null
 
@@ -186,14 +191,36 @@ export async function getStorefrontProducts(
   if (resolvedBrandId) query = query.eq("brand_id", resolvedBrandId)
   if (filters.inStock) query = query.or("stock_quantity.gt.0,track_stock.eq.false")
 
-  // Text search: name ILIKE + SKU ILIKE + brand_id IN matching brands (R2).
-  // searchBrandIds are UUIDs from the DB — safe to interpolate into the filter string.
+  // Text search: multi-token AND logic, each token OR'd across name/sku/description.
+  // Single token also includes brand_id and category_id pre-resolved matches (R2/R3).
+  // Multi-token fetches all brands/cats (small tables) once and resolves per token in memory
+  // so that e.g. "eca proteus premix kart" correctly matches ECA-branded products.
+  // searchBrandIds, searchCatIds, and brand/cat IDs from these tables are UUIDs — safe to interpolate.
   if (hasSearch) {
-    let orParts = `name.ilike.%${searchTerm}%,sku.ilike.%${searchTerm}%`
-    if (searchBrandIds.length > 0) {
-      orParts += `,brand_id.in.(${searchBrandIds.join(",")})`
+    const tokens = searchTerm!.split(/\s+/).filter(Boolean).slice(0, 5)
+    if (tokens.length === 1) {
+      let orParts = `name.ilike.%${tokens[0]}%,sku.ilike.%${tokens[0]}%,description.ilike.%${tokens[0]}%`
+      if (searchBrandIds.length > 0) orParts += `,brand_id.in.(${searchBrandIds.join(",")})`
+      if (searchCatIds.length > 0)   orParts += `,category_id.in.(${searchCatIds.join(",")})`
+      query = query.or(orParts)
+    } else {
+      const [allBrandsRes, allCatsRes] = await Promise.all([
+        db.from("brands").select("id,name").eq("is_active", true) as unknown as Promise<{ data: { id: string; name: string }[] | null }>,
+        db.from("categories").select("id,name").eq("is_active", true) as unknown as Promise<{ data: { id: string; name: string }[] | null }>,
+      ])
+      const allBrandRows = allBrandsRes.data ?? []
+      const allCatRows   = allCatsRes.data   ?? []
+
+      for (const tok of tokens) {
+        const tokLower = tok.toLowerCase()
+        const tokBrandIds = allBrandRows.filter(b => b.name.toLowerCase().includes(tokLower)).map(b => b.id)
+        const tokCatIds   = allCatRows.filter(c => c.name.toLowerCase().includes(tokLower)).map(c => c.id)
+        let orParts = `name.ilike.%${tok}%,sku.ilike.%${tok}%,description.ilike.%${tok}%`
+        if (tokBrandIds.length > 0) orParts += `,brand_id.in.(${tokBrandIds.join(",")})`
+        if (tokCatIds.length > 0)   orParts += `,category_id.in.(${tokCatIds.join(",")})`
+        query = query.or(orParts)
+      }
     }
-    query = query.or(orParts)
   }
 
   switch (filters.sort) {

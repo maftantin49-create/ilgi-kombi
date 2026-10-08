@@ -20,7 +20,7 @@ export function buildWa(waNumber: string | null) {
       parcaBul:     (_brand?: string, _model?: string, _symptom?: string) => null as string | null,
       product:      (_name: string, _sku?: string, _url?: string) => null as string | null,
       productOrder: (_name: string, _sku: string, _qty: number) => null as string | null,
-      productCompat:(_name: string) => null as string | null,
+      productCompat:(_name: string, _url?: string) => null as string | null,
       cartOrder:    (_items: Array<{ name: string; sku: string; quantity: number; unitPrice: number }>, _total: number) => null as string | null,
     }
   }
@@ -61,9 +61,11 @@ export function buildWa(waNumber: string | null) {
       link(waNumber,
         `Merhaba,\n\nWeb sitenizde bulunan\n\n"${name}" (${sku})\n\nisimli üründen ${qty} adet sipariş vermek istiyorum.\n\nMüsaitseniz yardımcı olabilir misiniz?`
       ),
-    productCompat: (name: string) =>
+    productCompat: (name: string, url?: string) =>
       link(waNumber,
-        `Merhaba,\n\nWeb sitenizde bulunan\n\n"${name}"\n\nürününün cihazıma uyup uymadığını öğrenmek istiyorum.\n\nYardımcı olabilir misiniz?`
+        `Merhaba,\n\nWeb sitenizde bulunan\n\n"${name}"\n\nürününün cihazıma uyup uymadığını öğrenmek istiyorum.` +
+        `${url ? `\n\nÜrün linki:\n${url}` : ""}` +
+        `\n\nYardımcı olabilir misiniz?`
       ),
     cartOrder: (
       items: Array<{ name: string; sku: string; quantity: number; unitPrice: number }>,

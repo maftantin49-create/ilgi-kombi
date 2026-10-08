@@ -10,6 +10,7 @@ import {
 } from "@/lib/admin/products"
 import { updateProductAction } from "@/lib/admin/products.actions"
 import ProductForm from "@/components/admin/products/ProductForm"
+import SeoAnalyzerPanel from "@/components/admin/products/SeoAnalyzerPanel"
 
 export const dynamic = "force-dynamic"
 
@@ -35,6 +36,9 @@ export default async function EditProductPage({ params }: Props) {
 
   const boundAction = updateProductAction.bind(null, product.id)
 
+  const brandName = brands.find((b) => b.id === product.brand_id)?.name ?? null
+  const categoryName = categories.find((c) => c.id === product.category_id)?.name ?? null
+
   return (
     <div className="space-y-5 max-w-5xl">
       <div>
@@ -57,6 +61,12 @@ export default async function EditProductPage({ params }: Props) {
         initialOemItems={oemCodes}
         initialSpecItems={specs}
         initialDeviceItems={devices}
+      />
+
+      <SeoAnalyzerPanel
+        product={product}
+        brandName={brandName}
+        categoryName={categoryName}
       />
     </div>
   )
