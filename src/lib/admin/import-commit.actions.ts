@@ -62,6 +62,8 @@ export async function importCommitAction(
       price: raw.price,
       compare_at_price: raw.compare_at_price ?? null,
       stock_quantity: raw.stock_quantity ?? 0,
+      // track_stock: null → RPC COALESCE → true (DB default)
+      ...(raw.track_stock !== null ? { track_stock: raw.track_stock } : {}),
       brand_id: r.resolvedBrandId ?? null,
       category_id: r.resolvedCategoryId ?? null,
       compatible_brands: raw.compatible_brands ?? null,

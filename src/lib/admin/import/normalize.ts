@@ -31,26 +31,31 @@ const HEADER_MAP: Record<string, string> = {
   ad: "name", "ürün adı": "name", "urun adi": "name", name: "name",
   // slug
   slug: "slug", "url slug": "slug",
-  // sku — "ürün kodu" müşteri şablonunda
+  // sku — "ürün kodu" ve "sku / ürün kodu" müşteri şablonlarında
   sku: "sku", "stok kodu": "sku", "ürün kodu": "sku",
+  "sku / ürün kodu": "sku",
   // description — detaylı açıklama kısa açıklamayı ezer (Excel'de soldan sağa)
   açıklama: "description", aciklama: "description", description: "description",
   açıklaması: "description", "kısa açıklama": "description",
   "detaylı açıklama": "description",
-  // price
+  // price — "satış fiyatı (tl)" müşteri şablonunda
   fiyat: "price", "satış fiyatı": "price", price: "price",
+  "satış fiyatı (tl)": "price",
   // compare_at_price
   "karşılaştırma fiyatı": "compare_at_price", "liste fiyatı": "compare_at_price",
   "indirimli fiyat": "compare_at_price", compare_at_price: "compare_at_price",
-  // stock_quantity
+  // stock_quantity — "stok adedi" müşteri şablonunda
   stok: "stock_quantity", "stok miktarı": "stock_quantity", stock: "stock_quantity",
-  stock_quantity: "stock_quantity",
+  stock_quantity: "stock_quantity", "stok adedi": "stock_quantity",
+  // track_stock — stok takibi açık/kapalı
+  "stok takibi": "track_stock", track_stock: "track_stock", manage_stock: "track_stock",
   // brand
   marka: "brand", brand: "brand",
   // category
   kategori: "category", category: "category",
-  // compatible_brands
+  // compatible_brands — "uyumlu modeller" de kabul edilir
   "uyumlu markalar": "compatible_brands", compatible_brands: "compatible_brands",
+  "uyumlu modeller": "compatible_brands",
   // images — "resim 1" / "resim 2" müşteri şablonunda
   "görsel url": "image_url", image_url: "image_url", "resim url": "image_url",
   "resim 1": "image_url",
@@ -114,6 +119,8 @@ export interface RawImportRow {
   price: number | null
   compare_at_price: number | null
   stock_quantity: number | null
+  /** Stok takibi açık/kapalı. null: belirtilmedi → DB default (true) */
+  track_stock: boolean | null
   brand: string | null
   category: string | null
   compatible_brands: string[] | null
@@ -143,6 +150,11 @@ export function normalizeRow(raw: Record<string, unknown>, index: number): RawIm
     stock_quantity: (() => {
       const n = parseNum(get("stock_quantity"))
       return n !== null ? Math.floor(n) : null
+    })(),
+    track_stock: (() => {
+      const v = get("track_stock")
+      if (v === null || v === undefined || v === "") return null
+      return parseBool(v)
     })(),
     brand: get("brand") ? String(get("brand")).trim() || null : null,
     category: get("category") ? String(get("category")).trim() || null : null,

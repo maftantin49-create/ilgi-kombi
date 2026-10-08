@@ -174,53 +174,76 @@ export function ImportUploader({ onResult }: Props) {
 }
 
 // Template download — client-side xlsx, dynamic import
-// ★ = zorunlu sütun; normalizeHeader() ★/☆ karakterlerini trim ederek eşleştirir
+// Sütun isimleri normalize.ts HEADER_MAP ile birebir eşleşir
 function TemplateDownloadButton() {
   const download = async () => {
     const XLSX = await import("xlsx")
 
-    // ── Sheet 1: URUNLER ─────────────────────────────────────────────────────
+    // ── Sheet 1: ÜRÜN GİRİŞİ ────────────────────────────────────────────────
     const headers = [
-      "★ ad", "slug", "★ sku", "açıklama", "★ fiyat", "karşılaştırma fiyatı",
-      "stok", "marka", "kategori", "uyumlu markalar",
-      "görsel url", "hover görsel",
-      "aktif", "öne_çıkan", "yeni", "aynı gün kargo",
+      "Ürün Kodu",           // zorunlu — sku
+      "Ürün Adı",            // zorunlu — name
+      "Satış Fiyatı",        // zorunlu — price
+      "Marka",               // opsiyonel — brand
+      "Kategori",            // opsiyonel — category
+      "Stok",                // opsiyonel — stock_quantity
+      "Stok Takibi",         // opsiyonel — track_stock
+      "Aktif",               // opsiyonel — is_active
+      "Açıklama",            // opsiyonel — description
+      "Görsel URL",          // opsiyonel — image_url
+      "Karşılaştırma Fiyatı", // opsiyonel — compare_at_price
+      "Uyumlu Markalar",     // opsiyonel — compatible_brands
     ]
     const example = [
-      "Vaillant ecoTEC Fan Motoru", "vaillant-ecotec-fan-motoru", "VLT-FAN-001",
-      "Vaillant ecoTEC serisi kombi fan motoru.", 299.99, 399.99,
-      10, "Vaillant", "Fan ve Pompa", "Baymak,Ariston",
-      "", "",
-      "EVET", "HAYIR", "HAYIR", "HAYIR",
+      "VAI-NTC-001",
+      "Vaillant ecoTEC Plus NTC Sensörü",
+      349.90,
+      "Vaillant",
+      "Vaillant Kombi Parçaları",
+      10,
+      "Evet",
+      "Evet",
+      "Vaillant ecoTEC Plus serisi için orijinal NTC ısı sensörü.",
+      "",
+      449.90,
+      "Vaillant,Junkers",
     ]
     const ws1 = XLSX.utils.aoa_to_sheet([headers, example])
-
-    // ── Sheet 2: ACIKLAMA ────────────────────────────────────────────────────
-    const acHeaders = ["Sütun", "Zorunlu", "Açıklama", "Kabul Edilen Değerler"]
-    const acRows = [
-      ["★ ad",                   "EVET",  "Ürün adı",                                                            "Metin, maks. 255 karakter"],
-      ["slug",                   "HAYIR", "URL dostu kısa ad. Boş bırakılırsa addan otomatik türetilir.",         "Küçük harf, rakam, tire — ör: vaillant-fan-motoru"],
-      ["★ sku",                  "EVET",  "Stok/ürün kodu. Sistemde benzersiz olmalı.",                           "Metin, maks. 100 karakter — ör: VLT-FAN-001"],
-      ["açıklama",               "HAYIR", "Ürün detay açıklaması.",                                               "Serbest metin"],
-      ["★ fiyat",                "EVET",  "Satış fiyatı (TL).",                                                   "Sayı — ör: 299.99 veya 299,99"],
-      ["karşılaştırma fiyatı",   "HAYIR", "Liste/eski fiyat (üzeri çizili). Satış fiyatından YÜKSEK olmalı.",     "Sayı — ör: 399.99"],
-      ["stok",                   "HAYIR", "Başlangıç stok adedi. Boş bırakılırsa 0 kabul edilir.",                "Tam sayı — ör: 10"],
-      ["marka",                  "HAYIR", "Sistemde tanımlı marka adı. Yanlış ise satır hata verir.",             "Ör: Vaillant / Baymak / Ariston (büyük/küçük harf fark gözetilmez)"],
-      ["kategori",               "HAYIR", "Sistemde tanımlı kategori adı. Yanlış ise satır hata verir.",          "Ör: Fan ve Pompa / Elektronik Kart (büyük/küçük harf fark gözetilmez)"],
-      ["uyumlu markalar",        "HAYIR", "Bu ürünün uyumlu olduğu marka listesi.",                               "Virgül, ; veya | ile ayrılmış — ör: Baymak,Ariston"],
-      ["görsel url",             "HAYIR", "Ana ürün görseli tam URL adresi.",                                     "https:// ile başlayan URL"],
-      ["hover görsel",           "HAYIR", "Üzerine gelinince gösterilen ikinci görsel URL.",                      "https:// ile başlayan URL"],
-      ["aktif",                  "HAYIR", "Ürün yayında mı? Varsayılan: EVET",                                    "EVET / HAYIR / 1 / 0"],
-      ["öne_çıkan",              "HAYIR", "Öne çıkan ürünlerde göster. Varsayılan: HAYIR",                        "EVET / HAYIR / 1 / 0"],
-      ["yeni",                   "HAYIR", "Yeni ürün etiketi göster. Varsayılan: HAYIR",                          "EVET / HAYIR / 1 / 0"],
-      ["aynı gün kargo",         "HAYIR", "Aynı gün kargo etiketi. Varsayılan: HAYIR",                            "EVET / HAYIR / 1 / 0"],
+    ws1["!cols"] = [
+      { wch: 18 }, { wch: 42 }, { wch: 16 }, { wch: 18 }, { wch: 36 },
+      { wch: 10 }, { wch: 14 }, { wch: 10 }, { wch: 48 }, { wch: 42 },
+      { wch: 22 }, { wch: 28 },
     ]
-    const ws2 = XLSX.utils.aoa_to_sheet([acHeaders, ...acRows])
+
+    // ── Sheet 2: KULLANIM NOTLARI ────────────────────────────────────────────
+    const notesHeaders = ["Sütun", "Zorunlu", "Açıklama", "Kabul Edilen Değerler"]
+    const notesRows = [
+      ["Ürün Kodu",            "EVET",  "Stok/ürün kodu. Sistemde benzersiz olmalı.",                    "Metin — ör: VAI-NTC-001"],
+      ["Ürün Adı",             "EVET",  "Ürün adı, maks. 255 karakter.",                                 "Metin — ör: Vaillant NTC Sensörü"],
+      ["Satış Fiyatı",         "EVET",  "TL cinsinden satış fiyatı.",                                    "Sayı — ör: 349.90 veya 349,90"],
+      ["Marka",                "HAYIR", "Sistemde tanımlı marka. Yanlış yazılırsa satır hata verir.",    "MARKALAR sayfasından kopyalayın"],
+      ["Kategori",             "HAYIR", "Sistemde tanımlı kategori. Yanlış yazılırsa hata.",             "KATEGORİLER sayfasından kopyalayın"],
+      ["Stok",                 "HAYIR", "Başlangıç stok adedi. Boş = 0.",                                "Tam sayı — ör: 10"],
+      ["Stok Takibi",          "HAYIR", "Stok takibi açık mı? Varsayılan: Evet",                         "Evet / Hayır"],
+      ["Aktif",                "HAYIR", "Sitede göster? Varsayılan: Evet",                               "Evet / Hayır"],
+      ["Açıklama",             "HAYIR", "Kısa ürün açıklaması.",                                         "Serbest metin"],
+      ["Görsel URL",           "HAYIR", "Ürün görseli tam URL.",                                         "https://... ile başlamalı"],
+      ["Karşılaştırma Fiyatı", "HAYIR", "Üzeri çizili eski fiyat. Satış fiyatından yüksek olmalı.",      "Sayı — ör: 449.90"],
+      ["Uyumlu Markalar",      "HAYIR", "Parçanın uyumlu olduğu markalar.",                              "Virgülle ayrılmış — ör: Vaillant,Junkers"],
+      ["", "", "", ""],
+      ["ÖNEMLİ NOTLAR", "", "", ""],
+      ["• İlk satır başlık, silmeyin.", "", "", ""],
+      ["• Örnek satır (2. satır) silinebilir.", "", "", ""],
+      ["• Hatalı satırlar atlanır, geçerliler aktarılır.", "", "", ""],
+      ["• Maks. 10.000 satır, 9.5 MB.", "", "", ""],
+    ]
+    const ws2 = XLSX.utils.aoa_to_sheet([notesHeaders, ...notesRows])
+    ws2["!cols"] = [{ wch: 24 }, { wch: 10 }, { wch: 62 }, { wch: 42 }]
 
     const wb = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(wb, ws1, "URUNLER")
-    XLSX.utils.book_append_sheet(wb, ws2, "ACIKLAMA")
-    XLSX.writeFile(wb, "ilgi-kombi-urun-import-sablonu.xlsx")
+    XLSX.utils.book_append_sheet(wb, ws1, "ÜRÜN GİRİŞİ")
+    XLSX.utils.book_append_sheet(wb, ws2, "KULLANIM NOTLARI")
+    XLSX.writeFile(wb, "ilgi-kombi-urun-sablonu.xlsx")
   }
 
   return (
