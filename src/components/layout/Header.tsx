@@ -34,15 +34,45 @@ const WaIcon = () => (
   </svg>
 )
 
+// Custom line-glyph social icons — minimal, recognizable, not official brand copies
+const IgIcon = () => (
+  <svg className="w-[18px] h-[18px]" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="2.5" y="2.5" width="15" height="15" rx="4.2" />
+    <circle cx="10" cy="10" r="3.2" />
+    <circle cx="14.6" cy="5.4" r="0.7" fill="currentColor" stroke="none" />
+  </svg>
+)
+
+const FbIcon = () => (
+  <svg className="w-[18px] h-[18px]" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="10" cy="10" r="7.5" />
+    <path d="M11.5 6.5h-1.2a1.3 1.3 0 0 0-1.3 1.3V10H7.5v2h1.5v4h2.5v-4H13l.5-2h-2V8.5c0-.28.22-.5.5-.5h1V6.5z" fill="currentColor" stroke="none" />
+  </svg>
+)
+
+const TkIcon = () => (
+  <svg className="w-[18px] h-[18px]" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path d="M15.5 2.5h-2.2v.25a3.05 3.05 0 0 1-3.05 3.05H10v2h.25a5.25 5.25 0 0 0 3-1.05v4.8a3.75 3.75 0 1 1-2.6-3.56V5.35A6.25 6.25 0 1 0 17 11.55V7.35a7.1 7.1 0 0 0 1.5.16V5.35a4.85 4.85 0 0 1-3-2.85z" />
+  </svg>
+)
+
+interface SocialLinks {
+  instagram: string
+  facebook:  string
+  youtube:   string
+  tiktok:    string
+}
+
 interface HeaderProps {
   categories: StorefrontCategoryWithCount[]
   brands:     StorefrontBrandWithCount[]
   siteName:   string
   phone:      string
   whatsapp:   string
+  social?:    SocialLinks
 }
 
-export default function Header({ categories, brands, siteName, phone, whatsapp }: HeaderProps) {
+export default function Header({ categories, brands, siteName, phone, whatsapp, social }: HeaderProps) {
   const totalItems     = useCart(s => s.totalItems)()
   const totalFavorites = useFavorites(s => s.totalFavorites)()
   const [mobileOpen,    setMobileOpen]    = useState(false)
@@ -179,6 +209,45 @@ export default function Header({ categories, brands, siteName, phone, whatsapp }
             >
               <WaIcon />
             </a>
+          )}
+
+          {/* Sosyal medya ikon grubu — lg ve üzeri */}
+          {(social?.instagram || social?.facebook || social?.tiktok) && (
+            <div className="hidden lg:flex items-center gap-0.5 ml-1 mr-0.5 pl-2" style={{ borderLeft: "1px solid #E2E6EA" }}>
+              {social?.instagram && (
+                <a
+                  href={social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="flex items-center justify-center w-7 h-7 rounded-md text-gray-400 hover:text-pink-500 hover:bg-pink-50 transition-colors"
+                >
+                  <IgIcon />
+                </a>
+              )}
+              {social?.facebook && (
+                <a
+                  href={social.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook"
+                  className="flex items-center justify-center w-7 h-7 rounded-md text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                >
+                  <FbIcon />
+                </a>
+              )}
+              {social?.tiktok && (
+                <a
+                  href={social.tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="TikTok"
+                  className="flex items-center justify-center w-7 h-7 rounded-md text-gray-400 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+                >
+                  <TkIcon />
+                </a>
+              )}
+            </div>
           )}
 
           {/* Favoriler */}

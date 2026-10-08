@@ -6,7 +6,7 @@ import StorefrontProductCardComponent from "@/components/product/StorefrontProdu
 import HoverScrollRail from "@/components/home/HoverScrollRail"
 import type { StorefrontProductCard } from "@/lib/storefront/types"
 
-const CARD_WIDTH_CLASS = "w-[210px] xl:w-[220px]"
+const CARD_WIDTH_CLASS = "w-[178px] xl:w-[188px]"
 
 interface Props {
   title: string
@@ -30,13 +30,13 @@ export default function ProductSection({
   if (products.length === 0) return null
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-6 md:py-10 lg:py-12" aria-label={title}>
+    <section className="max-w-7xl mx-auto px-4 md:px-6 py-5 md:py-8 lg:py-10" aria-label={title}>
 
       {/* ── Başlık + Tümünü Gör ─────────────────────────────────────────── */}
-      <div className="flex items-end justify-between mb-6 lg:mb-8">
+      <div className="flex items-end justify-between mb-4 lg:mb-6">
         <div>
           {eyebrow && (
-            <div className="flex items-center gap-2 mb-2.5">
+            <div className="flex items-center gap-2 mb-2">
               <span
                 className="w-[4px] h-[4px] rounded-full shrink-0 bg-blue-600"
                 aria-hidden="true"
@@ -48,7 +48,7 @@ export default function ProductSection({
           )}
           <h2
             className="font-black leading-[1.1] text-gray-900"
-            style={{ fontSize: "clamp(20px, 2.2vw, 28px)" }}
+            style={{ fontSize: "clamp(17px, 1.8vw, 23px)" }}
           >
             {title}
           </h2>

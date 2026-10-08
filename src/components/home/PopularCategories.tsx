@@ -1,8 +1,39 @@
 import Link from "next/link"
 import Image from "next/image"
-import { ChevronRight } from "lucide-react"
+import {
+  ChevronRight, Droplets, Thermometer, Cpu, Gauge, Flame,
+  ShieldCheck, Package, ToggleLeft, Wind, Pipette, Activity,
+  Wrench, Settings, GitBranch, Zap, Tag, type LucideIcon,
+} from "lucide-react"
 import { CAT_ICONS } from "@/components/layout/CategoryMegaMenu"
 import type { StorefrontCategoryWithCount } from "@/lib/storefront/categories"
+
+const DB_CAT_ICONS: Record<string, LucideIcon> = {
+  "kombi-sirkulasyon-pompalari":               Droplets,
+  "kombi-plaka-esanjorleri":                   Thermometer,
+  "yogusmali-kombi-esanjorleri":               Thermometer,
+  "kombi-anakart-ve-ekran-kartlari":           Cpu,
+  "kombi-ntc-sensorleri":                      Gauge,
+  "kombi-gaz-valfleri":                        Flame,
+  "kombi-emniyet-ventilleri":                  ShieldCheck,
+  "kombi-genlesme-tanklari":                   Package,
+  "kombi-hava-akis-anahtarlari":               ToggleLeft,
+  "kombi-su-akis-turbinleri":                  Wind,
+  "kombi-turbin-okuyuculari":                  Wind,
+  "kombi-su-doldurma-musluklari":              Pipette,
+  "kombi-hava-akis-prosestatlari":             Activity,
+  "kombi-su-basinc-siviclari":                 Gauge,
+  "kombi-su-basinc-sivicleri":                 Gauge,
+  "yogusmali-ve-hermatik-kombi-fan-motorlari": Wind,
+  "kombi-3-yollu-tamir-takimlari":             Wrench,
+  "kombi-3-yollu-vana-motorlari":              Settings,
+  "kombi-uc-yollu-bloklar":                    GitBranch,
+  "3-yollu-gruplar":                           GitBranch,
+  "kombi-atesleme-trafolari":                  Zap,
+  "kombi-elektrodlari":                        Zap,
+  "kombi-dugmeleri":                           Wrench,
+  "kombi-yedek-parca":                         Wrench,
+}
 
 const LOCAL_THUMBS: Record<string, string> = {
   // DB slugs → local thumb images
@@ -73,7 +104,7 @@ export default function PopularCategories({ categories }: Props) {
         >
           {display.map((cat) => {
             const imgSrc = cat.image_url ?? LOCAL_THUMBS[cat.slug] ?? null
-            const FallbackIcon = CAT_ICONS[cat.slug]
+            const FallbackIcon = DB_CAT_ICONS[cat.slug] ?? CAT_ICONS[cat.slug] ?? Tag
 
             return (
               <Link
@@ -99,15 +130,9 @@ export default function PopularCategories({ categories }: Props) {
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                       sizes="80px"
                     />
-                  ) : FallbackIcon ? (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                      <FallbackIcon size={28} className="text-gray-500" aria-hidden="true" />
-                    </div>
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                      <span className="text-gray-500 text-xl font-black">
-                        {cat.name.charAt(0)}
-                      </span>
+                      <FallbackIcon size={24} className="text-gray-500" aria-hidden="true" />
                     </div>
                   )}
                 </div>
