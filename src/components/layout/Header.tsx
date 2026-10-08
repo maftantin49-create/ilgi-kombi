@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import {
   ShoppingCart, Search, Phone, Menu, X,
   Heart, ChevronDown, ChevronRight, Flame,
@@ -116,16 +117,20 @@ export default function Header({ categories, brands, siteName, phone, whatsapp }
       {/* ── Satır 1: Logo | Search | Actions ─────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center gap-3 md:gap-4">
 
-        {/* Text logo */}
+        {/* Logo */}
         <Link
           href="/"
           className="shrink-0"
           aria-label={`${siteName} Ana Sayfa`}
         >
-          <span className="text-xl font-black text-[#1E3A8A] leading-none">İlgi Kombi</span>
-          <span className="block text-[10px] font-medium text-gray-400 leading-none tracking-wide mt-0.5">
-            Kombi Yedek Parça
-          </span>
+          <Image
+            src="/brand/logo.png"
+            alt={siteName}
+            width={572}
+            height={384}
+            priority
+            style={{ height: "40px", width: "auto" }}
+          />
         </Link>
 
         {/* Search — desktop */}
@@ -230,8 +235,13 @@ export default function Header({ categories, brands, siteName, phone, whatsapp }
                 style={{ borderBottom: "1px solid #E2E6EA", background: "#F8F9FA" }}
               >
                 <Link href="/" onClick={() => setMobileOpen(false)}>
-                  <span className="text-lg font-black text-[#1E3A8A]">İlgi Kombi</span>
-                  <span className="block text-[10px] font-medium text-gray-400 leading-none tracking-wide mt-0.5">Kombi Yedek Parça</span>
+                  <Image
+                    src="/brand/logo.png"
+                    alt={siteName}
+                    width={572}
+                    height={384}
+                    style={{ height: "36px", width: "auto" }}
+                  />
                 </Link>
                 <button
                   onClick={() => setMobileOpen(false)}
