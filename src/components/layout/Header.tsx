@@ -156,8 +156,8 @@ export default function Header({ categories, brands, siteName, phone, whatsapp, 
           <Image
             src="/brand/logo.png"
             alt={siteName}
-            width={572}
-            height={384}
+            width={1177}
+            height={397}
             priority
             className="h-8 md:h-10 w-auto"
           />
@@ -307,8 +307,8 @@ export default function Header({ categories, brands, siteName, phone, whatsapp, 
                   <Image
                     src="/brand/logo.png"
                     alt={siteName}
-                    width={572}
-                    height={384}
+                    width={1177}
+                    height={397}
                     style={{ height: "36px", width: "auto" }}
                   />
                 </Link>

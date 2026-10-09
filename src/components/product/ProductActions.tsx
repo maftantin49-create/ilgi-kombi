@@ -2,7 +2,9 @@
 
 import { useState } from "react"
 import { ShoppingCart, CheckCircle, Plus, Minus } from "lucide-react"
-import { wa } from "@/lib/whatsapp"
+import { buildWa } from "@/lib/whatsapp"
+import { validWhatsApp } from "@/lib/storefront/guards"
+import { useWaNumber } from "@/lib/wa-context"
 import type { ProductAvailability } from "@/lib/storefront/types"
 import { useCart, toCartItem, type CartableProduct } from "@/lib/cart"
 
@@ -16,7 +18,7 @@ interface Props {
 
 const WaIcon = () => (
   <svg
-    className="w-[18px] h-[18px] shrink-0"
+    className="w-[16px] h-[16px] shrink-0"
     fill="currentColor"
     viewBox="0 0 24 24"
     aria-hidden="true"
@@ -45,6 +47,9 @@ export default function ProductActions({
   const [qty, setQty] = useState(1)
   const [added, setAdded] = useState(false)
 
+  const waNumber = useWaNumber()
+  const waLinks = buildWa(validWhatsApp(waNumber ?? ""))
+
   const { price, stock_quantity, name, sku } = product
   const tracked = product.track_stock ?? true
 
@@ -53,9 +58,9 @@ export default function ProductActions({
       ? Math.round((1 - price / compare_at_price) * 100)
       : null
 
-  const waOrderUrl = wa.productOrder(name, sku, qty)
-  const waPriceUrl = wa.product(name, sku, productUrl)
-  // wa shim returns null when whatsapp number is not yet configured in settings
+  const waAskUrl   = waLinks.product(name, sku, productUrl)
+  const waPriceUrl = waLinks.product(name, sku, productUrl)
+  const waOrderUrl = waLinks.productOrder(name, sku, qty)
 
   const handleAdd = () => {
     if (availability !== "available") return
@@ -127,11 +132,11 @@ export default function ProductActions({
         </div>
       )}
 
-      {/* ── Action buttons ── */}
-      <div className="flex gap-3">
+      {/* ── Primary action button ── */}
+      <div>
         {availability === "out_of_stock" ? (
           <div
-            className="flex-1 h-12 text-[14px] font-bold flex items-center justify-center gap-2 rounded-[12px]"
+            className="w-full h-12 text-[14px] font-bold flex items-center justify-center gap-2 rounded-[12px]"
             style={{
               background: "#F1F3F5",
               border: "1px solid #E2E6EA",
@@ -147,7 +152,7 @@ export default function ProductActions({
               href={waPriceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 h-12 text-[14px] font-bold flex items-center justify-center gap-2 rounded-[12px] transition-all duration-150 hover:-translate-y-0.5"
+              className="w-full h-12 text-[14px] font-bold flex items-center justify-center gap-2 rounded-[12px] transition-all duration-150 hover:-translate-y-0.5"
               style={{
                 background: "rgba(34,197,94,0.08)",
                 border: "1px solid rgba(34,197,94,0.25)",
@@ -159,7 +164,7 @@ export default function ProductActions({
             </a>
           ) : (
             <div
-              className="flex-1 h-12 text-[14px] font-bold flex items-center justify-center rounded-[12px]"
+              className="w-full h-12 text-[14px] font-bold flex items-center justify-center rounded-[12px]"
               style={{ background: "#F1F3F5", border: "1px solid #E2E6EA", color: "#9CA3AF" }}
             >
               Fiyat Sorunuz
@@ -168,7 +173,7 @@ export default function ProductActions({
         ) : (
           <button
             onClick={handleAdd}
-            className="flex-1 h-12 text-[14px] font-bold flex items-center justify-center gap-2 rounded-[12px] transition-all duration-150"
+            className="w-full h-12 text-[14px] font-bold flex items-center justify-center gap-2 rounded-[12px] transition-all duration-150"
             style={
               added
                 ? {
@@ -195,25 +200,26 @@ export default function ProductActions({
             )}
           </button>
         )}
-
-        {availability !== "price_on_request" && waOrderUrl && (
-          <a
-            href={waOrderUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="WhatsApp ile sipariş ver"
-            className="flex items-center gap-2 px-4 py-3 rounded-[12px] font-medium transition-all duration-150 hover:-translate-y-0.5"
-            style={{
-              background: "rgba(34,197,94,0.08)",
-              border: "1px solid rgba(34,197,94,0.25)",
-              color: "#22c55e",
-            }}
-          >
-            <WaIcon />
-            <span className="hidden sm:inline text-[13px]">WhatsApp</span>
-          </a>
-        )}
       </div>
+
+      {/* ── WhatsApp'tan Sor butonu ── */}
+      {waAskUrl && availability !== "price_on_request" && (
+        <a
+          href={availability === "available" ? waOrderUrl ?? waAskUrl : waAskUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full h-11 flex items-center justify-center gap-2 rounded-[12px] font-semibold text-[13px] transition-all duration-150 hover:-translate-y-0.5"
+          style={{
+            background: "rgba(34,197,94,0.06)",
+            border: "1px solid rgba(34,197,94,0.30)",
+            color: "#16a34a",
+          }}
+          aria-label="WhatsApp üzerinden ürün hakkında bilgi al"
+        >
+          <WaIcon />
+          WhatsApp&apos;tan Sor
+        </a>
+      )}
     </div>
   )
 }

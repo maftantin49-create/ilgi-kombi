@@ -108,13 +108,20 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: s.seo.description || undefined,
     keywords:    s.seo.keywords.length > 0 ? s.seo.keywords : undefined,
+    icons: {
+      icon: [
+        { url: "/favicon.ico",            sizes: "any" },
+        { url: "/brand/icon-32.png?v=2",  sizes: "32x32", type: "image/png" },
+      ],
+      apple: { url: "/brand/apple-icon-180.png?v=2", sizes: "180x180", type: "image/png" },
+    },
     openGraph: {
       title:       s.seo.defaultTitle || s.siteName,
       description: s.seo.description  || undefined,
       url:         siteConfig.url,
       locale:      "tr_TR",
       type:        "website",
-      images:      [{ url: logoUrl, width: 512, height: 512, alt: s.siteName }],
+      images:      [{ url: logoUrl, width: 1177, height: 397, alt: s.siteName }],
     },
     twitter: {
       card: "summary_large_image",

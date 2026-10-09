@@ -6,18 +6,16 @@ import {
 } from "@/lib/storefront/products"
 import { getStorefrontBrands } from "@/lib/storefront/brands"
 import { getStorefrontCategories } from "@/lib/storefront/categories"
-import HeroSlider from "@/components/home/HeroSlider"
 import CategoryRail from "@/components/home/CategoryRail"
 import PopularCategories from "@/components/home/PopularCategories"
 import CategoryGrid from "@/components/home/CategoryGrid"
 import ProductSection from "@/components/home/ProductSection"
-import WhatsAppCTA from "@/components/home/WhatsAppCTA"
+import HeroProductCarousel from "@/components/home/HeroProductCarousel"
 import BottomInfoCards from "@/components/home/BottomInfoCards"
 import BrandChips from "@/components/home/BrandChips"
 import PointerTracker from "@/components/experience/PointerTracker"
 import AnimatedSection from "@/components/experience/AnimatedSection"
-import { getStoreSettings, validWhatsApp, validPhone } from "@/lib/storefront/settings"
-import { buildWa } from "@/lib/whatsapp"
+import { getStoreSettings } from "@/lib/storefront/settings"
 
 export const revalidate = 300
 
@@ -39,10 +37,6 @@ export default async function HomePage() {
       ))
     : []
 
-  const validWa = validWhatsApp(settings.whatsapp)
-  const wa = buildWa(validWa)
-  const validPh = validPhone(settings.phone)
-
   const catRailData = featuredCats.map((cat, i) => ({
     id:          cat.slug,
     slug:        cat.slug,
@@ -59,21 +53,18 @@ export default async function HomePage() {
     <>
       <PointerTracker />
 
-      {/* ─── 1. Popüler Kategoriler — daire tile'lar ─── */}
-      <PopularCategories categories={categories} />
-
-      {/* ─── 2. En Çok Satanlar ─── */}
+      {/* ─── 1. Öne Çıkan Ürünler — hero carousel ─── */}
       {featuredProducts.length > 0 && (
-        <AnimatedSection variant="fade-up" as="div" className="bg-white">
-          <ProductSection
-            eyebrow="Popüler"
-            title="En Çok Satanlar"
-            description="Müşterilerimizin en çok tercih ettiği yedek parçalar"
-            products={featuredProducts}
-            viewAllHref="/urunler"
-          />
-        </AnimatedSection>
+        <HeroProductCarousel
+          eyebrow="Öne Çıkan"
+          title="En Çok Satanlar"
+          products={featuredProducts}
+          viewAllHref="/urunler"
+        />
       )}
+
+      {/* ─── 2. Popüler Kategoriler — daire tile'lar ─── */}
+      <PopularCategories categories={categories} />
 
       {/* ─── 3. Tüm Parça Grupları grid ─── */}
       <CategoryGrid categories={categories} />
@@ -96,20 +87,10 @@ export default async function HomePage() {
         <BottomInfoCards />
       </div>
 
-      {/* ─── 6. WhatsApp CTA ─── */}
-      <WhatsAppCTA
-        waLink={wa.home}
-        phone={validPh}
-        phoneDisplay={validPh ? settings.phone : null}
-      />
-
-      {/* ─── 7. Hero (fold altında) ─── */}
-      <HeroSlider waLink={wa.home} />
-
-      {/* ─── 8. Hızlı Kategori Şeridi ─── */}
+      {/* ─── 6. Hızlı Kategori Şeridi ─── */}
       <CategoryRail categories={categories} />
 
-      {/* ─── 9. Uyumlu Markalar ─── */}
+      {/* ─── 7. Uyumlu Markalar ─── */}
       {brandNames.length > 0 && (
         <section
           className="bg-[#F8F9FA]"
@@ -134,7 +115,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* ─── 10. Kategori Bazlı Ürün Rail'leri ─── */}
+      {/* ─── 8. Kategori Bazlı Ürün Rail'leri ─── */}
       {catRailData.map((cat, idx) => {
         if (cat.products.length === 0) return null
         return (
@@ -155,7 +136,7 @@ export default async function HomePage() {
         )
       })}
 
-      {/* ─── 11. Aynı Gün Kargo ─── */}
+      {/* ─── 9. Aynı Gün Kargo ─── */}
       {sameDayProducts.length > 0 && (
         <AnimatedSection variant="fade-up" as="div" className="bg-[#EFF6FF]">
           <ProductSection

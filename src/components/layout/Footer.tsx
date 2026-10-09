@@ -71,7 +71,7 @@ export default function Footer({
         {/* Brand */}
         <div>
           <Link href="/" className="inline-block mb-5" aria-label={`${siteName} Ana Sayfa`}>
-            <SiteLogo siteName={siteName} width={572} height={384} className="h-8 w-auto" />
+            <SiteLogo siteName={siteName} width={1177} height={397} className="h-8 w-auto" />
           </Link>
 
           {/* Social */}
