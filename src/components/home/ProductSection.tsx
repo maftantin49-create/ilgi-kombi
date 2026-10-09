@@ -30,10 +30,10 @@ export default function ProductSection({
   if (products.length === 0) return null
 
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-6 py-5 md:py-8 lg:py-10" aria-label={title}>
+    <section className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6 lg:py-7" aria-label={title}>
 
       {/* ── Başlık + Tümünü Gör ─────────────────────────────────────────── */}
-      <div className="flex items-end justify-between mb-4 lg:mb-6">
+      <div className="flex items-end justify-between mb-3 lg:mb-4">
         <div>
           {eyebrow && (
             <div className="flex items-center gap-2 mb-2">

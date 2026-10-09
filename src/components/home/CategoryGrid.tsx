@@ -81,10 +81,10 @@ export default function CategoryGrid({ categories }: Props) {
       aria-label="Tüm parça grupları"
       style={{ borderBottom: "1px solid #E2E6EA" }}
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6 lg:py-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-5 lg:py-6">
 
         {/* Başlık */}
-        <div className="flex items-center justify-between mb-3 md:mb-5">
+        <div className="flex items-center justify-between mb-2 md:mb-4">
           <h2 className="text-[15px] md:text-[17px] font-black text-gray-900">
             Tüm Parça Grupları
           </h2>

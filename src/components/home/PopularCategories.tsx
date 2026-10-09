@@ -1,3 +1,6 @@
+"use client"
+
+import { useRef, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import {
@@ -36,7 +39,6 @@ const DB_CAT_ICONS: Record<string, LucideIcon> = {
 }
 
 const LOCAL_THUMBS: Record<string, string> = {
-  // DB slugs → local thumb images
   "kombi-sirkulasyon-pompalari":          "/categories/thumbs/pompalar-thumb.png",
   "kombi-plaka-esanjorleri":              "/categories/thumbs/esanjorler-thumb.png",
   "yogusmali-kombi-esanjorleri":          "/categories/thumbs/esanjorler-thumb.png",
@@ -64,9 +66,52 @@ interface Props {
 }
 
 export default function PopularCategories({ categories }: Props) {
-  if (categories.length === 0) return null
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const pausedRef = useRef(false)
 
   const display = categories.slice(0, 12)
+  // Duplicate items for seamless infinite loop
+  const loopItems = [...display, ...display]
+
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+    let raf: number
+    let lastT = 0
+    const SPEED = 38 // px/sec
+
+    const tick = (t: number) => {
+      if (!pausedRef.current) {
+        const dt = lastT ? (t - lastT) / 1000 : 0
+        el.scrollLeft += SPEED * dt
+        // When we've scrolled through the first copy, reset seamlessly
+        if (el.scrollLeft >= el.scrollWidth / 2) {
+          el.scrollLeft -= el.scrollWidth / 2
+        }
+      }
+      lastT = t
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+
+    const pause  = () => { pausedRef.current = true  }
+    const resume = () => { pausedRef.current = false }
+
+    el.addEventListener("mouseenter",  pause)
+    el.addEventListener("mouseleave",  resume)
+    el.addEventListener("touchstart",  pause,  { passive: true })
+    el.addEventListener("touchend",    resume, { passive: true })
+
+    return () => {
+      cancelAnimationFrame(raf)
+      el.removeEventListener("mouseenter", pause)
+      el.removeEventListener("mouseleave", resume)
+      el.removeEventListener("touchstart", pause)
+      el.removeEventListener("touchend",   resume)
+    }
+  }, [])
+
+  if (categories.length === 0) return null
 
   return (
     <section
@@ -74,21 +119,13 @@ export default function PopularCategories({ categories }: Props) {
       aria-label="Popüler kategoriler"
       style={{ borderBottom: "1px solid #E2E6EA" }}
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-5 pb-4 md:pt-8 md:pb-6">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-2 pb-3 md:pt-4 md:pb-4">
 
-        {/* Başlık */}
-        <div className="flex items-center justify-between mb-4 md:mb-6">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="w-[4px] h-[4px] rounded-full bg-gray-900" aria-hidden="true" />
-              <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-500">
-                Parça Grupları
-              </span>
-            </div>
-            <h2 className="text-[20px] font-black text-gray-900 leading-tight">
-              Popüler Kategoriler
-            </h2>
-          </div>
+        {/* Başlık — "PARÇA GRUPLARI" eyebrow kaldırıldı */}
+        <div className="flex items-center justify-between mb-3 md:mb-4">
+          <h2 className="text-[15px] md:text-[17px] font-black text-gray-900 leading-tight">
+            Popüler Kategoriler
+          </h2>
           <Link
             href="/kategoriler"
             className="flex items-center gap-1 text-[12px] font-semibold text-gray-600 hover:text-gray-900 transition-colors"
@@ -97,73 +134,56 @@ export default function PopularCategories({ categories }: Props) {
           </Link>
         </div>
 
-        {/* Tile Satırı — mobilde snap scroll, desktop wrap */}
+        {/* Auto-scroll şeridi — items duplicate edildi, seamless loop */}
         <div
-          className="flex gap-3 md:gap-6 overflow-x-auto pb-2"
-          style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch", scrollSnapType: "x mandatory" } as React.CSSProperties}
+          ref={scrollRef}
+          className="flex gap-3 md:gap-5 overflow-x-auto pb-2"
+          style={{ scrollbarWidth: "none" } as React.CSSProperties}
         >
-          {display.map((cat) => {
+          {loopItems.map((cat, i) => {
             const imgSrc = cat.image_url ?? LOCAL_THUMBS[cat.slug] ?? null
             const FallbackIcon = DB_CAT_ICONS[cat.slug] ?? CAT_ICONS[cat.slug] ?? Tag
+            const isDuplicate = i >= display.length
 
             return (
               <Link
-                key={cat.id}
+                key={`${cat.id}-${i}`}
                 href={`/urunler?kategori=${cat.slug}`}
-                className="flex flex-col items-center gap-2 md:gap-3 shrink-0 group"
-                style={{ width: "72px", scrollSnapAlign: "start" } as React.CSSProperties}
+                className="flex flex-col items-center gap-2 shrink-0 group"
+                style={{ width: "68px" } as React.CSSProperties}
+                aria-hidden={isDuplicate ? true : undefined}
+                tabIndex={isDuplicate ? -1 : undefined}
               >
-                {/* Yuvarlak görsel alan */}
+                {/* Yuvarlak görsel */}
                 <div
-                  className="w-[58px] h-[58px] md:w-[72px] md:h-[72px] rounded-full overflow-hidden relative transition-all duration-200 group-hover:shadow-md"
+                  className="w-[54px] h-[54px] md:w-[66px] md:h-[66px] rounded-full overflow-hidden relative transition-all duration-200 group-hover:shadow-md"
                   style={{
                     background: "#F4F4F4",
                     border: "2px solid #E8E8E8",
-                    outline: "2px solid transparent",
                   }}
                 >
                   {imgSrc ? (
                     <Image
                       src={imgSrc}
-                      alt={cat.name}
+                      alt={isDuplicate ? "" : cat.name}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                       sizes="80px"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                      <FallbackIcon size={24} className="text-gray-500" aria-hidden="true" />
+                      <FallbackIcon size={22} className="text-gray-500" aria-hidden="true" />
                     </div>
                   )}
                 </div>
 
                 {/* Kategori adı */}
-                <span className="text-[11px] md:text-[11.5px] font-medium text-gray-700 text-center leading-tight group-hover:text-gray-900 transition-colors line-clamp-2 w-full">
+                <span className="text-[10.5px] md:text-[11px] font-medium text-gray-700 text-center leading-tight group-hover:text-gray-900 transition-colors line-clamp-2 w-full">
                   {cat.name}
                 </span>
               </Link>
             )
           })}
-
-          {/* Tümünü Gör tile */}
-          <Link
-            href="/kategoriler"
-            className="flex flex-col items-center gap-2 md:gap-3 shrink-0 group"
-            style={{ width: "72px", scrollSnapAlign: "start" } as React.CSSProperties}
-          >
-            <div
-              className="w-[58px] h-[58px] md:w-[72px] md:h-[72px] rounded-full flex items-center justify-center transition-all duration-200 group-hover:shadow-md"
-              style={{
-                background: "#F4F4F4",
-                border: "2px dashed #D1D5DB",
-              }}
-            >
-              <ChevronRight size={22} className="text-gray-400 group-hover:text-gray-700 transition-colors" aria-hidden="true" />
-            </div>
-            <span className="text-[11px] md:text-[11.5px] font-medium text-gray-500 text-center leading-tight group-hover:text-gray-700 transition-colors">
-              Tümünü Gör
-            </span>
-          </Link>
         </div>
 
       </div>

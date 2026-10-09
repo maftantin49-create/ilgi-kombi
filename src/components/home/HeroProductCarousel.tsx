@@ -27,10 +27,10 @@ export default function HeroProductCarousel({
       aria-label={title}
       style={{ borderBottom: "1px solid #E2E6EA" }}
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-5 md:py-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-5">
 
         {/* Başlık */}
-        <div className="flex items-center justify-between mb-4 md:mb-5">
+        <div className="flex items-center justify-between mb-3 md:mb-4">
           <div>
             {eyebrow && (
               <div className="flex items-center gap-2 mb-1">
