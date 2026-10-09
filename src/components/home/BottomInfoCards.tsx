@@ -58,7 +58,7 @@ export default function BottomInfoCards() {
               <div className="font-bold text-[13px] md:text-[14px] mb-1 md:mb-1.5 text-gray-900">
                 {title}
               </div>
-              <div className="text-[12px] md:text-[13px] leading-[1.6] text-gray-500">
+              <div className="text-[12px] md:text-[13px] leading-[1.6] text-gray-600">
                 {desc}
               </div>
             </div>

@@ -53,7 +53,7 @@ export default function ProductSection({
             {title}
           </h2>
           {description && (
-            <p className="text-[13px] mt-1.5 leading-relaxed text-gray-500">
+            <p className="text-[13px] mt-1.5 leading-relaxed text-gray-600">
               {description}
             </p>
           )}

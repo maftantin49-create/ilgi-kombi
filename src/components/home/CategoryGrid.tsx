@@ -130,10 +130,10 @@ export default function CategoryGrid({ categories }: Props) {
 
                 {/* Metin */}
                 <div className="flex-1 min-w-0">
-                  <div className="text-[12px] font-semibold text-gray-800 group-hover:text-gray-900 transition-colors line-clamp-1 leading-tight">
+                  <div className="text-[12px] font-bold text-gray-900 group-hover:text-gray-900 transition-colors line-clamp-1 leading-tight">
                     {cat.name}
                   </div>
-                  <div className="text-[10.5px] text-gray-400 mt-0.5">
+                  <div className="text-[10.5px] text-gray-500 mt-0.5">
                     {cat.productCount} ürün
                   </div>
                 </div>

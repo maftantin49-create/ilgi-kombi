@@ -16,19 +16,19 @@ export default function QuickDiscovery() {
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div
-          className="flex items-center gap-2 overflow-x-auto py-2"
+          className="flex items-center gap-3 overflow-x-auto py-2.5 md:py-3"
           style={{ scrollbarWidth: "none" } as React.CSSProperties}
         >
           {CHIPS.map((chip) => (
             <Link
               key={chip.label}
               href={chip.href}
-              className={`shrink-0 px-3 py-1 rounded-full text-[11.5px] font-semibold whitespace-nowrap transition-colors ${
+              className={`shrink-0 px-4 py-1.5 rounded-full text-[12.5px] font-semibold whitespace-nowrap transition-colors ${
                 chip.highlight
                   ? "bg-[#1E3A8A] text-white"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  : "text-gray-700 hover:text-gray-900 hover:bg-gray-200"
               }`}
-              style={chip.highlight ? undefined : { background: "#F4F5F7" }}
+              style={chip.highlight ? undefined : { background: "#EDEFF2", border: "1px solid #DDE1E7" }}
             >
               {chip.label}
             </Link>

@@ -118,11 +118,11 @@ export default function CompactProductRail({
                 {/* Bilgi */}
                 <div className="flex flex-col flex-1 p-2">
                   {p.brand && (
-                    <p className="text-[9px] font-semibold tracking-wide uppercase mb-0.5 text-gray-400 line-clamp-1">
+                    <p className="text-[9px] font-semibold tracking-wide uppercase mb-0.5 text-gray-500 line-clamp-1">
                       {p.brand.name}
                     </p>
                   )}
-                  <h3 className="text-[11px] font-semibold text-gray-800 leading-snug line-clamp-2 mb-1 group-hover:text-blue-700 transition-colors">
+                  <h3 className="text-[11px] font-bold text-gray-900 leading-snug line-clamp-2 mb-1 group-hover:text-blue-700 transition-colors">
                     {p.name}
                   </h3>
                   <div className="mt-auto">
@@ -135,7 +135,7 @@ export default function CompactProductRail({
                           {p.price.toLocaleString("tr-TR")} ₺
                         </span>
                         {p.compare_at_price && p.compare_at_price > p.price && (
-                          <span className="text-[10px] line-through text-gray-400 leading-none">
+                          <span className="text-[10px] line-through text-gray-500 leading-none">
                             {p.compare_at_price.toLocaleString("tr-TR")} ₺
                           </span>
                         )}

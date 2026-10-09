@@ -130,13 +130,13 @@ export default function Header({ categories, brands, siteName, phone, whatsapp, 
     const isActive = pathname === href || (href !== "/" && pathname.startsWith(href))
     return isActive
       ? "flex items-center px-3 py-2.5 text-[13px] font-medium text-blue-700 relative transition-all duration-150 whitespace-nowrap after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-blue-700 after:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-      : "flex items-center px-3 py-2.5 text-[13px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded transition-all duration-150 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+      : "flex items-center px-3 py-2.5 text-[13px] font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded transition-all duration-150 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
   }
 
   // Parça Grupları trigger class
   const parcaClass = megaOpen
     ? "flex items-center gap-1 px-3 py-2.5 text-[13px] font-medium text-blue-700 relative transition-all duration-150 whitespace-nowrap after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-blue-700 after:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-    : "flex items-center gap-1 px-3 py-2.5 text-[13px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded transition-all duration-150 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+    : "flex items-center gap-1 px-3 py-2.5 text-[13px] font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded transition-all duration-150 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
 
   return (
     <header
@@ -487,7 +487,7 @@ export default function Header({ categories, brands, siteName, phone, whatsapp, 
                       <Link
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
-                        className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 font-medium text-gray-600 hover:text-gray-900 transition-colors text-[14px]"
+                        className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 font-medium text-gray-700 hover:text-gray-900 transition-colors text-[14px]"
                       >
                         {link.label}
                       </Link>

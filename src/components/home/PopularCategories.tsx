@@ -78,7 +78,7 @@ export default function PopularCategories({ categories }: Props) {
     if (!el) return
     let raf: number
     let lastT = 0
-    const SPEED = 38 // px/sec
+    const SPEED = 48 // px/sec
 
     const tick = (t: number) => {
       if (!pausedRef.current) {
@@ -178,7 +178,7 @@ export default function PopularCategories({ categories }: Props) {
                 </div>
 
                 {/* Kategori adı */}
-                <span className="text-[10.5px] md:text-[11px] font-medium text-gray-700 text-center leading-tight group-hover:text-gray-900 transition-colors line-clamp-2 w-full">
+                <span className="text-[10.5px] md:text-[11px] font-semibold text-gray-800 text-center leading-tight group-hover:text-gray-900 transition-colors line-clamp-2 w-full">
                   {cat.name}
                 </span>
               </Link>

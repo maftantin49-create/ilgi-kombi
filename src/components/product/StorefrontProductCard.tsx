@@ -150,13 +150,13 @@ export default function StorefrontProductCardComponent({ product }: Props) {
       {/* Content */}
       <div className="flex flex-col flex-1 p-3 md:p-4">
         {product.brand && (
-          <p className="text-[10px] font-medium tracking-wide uppercase mb-1 text-gray-400">
+          <p className="text-[10px] font-semibold tracking-wide uppercase mb-1 text-gray-500">
             {product.brand.name}
           </p>
         )}
 
         <Link href={`/urunler/${product.slug}`}>
-          <h3 className="font-medium text-sm leading-snug line-clamp-2 mb-1.5 transition-colors duration-150 text-gray-800 hover:text-blue-700">
+          <h3 className="font-semibold text-sm leading-snug line-clamp-2 mb-1.5 transition-colors duration-150 text-gray-900 hover:text-blue-700">
             {product.name}
           </h3>
         </Link>
@@ -183,7 +183,7 @@ export default function StorefrontProductCardComponent({ product }: Props) {
                   {product.price.toLocaleString("tr-TR")} ₺
                 </div>
                 {product.compare_at_price && product.compare_at_price > product.price && (
-                  <div className="text-[11px] line-through mt-0.5 text-gray-400">
+                  <div className="text-[11px] line-through mt-0.5 text-gray-500">
                     {product.compare_at_price.toLocaleString("tr-TR")} ₺
                   </div>
                 )}
@@ -196,7 +196,7 @@ export default function StorefrontProductCardComponent({ product }: Props) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${product.name} hakkında WhatsApp'tan sor`}
-              className="transition-colors duration-150 text-gray-400 hover:text-green-600"
+              className="transition-colors duration-150 text-gray-500 hover:text-green-600"
             >
               <MessageCircle size={17} aria-hidden="true" />
             </a>
