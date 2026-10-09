@@ -53,7 +53,10 @@ export default async function HomePage() {
     <>
       <PointerTracker />
 
-      {/* ─── 1. Öne Çıkan Ürünler — hero carousel ─── */}
+      {/* ─── 1. Popüler Kategoriler — daire tile'lar ─── */}
+      <PopularCategories categories={categories} />
+
+      {/* ─── 2. Öne Çıkan Ürünler — hero carousel ─── */}
       {featuredProducts.length > 0 && (
         <HeroProductCarousel
           eyebrow="Öne Çıkan"
@@ -62,9 +65,6 @@ export default async function HomePage() {
           viewAllHref="/urunler"
         />
       )}
-
-      {/* ─── 2. Popüler Kategoriler — daire tile'lar ─── */}
-      <PopularCategories categories={categories} />
 
       {/* ─── 3. Tüm Parça Grupları grid ─── */}
       <CategoryGrid categories={categories} />
