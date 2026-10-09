@@ -10,7 +10,8 @@ import CategoryRail from "@/components/home/CategoryRail"
 import PopularCategories from "@/components/home/PopularCategories"
 import CategoryGrid from "@/components/home/CategoryGrid"
 import ProductSection from "@/components/home/ProductSection"
-import HeroProductCarousel from "@/components/home/HeroProductCarousel"
+import CompactProductRail from "@/components/home/CompactProductRail"
+import QuickDiscovery from "@/components/home/QuickDiscovery"
 import BottomInfoCards from "@/components/home/BottomInfoCards"
 import BrandChips from "@/components/home/BrandChips"
 import PointerTracker from "@/components/experience/PointerTracker"
@@ -53,44 +54,41 @@ export default async function HomePage() {
     <>
       <PointerTracker />
 
-      {/* ─── 1. Popüler Kategoriler — daire tile'lar ─── */}
+      {/* ─── 1. Hızlı Keşif chip satırı ─── */}
+      <QuickDiscovery />
+
+      {/* ─── 2. Çok Satanlar — kompakt rail ─── */}
+      <CompactProductRail
+        title="Çok Satanlar"
+        eyebrow="Öne Çıkan"
+        products={featuredProducts}
+        viewAllHref="/urunler"
+      />
+
+      {/* ─── 3. Fırsat Ürünleri — kompakt rail ─── */}
+      <CompactProductRail
+        title="Fırsat Ürünleri"
+        eyebrow="İndirimli"
+        products={discountedProducts}
+        viewAllHref="/urunler"
+        bg="bg-[#FAFAFA]"
+      />
+
+      {/* ─── 4. Popüler Kategoriler — daire tile'lar ─── */}
       <PopularCategories categories={categories} />
 
-      {/* ─── 2. Öne Çıkan Ürünler — hero carousel ─── */}
-      {featuredProducts.length > 0 && (
-        <HeroProductCarousel
-          eyebrow="Öne Çıkan"
-          title="En Çok Satanlar"
-          products={featuredProducts}
-          viewAllHref="/urunler"
-        />
-      )}
-
-      {/* ─── 3. Tüm Parça Grupları grid ─── */}
+      {/* ─── 5. Tüm Parça Grupları grid ─── */}
       <CategoryGrid categories={categories} />
 
-      {/* ─── 4. Fırsat Ürünleri ─── */}
-      {discountedProducts.length > 0 && (
-        <AnimatedSection variant="fade-up" as="div" className="bg-white">
-          <ProductSection
-            eyebrow="Fırsatlar"
-            title="Fırsat Ürünleri"
-            description="Özel fiyatlarla kombi yedek parçaları"
-            products={discountedProducts}
-            viewAllHref="/urunler"
-          />
-        </AnimatedSection>
-      )}
-
-      {/* ─── 5. Trust Bar ─── */}
+      {/* ─── 6. Trust Bar ─── */}
       <div className="bg-white border-b border-gray-100">
         <BottomInfoCards />
       </div>
 
-      {/* ─── 6. Hızlı Kategori Şeridi ─── */}
+      {/* ─── 7. Hızlı Kategori Şeridi ─── */}
       <CategoryRail categories={categories} />
 
-      {/* ─── 7. Uyumlu Markalar ─── */}
+      {/* ─── 8. Uyumlu Markalar ─── */}
       {brandNames.length > 0 && (
         <section
           className="bg-[#F8F9FA]"
@@ -115,7 +113,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* ─── 8. Kategori Bazlı Ürün Rail'leri ─── */}
+      {/* ─── 9. Kategori Bazlı Ürün Rail'leri ─── */}
       {catRailData.map((cat, idx) => {
         if (cat.products.length === 0) return null
         return (
@@ -136,7 +134,7 @@ export default async function HomePage() {
         )
       })}
 
-      {/* ─── 9. Aynı Gün Kargo ─── */}
+      {/* ─── 10. Aynı Gün Kargo ─── */}
       {sameDayProducts.length > 0 && (
         <AnimatedSection variant="fade-up" as="div" className="bg-[#EFF6FF]">
           <ProductSection
