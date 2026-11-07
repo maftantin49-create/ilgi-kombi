@@ -1,13 +1,13 @@
 import type { MetadataRoute } from "next"
-import { getStorefrontProducts } from "@/lib/storefront/products"
+import { getAllProductSlugsForSitemap } from "@/lib/storefront/products"
 import { getStorefrontCategories } from "@/lib/storefront/categories"
 import { siteConfig } from "@/config/site"
 
 const BASE = siteConfig.url
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [productResult, categories] = await Promise.all([
-    getStorefrontProducts({ sort: "newest", pageSize: 200 }),
+  const [productSlugs, categories] = await Promise.all([
+    getAllProductSlugsForSitemap(),
     getStorefrontCategories(),
   ])
 
@@ -28,9 +28,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/iletisim`,               lastModified: now, changeFrequency: "monthly", priority: 0.4 },
   ]
 
-  const productPages: MetadataRoute.Sitemap = productResult.items.map((p) => ({
+  const productPages: MetadataRoute.Sitemap = productSlugs.map((p) => ({
     url: `${BASE}/urunler/${p.slug}`,
-    lastModified: now,
+    lastModified: p.updated_at ? new Date(p.updated_at) : now,
     changeFrequency: "weekly" as const,
     priority: 0.8,
   }))

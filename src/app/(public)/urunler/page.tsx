@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { getStorefrontProducts, type ProductListFilters, type ProductSort } from "@/lib/storefront/products"
 import { getStorefrontCategories, getCategoryDescendantIds } from "@/lib/storefront/categories"
 import { getStorefrontBrands } from "@/lib/storefront/brands"
@@ -8,6 +9,13 @@ import UrunlerPagination from "@/components/product/UrunlerPagination"
 import Link from "next/link"
 import { buildWa } from "@/lib/whatsapp"
 import { getStoreSettings, validWhatsApp } from "@/lib/storefront/settings"
+import { siteConfig } from "@/config/site"
+
+export const metadata: Metadata = {
+  title: "Tüm Ürünler",
+  description: "Kombi yedek parça, anakart, fan motoru, gaz valfi ve üç yollu vana modellerini inceleyin. Türkiye geneli hızlı gönderim.",
+  alternates: { canonical: `${siteConfig.url}/urunler` },
+}
 
 interface Props {
   searchParams: Promise<{

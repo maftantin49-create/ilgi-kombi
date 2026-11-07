@@ -471,6 +471,29 @@ export async function getDiscountedStorefrontProducts(limit = 8): Promise<Storef
     .slice(0, safeLimit)
 }
 
+// Returns slug + updated_at for every active product — used only by sitemap.ts.
+// Bypasses the MAX_PAGE_SIZE cap intentionally; do not use for user-facing listing.
+export async function getAllProductSlugsForSitemap(): Promise<
+  Array<{ slug: string; updated_at: string }>
+> {
+  const db = createPublicServerClient()
+
+  const { data, error } = await db
+    .from("products")
+    .select("slug, updated_at")
+    .eq("is_active", true)
+    .not("slug", "is", null)
+    .neq("slug", "")
+    .order("created_at", { ascending: false })
+
+  if (error) {
+    console.error("[storefront/products] getAllProductSlugsForSitemap error:", error.message)
+    return []
+  }
+
+  return (data ?? []) as Array<{ slug: string; updated_at: string }>
+}
+
 export async function getRelatedStorefrontProducts(
   productId: string,
   categoryId: string | null,

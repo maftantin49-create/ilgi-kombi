@@ -1,12 +1,15 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronRight } from "lucide-react"
 import { wa } from "@/lib/whatsapp"
 import { getStorefrontCategories } from "@/lib/storefront/categories"
+import { siteConfig } from "@/config/site"
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Kategoriler",
   description: "Kombi yedek parça kategorileri. Cihazınıza uygun parçayı kolayca bulun.",
+  alternates: { canonical: `${siteConfig.url}/kategoriler` },
 }
 
 export default async function KategorilerPage() {
